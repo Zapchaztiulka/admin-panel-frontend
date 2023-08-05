@@ -1,15 +1,13 @@
-// import { TemporaryTitle } from "../components/TemporaryTitle";
 
 import { Link, Outlet } from "react-router-dom";
 
-// import { TemporaryTitle } from "../components/TemporaryTitle";
 const Managers = () => {
   return (
         <div>
       <h1>Managers</h1>
       <ul>
         <li>
-          <Link to="add">Зареєструвати нового менеджера</Link>
+          <Link to="register">Зареєструвати нового менеджера</Link>
         </li>
         <li>
           <Link to="delete">Видалити існуючого менеджера</Link>

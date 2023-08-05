@@ -3,6 +3,8 @@ import { lazy } from "react";
 // import Login from '../pages/Login';
 import { TemporaryComponent } from "./TemporaryComponent";
 import { SharedLayout } from "./SharedLayout";
+import { RegisterForm } from "./RegisterForm";
+import { ProductsRoute } from "./Route/ProductsRoute";
 
 const StatisticsPage = lazy(() => import("../pages/Statistics"));
 const ProductsPage = lazy(() => import("../pages/Products"));
@@ -19,15 +21,11 @@ function App() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<StatisticsPage />} />
-          <Route
+           <Route
             path="/login"
             element={<TemporaryComponent title="login" />}
           ></Route>
-          <Route
-            path="/register"
-            element={<TemporaryComponent title="register" />}
-          ></Route>
-          <Route path="/products" element={<ProductsPage />}>
+            <Route path="/products" element={<ProductsPage />}>
             <Route
               path="add"
               element={<TemporaryComponent title="Додати товар" />}
@@ -52,9 +50,9 @@ function App() {
           <Route path="/profile" element={<MyProfilePage />} />
           <Route path="/manager" element={<ManagersPage />}>
             <Route
-              path="add"
+              path="register"
               element={
-                <TemporaryComponent title="Зареєструвати нового менеджера" />
+                <RegisterForm />
               }
             />
             <Route
@@ -72,7 +70,9 @@ function App() {
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
+       
       </Routes>
+        <ProductsRoute />
     </>
   );
 }

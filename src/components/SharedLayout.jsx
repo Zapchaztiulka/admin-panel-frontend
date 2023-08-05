@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { AuthNav } from "./AuthNav";
+
 
 const Link = styled(NavLink)`
   display: inline-block;
@@ -32,7 +32,7 @@ export const SharedLayout = () => {
         <Link to="/profile">Мій профіль</Link>
         <Link to="/manager">Менеджери</Link>
       </nav>
-      <AuthNav />
+      
       <Suspense>
         <main>
           {" "}
