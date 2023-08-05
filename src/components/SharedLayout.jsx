@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import styled from 'styled-components';
+import styled from "styled-components";
+import { AuthNav } from "./AuthNav";
 
 const Link = styled(NavLink)`
   display: inline-block;
   padding: 16px 10px;
-  
+
   text-decoration: none;
   font-weight: 500;
   color: #000;
@@ -31,7 +32,8 @@ export const SharedLayout = () => {
         <Link to="/profile">Мій профіль</Link>
         <Link to="/manager">Менеджери</Link>
       </nav>
-      <Suspense > 
+      <AuthNav />
+      <Suspense>
         <main>
           {" "}
           <Outlet />
