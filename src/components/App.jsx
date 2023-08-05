@@ -1,5 +1,5 @@
 import { Routes, Route, } from "react-router-dom";
-// import Home from '../pages/Home'
+import { lazy } from "react";
 import Statistics from "../pages/Statistics";
 // import Login from '../pages/Login';
 import Products from "../pages/Products";
@@ -12,6 +12,7 @@ import NotFound from "../pages/NotFound";
 import { TemporaryComponent } from "./TemporaryComponent";
 import { SharedLayout } from "./SharedLayout";
 
+// const Statistics = lazy(() => import("../pages/About"));
 function App() {
   return (
     <>
