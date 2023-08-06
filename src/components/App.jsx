@@ -4,7 +4,6 @@ import { lazy } from "react";
 import { TemporaryComponent } from "./TemporaryComponent";
 import { SharedLayout } from "./SharedLayout";
 import { RegisterForm } from "./RegisterForm";
-import { ProductsRoute } from "./Route/ProductsRoute";
 
 const StatisticsPage = lazy(() => import("../pages/Statistics"));
 const ProductsPage = lazy(() => import("../pages/Products"));
@@ -72,12 +71,10 @@ function App() {
         </Route>
        
       </Routes>
-        <ProductsRoute />
+       
     </>
   );
 }
 
-{
-  /* <Route path="/login" element={<Login /> } /> */
-}
+
 export default App;
