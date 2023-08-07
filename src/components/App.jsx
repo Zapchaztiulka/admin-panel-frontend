@@ -6,6 +6,7 @@ import { SharedLayout } from "./SharedLayout";
 import { RegisterForm } from "./RegisterForm";
 
 const StatisticsPage = lazy(() => import("../pages/Statistics"));
+const LogInPage = lazy(() => import("../pages/Login"));
 const ProductsPage = lazy(() => import("../pages/Products"));
 const ClientsPage = lazy(() => import("../pages/Clients"));
 const OrdersPage = lazy(() => import("../pages/Orders"));
@@ -22,7 +23,7 @@ function App() {
           <Route index element={<StatisticsPage />} />
            <Route
             path="/login"
-            element={<TemporaryComponent title="login" />}
+            element={<LogInPage />}
           ></Route>
             <Route path="/products" element={<ProductsPage />}>
             <Route

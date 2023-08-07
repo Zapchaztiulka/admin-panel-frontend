@@ -4,31 +4,31 @@ import * as api from "../../service/apiService";
 export const register = createAsyncThunk(
   "auth/register",
 
-  async (data) => {
+  async (data, thunkAPI) => {
     try {
       const response = await api.register(data);
       console.log(response);
       return response;
     } catch (error) {
-      console.log(error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-export const logIn = createAsyncThunk("auth/login", async (data) => {
+export const logIn = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     const response = await api.logIn(data);
     console.log(response);
     return response;
   } catch (error) {
-    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
-export const logOut = createAsyncThunk("auth/logout", async () => {
+export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await api.logOut();
   } catch (error) {
-    console.log(error);
+    return thunkAPI.rejectWithValue(error);
   }
 });
