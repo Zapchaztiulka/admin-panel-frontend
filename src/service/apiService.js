@@ -28,3 +28,9 @@ export const logOut = async () => {
   await axios.post("users/logout");
   clearAuthHeader();
 };
+
+export const refreshUser = async (token) => {
+  setAuthHeader(token);
+  const { data } = await axios.get("users/current");
+  return data;
+};
