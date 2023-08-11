@@ -22,7 +22,7 @@ export const Router = () => {
       path: "/",
       element: <SharedLayout />,
       children: [
-        { index: true, element: <StatisticsPage /> },
+        { index: true, element:<PrivateRoute component={<StatisticsPage />} redirectTo="/login"/>},
         LogInRoute,
         ProductsRoute,
         ClientsRoute,
