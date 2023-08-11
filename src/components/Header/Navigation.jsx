@@ -19,20 +19,34 @@ const Link = styled(NavLink)`
   }
 `;
 export const Navigation = () => {
-    const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   return (
     <nav>
-
       {isLoggedIn && (
-        <div>
-          <Link to="/statistics">Статистика</Link>
-                  <Link to="/products">Продукти</Link>
-          <Link to="/clients">Клієнти</Link>
-          <Link to="/orders">Замовлення</Link>
-          <Link to="chatbot">Чатбот</Link>
-          <Link to="/profile">Мій профіль</Link>
-          <Link to="/manager">Менеджери</Link>
-        </div>
+
+        <ul>
+          <li>
+            <Link to="/statistics">Статистика</Link>
+          </li>
+          <li>
+            <Link to="/products">Продукти</Link>
+          </li>
+          <li>
+            <Link to="/clients">Клієнти</Link>
+          </li>
+          <li>
+            <Link to="/orders">Замовлення</Link>
+          </li>
+          <li>
+            <Link to="chatbot">Чатбот</Link>
+          </li>
+          <li>
+            <Link to="/profile">Мій профіль</Link>
+          </li>
+          <li>
+            <Link to="/manager">Менеджери</Link>
+          </li>
+        </ul>
       )}
     </nav>
   );
