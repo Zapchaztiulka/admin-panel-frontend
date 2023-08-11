@@ -25,7 +25,7 @@ export const Navigation = () => {
 
       {isLoggedIn && (
         <div>
-          <Link to="/">Статистика</Link>
+          <Link to="/statistics">Статистика</Link>
                   <Link to="/products">Продукти</Link>
           <Link to="/clients">Клієнти</Link>
           <Link to="/orders">Замовлення</Link>

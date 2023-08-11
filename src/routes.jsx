@@ -22,8 +22,9 @@ export const Router = () => {
       path: "/",
       element: <SharedLayout />,
       children: [
-        { index: true, element:<PrivateRoute component={<StatisticsPage />} redirectTo="/login"/>},
-        LogInRoute,
+        { index: true, element:<RestrictedRoute component={<LogInPage />} redirectTo="/statistics"/>},
+        // LogInRoute,
+        StatisticsRoute,
         ProductsRoute,
         ClientsRoute,
         OrdersRoute,
@@ -36,15 +37,18 @@ export const Router = () => {
   ]);
   return element;
 };
-
-export const LogInRoute = {
-  path: "/login",
-  element: <RestrictedRoute component={<LogInPage />} redirectTo="/"/>,
+export const StatisticsRoute = {
+  path: "/statistics",
+  element: <PrivateRoute component={<StatisticsPage />} redirectTo="/"/>,
 };
+// export const LogInRoute = {
+//   path: "/login",
+//   element: <RestrictedRoute component={<LogInPage />} redirectTo="/"/>,
+// };
 
 export const ProductsRoute = {
   path: "/products",
-  element: <PrivateRoute component={<ProductsPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<ProductsPage />} redirectTo="/"/>,
   children: [
     { path: "add", element: <TemporaryComponent title="Додати товар" /> },
     { path: "edit", element: <TemporaryComponent title="Оновити товар" /> },
@@ -52,12 +56,12 @@ export const ProductsRoute = {
 };
 export const ClientsRoute = {
   path: "/clients",
-  element: <PrivateRoute component={<ClientsPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<ClientsPage />} redirectTo="/"/>,
 };
 
 export const OrdersRoute = {
   path: "/orders",
-  element: <PrivateRoute component={<OrdersPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<OrdersPage />} redirectTo="/"/>,
   children: [
     { path: "pending", element: <TemporaryComponent title="Додати товар" /> },
     {
@@ -69,17 +73,17 @@ export const OrdersRoute = {
 
 export const ChatbotRoute = {
   path: "/chatbot",
-  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/"/>,
 };
 
 export const ProfileRoute = {
   path: "/profile",
-  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/"/>,
 };
 
 export const ManagerRoute = {
   path: "/manager",
-  element: <PrivateRoute component={<ManagersPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<ManagersPage />} redirectTo="/"/>,
   children: [
     { path: "register", element: <RegisterForm /> },
     {
