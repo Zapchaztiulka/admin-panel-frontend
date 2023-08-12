@@ -2,6 +2,7 @@ import { Router } from "../routes";
 import { useDispatch } from 'react-redux';
 import {  useEffect } from 'react';
 import { useAuth } from "../hooks";
+import { refreshUser } from "../redux/auth/operations";
 
 function App() {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ function App() {
   useEffect(() => {
     dispatch(refreshUser())
   }, [dispatch]);
+  
   return (
     <>
       {!isRefreshing && (<Router />)}
