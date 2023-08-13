@@ -1,6 +1,7 @@
 import { useAuth } from "../../hooks";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { ROLE } from "../../utils/constants";
 
 const Link = styled(NavLink)`
   display: inline-block;
@@ -19,7 +20,7 @@ const Link = styled(NavLink)`
   }
 `;
 export const Navigation = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   return (
     <nav>
       {isLoggedIn && (
@@ -43,9 +44,9 @@ export const Navigation = () => {
           <li>
             <Link to="/profile">Мій профіль</Link>
           </li>
-          <li>
+          {user.role === ROLE.superAdmin && (<li>
             <Link to="/manager">Менеджери</Link>
-          </li>
+          </li>)}
         </ul>
       )}
     </nav>

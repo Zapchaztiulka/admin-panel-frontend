@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { getValitadionSchemaLoginForm } from "../../utils/getValitadionSchemaLoginForm";
+import { getValitadionSchemaLoginForm } from "../../utils/validationSchemas/getValitadionSchemaLoginForm";
 import { FormError } from "./FormError";
 import { logIn } from "../../redux/auth/operations";
 

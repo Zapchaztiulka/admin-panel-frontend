@@ -5,6 +5,7 @@ import { RegisterForm } from "./components/RegisterForm";
 import { SharedLayout } from "./components/SharedLayout";
 import { RestrictedRoute } from './components/RestrictedRoute';
 import { PrivateRoute } from "./components/PrivateRoute";
+import { PrivateRouteSuperAdmin } from "./components/PrivateRouteSuperAdmin";
 
 const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));
@@ -22,15 +23,15 @@ export const Router = () => {
       path: "/",
       element: <SharedLayout />,
       children: [
-        { index: true, element:<PrivateRoute component={<StatisticsPage />} redirectTo="/login"/>},
+        { index: true, element:<PrivateRoute component={<StatisticsPage />} test='StatisticsPage' redirectTo="/login"/>},
         LogInRoute,
-                ProductsRoute,
+        ProductsRoute,
         ClientsRoute,
         OrdersRoute,
         ChatbotRoute,
-        ProfileRoute,
         ManagerRoute,
-        { path: "*", element: <NotFoundPage /> },
+        ProfileRoute,
+                { path: "*", element: <NotFoundPage /> },
       ],
     },
   ]);
@@ -79,7 +80,7 @@ export const ProfileRoute = {
 
 export const ManagerRoute = {
   path: "/manager",
-  element: <PrivateRoute component={<ManagersPage />} redirectTo="/login"/>,
+  element: <PrivateRouteSuperAdmin component={<ManagersPage />} redirectTo="/"/>,
   children: [
     { path: "register", element: <RegisterForm /> },
     {
