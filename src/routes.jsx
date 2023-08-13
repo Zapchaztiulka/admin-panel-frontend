@@ -24,8 +24,7 @@ export const Router = () => {
       children: [
         { index: true, element:<PrivateRoute component={<StatisticsPage />} redirectTo="/login"/>},
         LogInRoute,
-        // StatisticsRoute,
-        ProductsRoute,
+                ProductsRoute,
         ClientsRoute,
         OrdersRoute,
         ChatbotRoute,
@@ -37,12 +36,7 @@ export const Router = () => {
   ]);
   return element;
 };
-// element:<LogInPage />
-//  element:<RestrictedRoute component={<LogInPage />} redirectTo="/statistics"/>},
-// export const StatisticsRoute = {
-//   path: "/statistics",
-//   element: <PrivateRoute component={<StatisticsPage />} redirectTo="/"/>,
-// };
+
 export const LogInRoute = {
   path: "/login",
   element: <RestrictedRoute component={<LogInPage />} redirectTo="/"/>,

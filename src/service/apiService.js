@@ -34,3 +34,25 @@ export const refreshUser = async (token) => {
   const { data } = await axios.get("users/current");
   return data;
 };
+
+//operations with products
+
+export const fetchProductById = async (productId) => {
+  const { data } = await axios.get(`products/${productId}`);
+  return data;
+};
+
+export const addProduct = async (product) => {
+  const { data } = await axios.post("products", product);
+  return data;
+};
+
+export const updateProduct = async (productId, product) => {
+  const { data } = await axios.patch(`products/${productId}`, product);
+  return data;
+};
+
+export const deleteProduct = async (productId) => {
+  const { data } = await axios.delete(`products/${productId}`);
+  return data;
+};
