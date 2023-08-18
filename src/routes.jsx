@@ -5,6 +5,7 @@ import { RegisterForm } from "./components/RegisterForm";
 import { SharedLayout } from "./components/SharedLayout";
 import { RestrictedRoute } from './components/RestrictedRoute';
 import { PrivateRoute } from "./components/PrivateRoute";
+import { PrivateRouteSuperAdmin } from "./components/PrivateRouteSuperAdmin";
 
 const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));
@@ -22,33 +23,29 @@ export const Router = () => {
       path: "/",
       element: <SharedLayout />,
       children: [
-        { index: true, element:<RestrictedRoute component={<LogInPage />} redirectTo="/statistics"/>},
-        // LogInRoute,
-        StatisticsRoute,
+        { index: true, element:<PrivateRoute component={<StatisticsPage />} test='StatisticsPage' redirectTo="/login"/>},
+        LogInRoute,
         ProductsRoute,
         ClientsRoute,
         OrdersRoute,
         ChatbotRoute,
-        ProfileRoute,
         ManagerRoute,
-        { path: "*", element: <NotFoundPage /> },
+        ProfileRoute,
+                { path: "*", element: <NotFoundPage /> },
       ],
     },
   ]);
   return element;
 };
-export const StatisticsRoute = {
-  path: "/statistics",
-  element: <PrivateRoute component={<StatisticsPage />} redirectTo="/"/>,
+
+export const LogInRoute = {
+  path: "/login",
+  element: <RestrictedRoute component={<LogInPage />} redirectTo="/"/>,
 };
-// export const LogInRoute = {
-//   path: "/login",
-//   element: <RestrictedRoute component={<LogInPage />} redirectTo="/"/>,
-// };
 
 export const ProductsRoute = {
   path: "/products",
-  element: <PrivateRoute component={<ProductsPage />} redirectTo="/"/>,
+  element: <PrivateRoute component={<ProductsPage />} redirectTo="/login"/>,
   children: [
     { path: "add", element: <TemporaryComponent title="Додати товар" /> },
     { path: "edit", element: <TemporaryComponent title="Оновити товар" /> },
@@ -56,12 +53,12 @@ export const ProductsRoute = {
 };
 export const ClientsRoute = {
   path: "/clients",
-  element: <PrivateRoute component={<ClientsPage />} redirectTo="/"/>,
+  element: <PrivateRoute component={<ClientsPage />} redirectTo="/login"/>,
 };
 
 export const OrdersRoute = {
   path: "/orders",
-  element: <PrivateRoute component={<OrdersPage />} redirectTo="/"/>,
+  element: <PrivateRoute component={<OrdersPage />} redirectTo="/login"/>,
   children: [
     { path: "pending", element: <TemporaryComponent title="Додати товар" /> },
     {
@@ -73,17 +70,17 @@ export const OrdersRoute = {
 
 export const ChatbotRoute = {
   path: "/chatbot",
-  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/"/>,
+  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/login"/>,
 };
 
 export const ProfileRoute = {
   path: "/profile",
-  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/"/>,
+  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/login"/>,
 };
 
 export const ManagerRoute = {
   path: "/manager",
-  element: <PrivateRoute component={<ManagersPage />} redirectTo="/"/>,
+  element: <PrivateRouteSuperAdmin component={<ManagersPage />} redirectTo="/"/>,
   children: [
     { path: "register", element: <RegisterForm /> },
     {
