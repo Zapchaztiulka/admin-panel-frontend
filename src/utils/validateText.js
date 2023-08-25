@@ -7,12 +7,7 @@ const isNotInLengthRange = (text, minLength, maxLength) => {
 }
 
 const transformStringToRegExp = (regexp) => {
-    if(typeof regexp === 'string') {
-        return new RegExp(regexp.slice(1, -1));
-    } else {
-        return regexp;
-    }
-
+    return typeof regexp === 'string' ? new RegExp(regexp.slice(1, -1)) : regexp;
 }
 
 const isValidRegExp = (text, regexp) => {
@@ -39,9 +34,9 @@ export const validateText = ({
 
     if(text && validation?.regexp) {
         try {
-            let invalid = isValidRegExp(text, validation?.regexp);
+            const invalid = isValidRegExp(text, validation?.regexp);
             checksArray.push(invalid);
-            invalid && warnings.push(validation?.warningMessages?.regexp)
+            invalid && validation?.warningMessages?.regexp && warnings.push(validation?.warningMessages?.regexp)
         } catch (error) {
             console.log('Error in regex validation. Message:', error, "Possibly problem with expression of regex on backed:",  validation?.regexp);
         }
@@ -50,7 +45,7 @@ export const validateText = ({
     if(text && (validation?.minLength || validation?.maxLength)) {
         const invalid = isNotInLengthRange(text, validation?.minLength, validation?.maxLength);
         checksArray.push(invalid);
-        invalid && warnings.push(validation?.warningMessages?.length);
+        invalid && validation?.warningMessages?.length && warnings.push(validation?.warningMessages?.length);
     }
 
     if(text && (validation?.minValue || validation?.maxValue)) {
@@ -60,22 +55,22 @@ export const validateText = ({
             const invalid = number < validation?.minValue || number > validation?.maxValue;
 
             checksArray.push(invalid);
-            invalid && warnings.push(validation?.warningMessages?.value)
+            invalid && validation?.warningMessages?.value && warnings.push(validation?.warningMessages?.value)
         }
     }
 
     if(validation?.required && validation?.required === true) {
-
-        let invalid = isEmpty(text);
-        const requiredWarnings = validation?.warningMessages?.required;
+        const invalid = isEmpty(text);
         checksArray.push(invalid);
-        invalid && warnings.push(...requiredWarnings);
+        invalid && validation?.warningMessages?.required && warnings.push(validation?.warningMessages?.required);
     }
 
-    if(text && validation?.uniqueVariable && uniqueArray) {
-        const invalid = uniqueArray.includes(text.toString());
+    if(text && validation?.unique && uniqueArray) {
+        const invalid = uniqueArray
+            .map(el => el.toString())
+            .includes(text.toString());
         checksArray.push(invalid);
-        invalid && warnings.push(validation?.warningMessages?.uniqueVariable);
+        invalid && validation?.warningMessages?.uniqueVariable && warnings.push(validation?.warningMessages?.uniqueVariable);
     }
 
     return {
