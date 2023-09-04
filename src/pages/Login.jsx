@@ -1,12 +1,13 @@
+import { Container } from '../components/Container';
 import { LoginForm } from '../components/LoginForm/LoginForm';
 
 const Login = () => {
   return (
-    <>
-      <h2>Login</h2>
+    <Container>
+      <h2>Loginnnnn</h2>
     
       <LoginForm />
-    </>
+    </Container>
   )
 };
 export default Login;

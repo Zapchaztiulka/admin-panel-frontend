@@ -1,5 +1,8 @@
 @import-normalize;
 /* bring in normalize.css styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;
@@ -29,3 +32,4 @@ ol {
   padding: 0;
   color: currentColor;
 }
+

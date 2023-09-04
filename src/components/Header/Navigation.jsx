@@ -1,24 +1,24 @@
 import { useAuth } from "../../hooks";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { ROLE } from "../../utils/constants";
 
-const Link = styled(NavLink)`
-  display: inline-block;
-  padding: 16px 10px;
+// const Link = styled(NavLink)`
+//   display: inline-block;
+//   padding: 16px 10px;
 
-  text-decoration: none;
-  font-weight: 500;
-  color: #000;
+//   text-decoration: none;
+//   font-weight: 500;
+//   color: #000;
 
-  &.active {
-    color: #b92f2c;
-  }
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
-`;
+//   &.active {
+//     color: #b92f2c;
+//   }
+//   &:hover,
+//   &:focus {
+//     text-decoration: underline;
+//   }
+// `;
 export const Navigation = () => {
   const { isLoggedIn, user } = useAuth();
   return (
@@ -27,25 +27,25 @@ export const Navigation = () => {
 
         <ul>
           <li>
-            <Link to="/">Статистика</Link>
+            <NavLink to="/">Статистика</NavLink>
           </li>
           <li>
-            <Link to="/products">Продукти</Link>
+            <NavLink to="/products">Продукти</NavLink>
           </li>
           <li>
-            <Link to="/clients">Клієнти</Link>
+            <NavLink to="/clients">Клієнти</NavLink>
           </li>
           <li>
-            <Link to="/orders">Замовлення</Link>
+            <NavLink to="/orders">Замовлення</NavLink>
           </li>
           <li>
-            <Link to="chatbot">Чатбот</Link>
+            <NavLink to="chatbot">Чатбот</NavLink>
           </li>
           <li>
-            <Link to="/profile">Мій профіль</Link>
+            <NavLink to="/profile">Мій профіль</NavLink>
           </li>
           {user.role === ROLE.superAdmin && (<li>
-            <Link to="/manager">Менеджери</Link>
+            <NavLink to="/manager">Менеджери</NavLink>
           </li>)}
         </ul>
       )}
