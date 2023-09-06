@@ -8,12 +8,13 @@ export default {
     extend: {},
     boxShadow: {
       btFocus: "0 0 0 4px rgba(46, 144, 250, 1)", // #2E90FA
+      loading: "20px 0 rgba(46, 144, 250, 1)",
     },
     colors: {
       //background
       // bgMainBtD: "#0165FC",
       bgMainBtD: "#1570EF",
-      transparent: "#FFFFFF",
+      // transparent: "#FFFFFF",
       bgMainBtHover: "#1849A9",
       bgMainBtPressed: "#53B1FD",
       bgDisable: "#F9F9F9",
