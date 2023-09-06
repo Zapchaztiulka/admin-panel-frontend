@@ -1,14 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 @import-normalize;
 /* bring in normalize.css styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: Inter, sans-serif;
+  }
+}
 body {
   margin: 0;
-  padding-top: 52px;
-  color: #212121;
+  color: #1C1F23;
   background-color: #ffffff;
+  font-family: inter;
+  font-size: 14px;
 }
 
 code {

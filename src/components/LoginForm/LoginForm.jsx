@@ -1,8 +1,11 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { getValitadionSchemaLoginForm } from "../../utils/validationSchemas/getValitadionSchemaLoginForm";
-import { FormError } from "./FormError";
 import { logIn } from "../../redux/auth/operations";
+import { LoginInput } from "./LoginInput";
+import { useState } from "react";
+// import { EyeIcon, EyeOffIcon } from "../../utils/icons";
+// import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 const initialValues = {
   email: "",
@@ -10,6 +13,10 @@ const initialValues = {
 };
 export const LoginForm = () => {
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(true);
+   const toogleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   const handleSubmit = (values, actions) => {
     dispatch(logIn(values));
     actions.resetForm();
@@ -23,19 +30,22 @@ export const LoginForm = () => {
       >
         {formik => {
           return (
-             <Form>
-          <label>
-            <p>email</p>
-            <Field name="email" type="email" />
-            <FormError name="email" />
-          </label>
-          <label>
-            <p>password</p>
-            <Field name="password" type="password" />
-            <FormError name="password" />
-          </label>
-          <button type="submit"  disabled={!(formik.dirty && formik.isValid)}>Submit</button>
-        </Form>
+            <Form>
+              <div>
+                <div className="flex flex-col gap-[12px]">
+                  <LoginInput name="email" type="email" text="Логін" placeholder='your@email.com' valid={formik.errors.email && formik.touched.email} />          
+                <div className=" mb-[32px]">
+                    <LoginInput name="password" type={showPassword ? "password" : 'text'} text="Пароль" placeholder='**********' valid={formik.errors.password && formik.touched.password} toogleShowPassword={toogleShowPassword} showPassword={showPassword} value={formik.values.password} />          
+           
+                  </div>
+                  </div>
+          
+                <button type="submit" disabled={!(formik.dirty && formik.isValid)} className="flex justify-center items-center pt-[12px] pb-[12px] w-[100%] rounded-[8px] 
+          bg-bgMainBtD text-[16px] text-textContrast font-[500] leading-[1.4] tracking-[-0.24px]
+          disabled:bg-bgDisable disabled:text-textDisabled
+          hover:bg-bgMainBtHover focus-visible:shadow-btFocus  outline-0 active:bg-bgMainBtPressed active:shadow-none">Увійти</button>
+        </div>
+            </Form>
           )
         }}
        

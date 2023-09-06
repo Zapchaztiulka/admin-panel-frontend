@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 export const Container = ({ children }) => {
     return (
-        <div className="bg-bgBtPrimary ml-auto mr-auto pr-4 pl-4">{children}</div>
+        <div className=" ml-auto mr-auto pr-4 pl-4">{children}</div>
     )
 }
 
