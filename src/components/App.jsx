@@ -17,7 +17,8 @@ function App() {
   return (
     <>
       {!isRefreshing && (<Router />)}
-      <ToastContainer autoClose={3000} />
+                    <ToastContainer autoClose={8000} hideProgressBar={true} position="top-right"/>
+
     </>
   );
 }

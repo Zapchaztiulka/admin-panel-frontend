@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as api from "../../service/apiService";
+import { toast } from "react-toastify";
+import { Error } from "../../utils/icons";
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -19,7 +21,12 @@ export const logIn = createAsyncThunk("auth/login", async (data, thunkAPI) => {
     const response = await api.logIn(data);
     return response;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data);
+    return thunkAPI.rejectWithValue(
+      toast.error("Неправильний логін чи пароль", {
+        draggable: false,
+        icon: Error,
+      })
+    );
   }
 });
 

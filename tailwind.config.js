@@ -2,19 +2,16 @@
 export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    // fontFamily: {
-    //   inter: ["Inter", "sans-serif"],
-    // },
     extend: {},
     boxShadow: {
       btFocus: "0 0 0 4px rgba(46, 144, 250, 1)", // #2E90FA
       loading: "20px 0 rgba(46, 144, 250, 1)",
     },
     colors: {
+      transparent: "transparent",
       //background
-      // bgMainBtD: "#0165FC",
+      bgD: "#FFFFFF",
       bgMainBtD: "#1570EF",
-      // transparent: "#FFFFFF",
       bgMainBtHover: "#1849A9",
       bgMainBtPressed: "#53B1FD",
       bgDisable: "#F9F9F9",
@@ -27,6 +24,7 @@ export default {
       // border
       borderD: "#C6CACD",
       borderA: "#175CD3",
+      border: "rgba(0, 0, 0, 0.20)",
       // text
       textSecondary: "#41464C",
       textContrast: "#FFFFFF",

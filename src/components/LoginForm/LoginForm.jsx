@@ -18,10 +18,8 @@ export const LoginForm = () => {
   const toogleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  console.log(isLoading);
   const handleSubmit = async (values, actions) => {
     await dispatch(logIn(values));
-    console.log(isLoading);
     actions.resetForm();
   };
   return (
@@ -40,7 +38,6 @@ export const LoginForm = () => {
                     name="email"
                     type="email"
                     text="Логін"
-                    placeholder="your@email.com"
                     valid={formik.errors.email && formik.touched.email}
                   />
                   <div className=" mb-[32px]">
@@ -48,7 +45,6 @@ export const LoginForm = () => {
                       name="password"
                       type={showPassword ? "password" : "text"}
                       text="Пароль"
-                      placeholder="**********"
                       valid={formik.errors.password && formik.touched.password}
                       toogleShowPassword={toogleShowPassword}
                       showPassword={showPassword}

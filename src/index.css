@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
 @import-normalize;
 /* bring in normalize.css styles */
 @tailwind base;
@@ -12,14 +12,14 @@
 }
 body {
   margin: 0;
-  color: #1C1F23;
+  color: #1c1f23;
   background-color: #ffffff;
   font-family: inter;
   font-size: 14px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -38,5 +38,21 @@ ol {
   margin: 0;
   padding: 0;
   color: currentColor;
+}
+
+.Toastify__toast {
+  border: 1px solid #f97066;
+  border-radius: 8px;
+  color: #d92d20;
+  background-color: #fef3f2;
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+
+.Toastify__toast-body {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 

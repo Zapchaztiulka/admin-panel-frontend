@@ -8,7 +8,7 @@ import { Navigation } from "./Header/Navigation";
 
 export const SharedLayout = () => {
   return (
-    <div>
+    <>
     <Navigation />
       
       <Suspense>
@@ -17,7 +17,7 @@ export const SharedLayout = () => {
           <Outlet />
         </main>
       </Suspense>
-    </div>
+    </>
   );
 };
 // fallback={}

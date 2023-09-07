@@ -1,24 +1,7 @@
 import { useAuth } from "../../hooks";
-// import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { ROLE } from "../../utils/constants";
 
-// const Link = styled(NavLink)`
-//   display: inline-block;
-//   padding: 16px 10px;
-
-//   text-decoration: none;
-//   font-weight: 500;
-//   color: #000;
-
-//   &.active {
-//     color: #b92f2c;
-//   }
-//   &:hover,
-//   &:focus {
-//     text-decoration: underline;
-//   }
-// `;
 export const Navigation = () => {
   const { isLoggedIn, user } = useAuth();
   return (
