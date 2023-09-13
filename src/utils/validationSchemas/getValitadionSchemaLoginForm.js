@@ -3,8 +3,7 @@ import * as yup from "yup";
 export const getValitadionSchemaLoginForm = () => {
   const emailRegExp =
     /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-  const emailValidationText =
-    'Дійсна адреса електронної пошти складається з 4 частин: імені одержувача (John52), символу @, доменного імені (gmail), домену верхнього рівня (.com). Наприклад: "John52@gmail.com".';
+  const emailValidationText = "Не дійсна електронна пошта";
   const passwordRegExp = "^(?=.*[a-z])(?=.*[A-Z]).{6,}$";
   const passwordValidationText =
     "Пароль має містити не менше 6 символів та мати одну літеру у верхньому та нижньому регістрі";
@@ -12,11 +11,11 @@ export const getValitadionSchemaLoginForm = () => {
     email: yup
       .string()
       .trim()
-      .required("Email is a required field")
+      .required("Це поле обов'язкове для заповнення")
       .matches(emailRegExp, emailValidationText),
     password: yup
       .string()
-      .required("Password is a required field")
+      .required("Це поле обов'язкове для заповнення")
       .matches(passwordRegExp, passwordValidationText),
   });
 };

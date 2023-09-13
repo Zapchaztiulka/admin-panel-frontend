@@ -12,10 +12,14 @@ const authInitialState = {
     token: null,
   },
   token: null,
+  isLoading: false,
   isLoggedIn: false,
   isRefreshing: true,
 };
 
+const handlePending = (state) => {
+  state.isLoading = true;
+};
 export const authSlice = createSlice({
   name: "auth",
   initialState: authInitialState,
@@ -26,10 +30,15 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.isLoggedIn = true;
       })
+      .addCase(logIn.pending, handlePending)
       .addCase(logIn.fulfilled, (state, action) => {
         state.user = action.payload;
         state.token = action.payload.token;
         state.isLoggedIn = true;
+        state.isLoading = false;
+      })
+      .addCase(logIn.rejected, (state) => {
+        state.isLoading = false;
       })
       .addCase(logOut.fulfilled, (state) => {
         state.user = authInitialState.user;
