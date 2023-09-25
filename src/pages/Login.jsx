@@ -6,12 +6,15 @@ const Login = () => {
   return (
     <Container>
       <div
-        className="pt-[56px] 
-      desktop:w-[600px] desktop:pt-[100px] desktop:pb-[86px] desktop:pl-[128px] 
-      desktop:pr-[128px] desktop:mt-[50px] desktop:mr-auto desktop:ml-auto
-      desktop:border-[1px] desktop:border-border desktop:rounded-[24px] " 
+        className="pt-[88px] 
+      mobile375:pt-[56px] 
+      mobile480:w-[423px] mobile480:mr-auto mobile480:ml-auto  mobile480:p-[40px]
+       mobile480:absolute  mobile480:top-[50%] mobile480:left-[50%] mobile480:translate-x-[-50%]  
+       mobile480:translate-y-[-50%] mobile480:m-h-[468px]
+       mobile480:border-[1px] mobile480:border-borderD mobile480:rounded-[24px]" 
       >
-        <Logo className="w-[96px] h-[96px] mr-auto ml-auto mb-[86px] desktop:mb-[121px]" />
+        <Logo className="w-[96px] h-[96px] mr-auto ml-auto mb-[56px] 
+        mobile375:mb-[86px] mobile480:mb-[56px]" />
 
         <LoginForm />
 
@@ -20,3 +23,5 @@ const Login = () => {
   );
 };
 export default Login;
+
+
