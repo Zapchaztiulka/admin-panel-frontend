@@ -1,5 +1,11 @@
 const Statistics = () => {
-  return <h2>Statistics</h2>;
+
+  return (
+    <>
+      <h1>Statisticsssssssssss</h1>
+
+    </>
+  );
 };
 
 export default Statistics;

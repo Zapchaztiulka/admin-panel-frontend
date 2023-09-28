@@ -56,3 +56,10 @@ export const deleteProduct = async (productId) => {
   const { data } = await axios.delete(`products/${productId}`);
   return data;
 };
+
+//operations with options
+
+export const fetchUserOptins = async () => {
+  const { data } = await axios.get(`options/user`);
+  return data;
+};

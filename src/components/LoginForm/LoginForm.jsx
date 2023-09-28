@@ -1,11 +1,11 @@
 import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { ThreeDots } from  'react-loader-spinner'
 import { getValitadionSchemaLoginForm } from "../../utils/validationSchemas/getValitadionSchemaLoginForm";
 import { logIn } from "../../redux/auth/operations";
 import { LoginInput } from "./LoginInput";
-import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { ThreeDots } from  'react-loader-spinner'
 
 const initialValues = {
   email: "",
@@ -16,7 +16,7 @@ export const LoginForm = () => {
   const { isLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(true);
   const toogleShowPassword = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
   const handleSubmit = async (values, actions) => {
     await dispatch(logIn(values));
