@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserOption } from "../redux/options/selectors";
 import { useEffect } from "react";
-import { fetchUserOptions } from "../redux/options/operations";
+import { fetchCategoryOptions, fetchProductOptions, fetchUserOptions } from "../redux/options/operations";
 import { Form, Formik } from "formik";
 import { Input } from "./Options/Input";
 import { Select } from "./Options/Select";
@@ -10,6 +10,7 @@ import { inputType } from "../utils/inputType";
 export const RegisterForm = () => {
   const dispatch = useDispatch();
   const options = useSelector(selectUserOption);
+  console.log('options', options);
   let emptyOptions = Object.keys(options).length === 0;
 
   let register;
@@ -19,7 +20,9 @@ export const RegisterForm = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchUserOptions());
+    // dispatch(fetchUserOptions());
+    // dispatch(fetchCategoryOptions());
+    dispatch(fetchProductOptions());
   }, [dispatch]);
   const handleSubmit = (values) => {
     console.log(values);
