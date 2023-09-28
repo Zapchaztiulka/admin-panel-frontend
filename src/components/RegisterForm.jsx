@@ -13,7 +13,6 @@ export const RegisterForm = () => {
   let register;
   if (!emptyOptions) {
     register = allUserOptions.userAuthentication;
-  
   }
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export const RegisterForm = () => {
 
   return (
     <>
-      {!emptyOptions && register &&  (
+      {!emptyOptions && register && (
         <div>
           <h2>{register?.title}</h2>
           <Formik
