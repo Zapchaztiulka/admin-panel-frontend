@@ -3,7 +3,6 @@ import { useField } from "formik";
 
 export const CheckBox = ({title, ...props }) => {
   const [field] = useField(props);
-
   return (
     <label className="flex  gap-[4px]">
             <input {...field} {...props} />

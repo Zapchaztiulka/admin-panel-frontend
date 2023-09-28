@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useField } from "formik";
-import { validateText } from "../../utils/validateText";
+import { validateText } from "../../../utils/validateText";
 
 export const Input = ({ validation, title, ...props }) => {
   const [field, meta] = useField({

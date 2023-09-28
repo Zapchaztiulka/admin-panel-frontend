@@ -36,8 +36,6 @@ export const optionsSlice = createSlice({
       .addCase(fetchProductOptions.rejected, handleRejected)
 
       .addCase(fetchUserOptions.fulfilled, (state, action) => {
-        console.log("state", state);
-        console.log("action", action);
         state.isLoading = false;
         state.error = null;
         state.userOptions = action.payload;
