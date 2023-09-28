@@ -7,7 +7,7 @@ export const Input = ({ validation, title, ...props }) => {
     ...props,
     validate: (value) => validateText(value, validation),
   });
-
+  // console.log(meta.error.warnings);
   return (
     <label className="flex flex-col gap-[4px]">
       <span>{title}</span>

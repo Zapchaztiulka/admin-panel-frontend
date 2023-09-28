@@ -25,7 +25,7 @@ const isValidRegExp = (text, regexp) => {
 
 export const validateText = (text, validation, uniqueArray) => {
   if (!validation || text === "undefined") {
-    return { isWarning: false, warnings: [] };
+    return;
   }
 
   const checksArray = [];
@@ -88,10 +88,12 @@ export const validateText = (text, validation, uniqueArray) => {
       warnings.push(validation?.warningMessages?.uniqueVariable);
   }
 
-  return warnings.length === 0
+  let isWarning = checksArray.includes(true);
+  console.log("isWarning", isWarning);
+  return warnings.length === 0 && !isWarning
     ? undefined
     : {
-        isWarning: checksArray.some((check) => check === true),
+        isWarning,
         warnings,
       };
 };
