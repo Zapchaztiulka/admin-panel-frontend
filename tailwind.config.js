@@ -75,6 +75,15 @@ export default {
       textWarning: "#F79009",
       textDisabled: "#A7ABB0",
     },
+    borderRadius: {
+      zero: "0px",
+      minimal: "4px",
+      medium: "8px",
+      medium2: "12px",
+      medium3: "20px",
+      large: "24px",
+      large2: "32px",
+    },
     screens: {
       mobile375: "375px",
       mobile480: "480px",

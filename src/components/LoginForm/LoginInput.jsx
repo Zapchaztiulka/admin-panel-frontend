@@ -18,8 +18,8 @@ export const LoginInput = ({
       <Field
         name={name}
         type={type}
-              className={` w-[100%] p-[12px] border-[1px] border-borderD rounded-[4px] text-[16px] text-textInputDefault  outline-0
-         focus:text-textInputActive focus:bg-bgD  hover:bg-bgBrandLight1  hover:text-textInputA autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:hover:shadow-[inset_0_0_0px_1000px_rgb(239,248,255)] ${
+              className={` w-[100%] p-[12px] border-[1px] border-borderDefault rounded-minimal text-[16px] text-textInputDefault  outline-0
+         focus:text-textInputActive focus:bg-bgD  hover:bg-bgBrandLight1  hover:text-textInputActive autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:hover:shadow-[inset_0_0_0px_1000px_rgb(239,248,255)] ${
           valid ? "border-textError" : "focus:border-borderActive"
         } `}
           />

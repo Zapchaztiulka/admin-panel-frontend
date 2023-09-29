@@ -56,7 +56,7 @@ export const LoginForm = () => {
                 <button
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
-                  className="flex justify-center items-center pt-[12px] pb-[12px] w-[100%] rounded-[8px] 
+                  className="flex justify-center items-center pt-[12px] pb-[12px] w-[100%] rounded-medium 
           bg-bgBrandDark text-[16px] text-textContrast font-[500] leading-[1.4] tracking-[-0.24px]
           disabled:bg-bgGreyLigth disabled:text-textDisabled
           hover:bg-bgHoverBlue focus-visible:shadow-btFocus  outline-0 active:bg-bgPressedBlue active:shadow-none"
