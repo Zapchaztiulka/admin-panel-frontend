@@ -57,9 +57,9 @@ export const LoginForm = () => {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                   className="flex justify-center items-center pt-[12px] pb-[12px] w-[100%] rounded-[8px] 
-          bg-bgMainBtD text-[16px] text-textContrast font-[500] leading-[1.4] tracking-[-0.24px]
-          disabled:bg-bgDisable disabled:text-textDisabled
-          hover:bg-bgMainBtHover focus-visible:shadow-btFocus  outline-0 active:bg-bgMainBtPressed active:shadow-none"
+          bg-bgBrandDark text-[16px] text-textContrast font-[500] leading-[1.4] tracking-[-0.24px]
+          disabled:bg-bgGreyLigth disabled:text-textDisabled
+          hover:bg-bgHoverBlue focus-visible:shadow-btFocus  outline-0 active:bg-bgPressedBlue active:shadow-none"
                 >
                   {isLoading ? (
                     <ThreeDots 

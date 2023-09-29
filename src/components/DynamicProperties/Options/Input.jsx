@@ -13,7 +13,7 @@ export const Input = ({ validation, title, ...props }) => {
       <span>{title}</span>
       <input {...field} {...props} />
       {meta.error?.isWarning && meta.touched && (
-        <div className="text-green">{meta.error.warnings}</div>
+        <div className="text-textSuccess">{meta.error.warnings}</div>
       )}
     </label>
   );

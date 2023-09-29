@@ -14,13 +14,13 @@ export const LoginInput = ({
 }) => {
   return (
     <label className="relative">
-      <span className="mb-[4px] text-textSecondary leading-[1.4]">{text}</span>
+      <span className="mb-[4px] text-secondary leading-[1.4]">{text}</span>
       <Field
         name={name}
         type={type}
-              className={` w-[100%] p-[12px] border-[1px] border-borderD rounded-[4px] text-[16px] text-textInputD  outline-0
-         focus:text-textInputA focus:bg-bgD  hover:bg-bgInputHover  hover:text-textInputA autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:hover:shadow-[inset_0_0_0px_1000px_rgb(239,248,255)] ${
-          valid ? "border-textError" : "focus:border-borderA"
+              className={` w-[100%] p-[12px] border-[1px] border-borderD rounded-[4px] text-[16px] text-textInputDefault  outline-0
+         focus:text-textInputActive focus:bg-bgD  hover:bg-bgBrandLight1  hover:text-textInputA autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:hover:shadow-[inset_0_0_0px_1000px_rgb(239,248,255)] ${
+          valid ? "border-textError" : "focus:border-borderActive"
         } `}
           />
       <FormError name={name} />
