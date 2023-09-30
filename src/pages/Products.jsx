@@ -6,12 +6,14 @@ const Products = () => {
       <h1>Products</h1>
       <ul>
         <li>
-          <Link to="add">Додати товар</Link>
+          <Link to="add">Додати товар + </Link>
         </li>
         <li>
-          <Link to="edit">Оновити товар</Link>
+          <Link to="edit">Множинне додавання товарів +</Link>
         </li>
-      
+        <li>
+          Імпортувати дані з таблиці +
+        </li>
       </ul>
       <Outlet />
     </div>

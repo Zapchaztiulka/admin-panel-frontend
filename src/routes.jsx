@@ -6,6 +6,7 @@ import { SharedLayout } from "./components/SharedLayout";
 import { RestrictedRoute } from './components/RestrictedRoute';
 import { PrivateRoute } from "./components/PrivateRoute";
 import { PrivateRouteSuperAdmin } from "./components/PrivateRouteSuperAdmin";
+import { AddOneProduct } from "./components/Products/AddOneProduct";
 
 const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));
@@ -47,8 +48,8 @@ export const ProductsRoute = {
   path: "/products",
   element: <PrivateRoute component={<ProductsPage />} redirectTo="/login"/>,
   children: [
-    { path: "add", element: <TemporaryComponent title="Додати товар" /> },
-    { path: "edit", element: <TemporaryComponent title="Оновити товар" /> },
+    { path: "add", element: <AddOneProduct /> },
+    { path: "edit", element: <TemporaryComponent title="Множинне додавання товарів" /> },
   ],
 };
 export const ClientsRoute = {
