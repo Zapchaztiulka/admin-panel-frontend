@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import { Navigation } from "./Header/Navigation";
+import { AppBar } from "./Header/AppBar";
 
 
 
@@ -9,7 +9,7 @@ import { Navigation } from "./Header/Navigation";
 export const SharedLayout = () => {
   return (
     <>
-    <Navigation />
+  <AppBar />
       
       <Suspense>
         <main>
