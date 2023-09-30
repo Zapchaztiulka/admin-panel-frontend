@@ -6,7 +6,7 @@ export const AddOneProduct = () => {
         <div>
             <FlowCrumbs 
                 titles={["Товари", "Додати товар"]}
-                redirections={[]}
+                redirections={["/products"]}
             />
         </div>
     )
