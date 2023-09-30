@@ -1,3 +1,5 @@
+import { RegisterForm } from "../components/RegisterForm";
+
 const Statistics = () => {
 
   return (

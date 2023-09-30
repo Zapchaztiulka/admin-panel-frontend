@@ -59,7 +59,7 @@ export const deleteProduct = async (productId) => {
 
 //operations with options
 
-export const fetchUserOptins = async () => {
-  const { data } = await axios.get(`options/user`);
+export const fetchOptins = async (endpoint) => {
+  const { data } = await axios.get(`options/${endpoint}`);
   return data;
 };
