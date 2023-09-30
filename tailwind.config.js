@@ -39,7 +39,7 @@ export default {
 
       // icon
       bgIcon: "#C4C4C4", // !!!
-
+      iconWhite: "#fff",
       iconPrimary: "#2E3238",
       iconSecondary: "#888D92",
       iconContrast: "#FFFFFF",
