@@ -57,6 +57,13 @@ export const deleteProduct = async (productId) => {
   return data;
 };
 
+//operations with categories
+
+export const getAllCategories = async () => {
+  const { data } = await axios.get("categories");
+  return data.categories;
+};
+
 //operations with options
 
 export const fetchOptins = async (endpoint) => {
