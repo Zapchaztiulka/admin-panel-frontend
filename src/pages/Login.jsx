@@ -1,4 +1,4 @@
-import { Container } from "../components/Container";
+import { Container } from "../components/Сommon/Container";
 import { LogoIcon } from "../components/Icons/Logo/LogoIcon";
 import { LoginForm } from "../components/LoginForm/LoginForm";
 
