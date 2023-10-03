@@ -89,7 +89,6 @@ export const validateText = (text, validation, uniqueArray) => {
   }
 
   let isWarning = checksArray.includes(true);
-  console.log("isWarning", isWarning);
   return warnings.length === 0 && !isWarning
     ? undefined
     : {
