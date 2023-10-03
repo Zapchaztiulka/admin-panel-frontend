@@ -1,10 +1,10 @@
-import { Container } from "../components/Сommon/Container";
+import { ContainerWitoutHeader } from "../components/Сommon/ContainerWitoutHeader";
 import { LogoIcon } from "../components/Icons/Logo/LogoIcon";
 import { LoginForm } from "../components/LoginForm/LoginForm";
 
 const Login = () => {
   return (
-    <Container>
+    <ContainerWitoutHeader>
       <div
         className="pt-[88px] flex flex-col 
       mobile375:pt-[56px] 
@@ -19,7 +19,7 @@ const Login = () => {
 
         <LoginForm />
       </div>
-    </Container>
+    </ContainerWitoutHeader>
   );
 };
 export default Login;

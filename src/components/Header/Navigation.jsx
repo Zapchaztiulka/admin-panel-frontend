@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { ROLE } from "../../utils/constants";
 import {
@@ -12,7 +13,6 @@ import {
 import { useState } from "react";
 import { ItemNavigationWithoutLink } from "./ItemNavigationWithoutLink";
 import { ItemNavigation } from "./ItemNavigation";
-import { useLocation } from "react-router-dom";
 
 
 export const Navigation = () => {
@@ -20,7 +20,7 @@ export const Navigation = () => {
   const [isOpenCatalog, setIsOpenCatalog] = useState(true);
   const [isOpenOrders, seIisOpenOrders] = useState(true);
   const location = useLocation();
-  console.log(location);
+
   const changeStateCatalog = () => {
     setIsOpenCatalog((prev) => !prev);
   };
@@ -104,5 +104,3 @@ export const Navigation = () => {
     </nav>
   );
 };
-//    styleBefore="pt-[16px] before:content-[''] before:absolute before:top-0 before:left-[-8px] 
- //           before:block before:w-[226px] before:h-[1px] before:bg-borderDefault" 
