@@ -10,6 +10,7 @@ import { ReactComponent as StatisticsIcon } from "../images/icons/statistics.svg
 import { ReactComponent as ArrowDownIcon } from "../images/icons/arrowDown.svg";
 import { ReactComponent as ArrowUpIcon } from "../images/icons/arrowUp.svg";
 import { ReactComponent as FolderIcon } from "../images/icons/folder.svg";
+import { ReactComponent as LogOutIcon } from "../images/icons/logout.svg";
 
 export {
   Error,
@@ -24,4 +25,5 @@ export {
   ArrowDownIcon,
   ArrowUpIcon,
   FolderIcon,
+  LogOutIcon,
 };

@@ -1,5 +1,6 @@
 import { useToggleModal } from "../../hooks/useToggleModal";
 import { MenuIcon } from "../../utils/icons";
+import { LogOutButton } from "../Buttons/LogOutButton";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
 import { ModalContainer } from "../Modal/ModalContainer";
 import { UserInfo } from "../UserInfo";
@@ -22,7 +23,8 @@ export const AppBar = () => {
       {isOpen && (
         <ModalContainer toggle={toggle}>
           <UserInfo />
-         <Navigation  toggle={toggle}/>
+          <Navigation toggle={toggle} />
+          <LogOutButton />
         </ModalContainer>
       )}
     </header>
