@@ -8,6 +8,8 @@ export default {
       loading: "20px 0 rgba(46, 144, 250, 1)",
     },
     colors: {
+      // backdrop
+      backdrop: "rgba(42, 43, 48, 0.4)",
       transparent: "transparent",
       //background
       bgWhite: "#FFFFFF",
@@ -92,6 +94,11 @@ export default {
       tablet1024: "1024px",
       desktop1200: "1200px",
       desktop1400: "1400px",
+    },
+    fontWeight: {
+      400: "400",
+      500: "500",
+      600: "600",
     },
   },
   plugins: [],

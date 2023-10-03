@@ -1,42 +1,101 @@
 import { useAuth } from "../../hooks";
-import { NavLink } from "react-router-dom";
 import { ROLE } from "../../utils/constants";
-import { CustomersIcon, ListingViewIcon } from "../../utils/icons";
+import {
+  BellIcon,
+  ChatIcon,
+  CustomersIcon,
+  FolderIcon,
+  ListingViewIcon,
+  ProfileIcon,
+  StatisticsIcon,
+} from "../../utils/icons";
+import { useState } from "react";
+import { ItemNavigationWithoutLink } from "./ItemNavigationWithoutLink";
+import { ItemNavigation } from "./ItemNavigation";
+
 
 export const Navigation = () => {
   const { isLoggedIn, user } = useAuth();
+  const [isOpenCatalog, setIsOpenCatalog] = useState(true);
+  const [isOpenOrders, seIisOpenOrders] = useState(true);
+  const changeStateCatalog = () => {
+    setIsOpenCatalog((prev) => !prev);
+  };
+
+  const changeStateOrders = () => {
+    seIisOpenOrders((prev) => !prev);
+  };
   return (
     <nav>
       {isLoggedIn && (
+        <ul className="flex flex-col gap-[8px] pr-[8px] pl-[8px]" >
+          <li>
+            <ul className="flex flex-col gap-[4px]">
+              <ItemNavigationWithoutLink
+                component={<ListingViewIcon className="stroke-iconPrimary" />}
+                title="Каталог"
+                changeState={changeStateCatalog}
+                isOpen={isOpenCatalog}
+              />
+            
+              {isOpenCatalog && (
+                <>
+                  <ItemNavigation  style='ml-[28px]' to="/products" title="Товари" />
+                  <ItemNavigation style='ml-[28px]' to="/" title="Категорії" />
+                  <ItemNavigation style='ml-[28px]' to="/" title="Статична інформація" />
+                </>
+              )}
+            </ul>
+          </li>
 
-        <ul>
-         
+          <ItemNavigation
+            to="/clients"
+            title="Клієнти"
+            component={<CustomersIcon className="stroke-iconPrimary" />}
+          />
           <li>
-          
-            <CustomersIcon className="stroke-iconPrimary"/>
-            <NavLink to="/products">Продукти</NavLink>
+            <ul>
+              <ItemNavigationWithoutLink
+                component={<BellIcon className="stroke-iconPrimary" />}
+                title="Замовлення"
+                changeState={changeStateOrders}
+                isOpen={isOpenOrders}
+              />
+              {isOpenOrders && (
+                <>
+                  <ItemNavigation style='ml-[28px]' to="/orders/pending" title="Нові" />
+                  <ItemNavigation style='ml-[28px]' to="/orders/processed" title="Опрацьовані" />
+                </>
+              )}
+            </ul>
           </li>
-          <li>
 
-            <NavLink to="/clients">Клієнти</NavLink>
-          </li>
-          <li className="">
-            <ListingViewIcon  />
-            <NavLink to="/orders">Замовлення</NavLink>
-          </li>
-          <li>
-            <NavLink to="chatbot">Чатбот</NavLink>
-          </li>
-           <li>
-            <NavLink to="/">Статистика</NavLink>
-          </li>
-          <li>
-            <NavLink to="/profile">Мій профіль</NavLink>
-          </li>
-        
-          {user.role === ROLE.superAdmin && (<li>
-            <NavLink to="/manager">Менеджери</NavLink>
-          </li>)}
+          <ItemNavigation
+            to="chatbot"
+            title="Чатбот"
+            component={<ChatIcon className="stroke-iconPrimary" />}
+          />
+
+          <ItemNavigation
+            to="/"
+            title="Статистика"
+            component={<StatisticsIcon className="stroke-iconPrimary" />}
+          />
+          <ItemNavigation
+            to="/profile"
+            title="Мій профіль"
+            component={<ProfileIcon className="stroke-iconPrimary" />}
+          />
+
+          {user.role === ROLE.superAdmin && (
+            <ItemNavigation style="relative mt-[8px] "
+              styleBefore="pt-[16px] before:content-[''] before:absolute before:top-0 before:left-[-8px] 
+            before:block before:w-[226px] before:h-[1px] before:bg-borderDefault" 
+              to="/manager"
+              title="Менеджери"
+              component={<FolderIcon className="stroke-iconPrimary" />}
+            />
+          )}
         </ul>
       )}
     </nav>

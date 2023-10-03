@@ -7,7 +7,6 @@ export const PrivateRouteSuperAdmin = ({component: Component,  redirectTo = "/",
   const { isLoggedIn, isRefreshing, user } = useAuth();
   const role = user.role === ROLE.superAdmin;
   const shouldRedirect = (!isLoggedIn && !isRefreshing) || !role;
-  console.log('shouldRedirect', shouldRedirect);
   return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
 };
 

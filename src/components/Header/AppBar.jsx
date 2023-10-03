@@ -1,15 +1,13 @@
-import { useToggle } from "../../hooks/useToggle";
+import { useToggleModal } from "../../hooks/useToggleModal";
 import { MenuIcon } from "../../utils/icons";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
 import { ModalContainer } from "../Modal/ModalContainer";
 import { UserInfo } from "../UserInfo";
-// import { InfoHeaderSDevice } from "./InfoHeaderSDevice";
-// import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText"
 import { Navigation } from "./Navigation"
 
 export const AppBar = () => {
-  const { isOpen, open, toggle } = useToggle();
-  console.log('isOpen',isOpen);
+ 
+  const { isOpen, open,  toggle } = useToggleModal();
   return (
     <header className="fixed top-0 left-0 z-10  w-[100%] bg-bgBrandLight3">
      <div className="flex justify-between items-center pr-[16px] pl-[16px] pt-[8px] pb-[4px]">
@@ -24,7 +22,7 @@ export const AppBar = () => {
       {isOpen && (
         <ModalContainer toggle={toggle}>
           <UserInfo />
-         <Navigation />
+         <Navigation  toggle={toggle}/>
         </ModalContainer>
       )}
     </header>
