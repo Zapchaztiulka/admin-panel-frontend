@@ -10,7 +10,7 @@ export const ItemNavigationWithoutLink = ({
   
 }) => {
   return (
-    <li onClick={changeState} className="flex items-center justify-between pt-[4px] pb-[4px]">
+    <li onClick={changeState} className="flex items-center justify-between pt-[4px] pb-[4px] cursor-pointer group">
       <div className="flex gap-[4px] items-center">
         {Component} <span>{title}</span>
       </div>

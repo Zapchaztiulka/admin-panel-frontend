@@ -12,12 +12,15 @@ import {
 import { useState } from "react";
 import { ItemNavigationWithoutLink } from "./ItemNavigationWithoutLink";
 import { ItemNavigation } from "./ItemNavigation";
+import { useLocation } from "react-router-dom";
 
 
 export const Navigation = () => {
   const { isLoggedIn, user } = useAuth();
   const [isOpenCatalog, setIsOpenCatalog] = useState(true);
   const [isOpenOrders, seIisOpenOrders] = useState(true);
+  const location = useLocation();
+  console.log(location);
   const changeStateCatalog = () => {
     setIsOpenCatalog((prev) => !prev);
   };
@@ -28,7 +31,7 @@ export const Navigation = () => {
   return (
     <nav>
       {isLoggedIn && (
-        <ul className="flex flex-col gap-[8px] pr-[8px] pl-[8px]" >
+        <ul className="flex flex-col gap-[8px] " >
           <li>
             <ul className="flex flex-col gap-[4px]">
               <ItemNavigationWithoutLink
@@ -41,8 +44,8 @@ export const Navigation = () => {
               {isOpenCatalog && (
                 <>
                   <ItemNavigation  style='ml-[28px]' to="/products" title="Товари" />
-                  <ItemNavigation style='ml-[28px]' to="/" title="Категорії" />
-                  <ItemNavigation style='ml-[28px]' to="/" title="Статична інформація" />
+                  <ItemNavigation style='ml-[28px]' to="" title="Категорії" />
+                  <ItemNavigation style='ml-[28px]' to="" title="Статична інформація" />
                 </>
               )}
             </ul>
@@ -51,7 +54,7 @@ export const Navigation = () => {
           <ItemNavigation
             to="/clients"
             title="Клієнти"
-            component={<CustomersIcon className="stroke-iconPrimary" />}
+            component={<CustomersIcon className={ location.pathname === "/clients" ? "stroke-currentColor":"stroke-iconPrimary"} />}
           />
           <li>
             <ul>
@@ -71,29 +74,29 @@ export const Navigation = () => {
           </li>
 
           <ItemNavigation
-            to="chatbot"
+            to="/chatbot"
             title="Чатбот"
-            component={<ChatIcon className="stroke-iconPrimary" />}
+            component={<ChatIcon className={ location.pathname === "/chatbot" ? "stroke-currentColor":"stroke-iconPrimary"} />}
           />
 
           <ItemNavigation
             to="/"
             title="Статистика"
-            component={<StatisticsIcon className="stroke-iconPrimary" />}
+            component={<StatisticsIcon className={ location.pathname === "/" ? "stroke-currentColor":"stroke-iconPrimary"}/>}
           />
           <ItemNavigation
             to="/profile"
             title="Мій профіль"
-            component={<ProfileIcon className="stroke-iconPrimary" />}
+            component={<ProfileIcon className={ location.pathname === "/profile" ? "stroke-currentColor":"stroke-iconPrimary"} />}
           />
 
           {user.role === ROLE.superAdmin && (
-            <ItemNavigation style="relative mt-[8px] "
-              styleBefore="pt-[16px] before:content-[''] before:absolute before:top-0 before:left-[-8px] 
+            <ItemNavigation style="relative mt-[24px] "
+              styleBefore="before:content-[''] before:absolute before:top-[-16px] before:left-0 
             before:block before:w-[226px] before:h-[1px] before:bg-borderDefault" 
               to="/manager"
               title="Менеджери"
-              component={<FolderIcon className="stroke-iconPrimary" />}
+              component={<FolderIcon className={ location.pathname === "/manager" ? "stroke-currentColor":"stroke-iconPrimary"} />}
             />
           )}
         </ul>
@@ -101,3 +104,5 @@ export const Navigation = () => {
     </nav>
   );
 };
+//    styleBefore="pt-[16px] before:content-[''] before:absolute before:top-0 before:left-[-8px] 
+ //           before:block before:w-[226px] before:h-[1px] before:bg-borderDefault" 

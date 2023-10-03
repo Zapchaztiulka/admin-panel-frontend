@@ -15,8 +15,9 @@ export const ItemNavigation = ({
     const { toggle } = useToggleModal();
 
   return (
-    <li className={`flex items-center justify-between pt-[4px] pb-[4px] ${style}`} onClick={toggle}>
-          <NavLink to={to} className={`flex gap-[4px] items-center ${styleBefore}`}>{Component }{title}</NavLink>
+    <li className={`flex items-center justify-between rounded-[4px] ${style}`} onClick={toggle}>
+      <NavLink to={to} className={`flex gap-[4px] items-center pt-[4px] pb-[4px] pr-[8px] pl-[8px] w-[100%]
+      rounded-[4px] hover:bg-bgHoverGrey active:bg-bgPressedGrey ${styleBefore}`}>{Component}{title}</NavLink>
     </li>
   );
 };
