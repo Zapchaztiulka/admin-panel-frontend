@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-export const Container = ({ children }) => {
+export const Container = ({ children, containerStyle }) => {
     return (
-        <div className="ml-auto mr-auto pr-4 pl-4 mt-[56px] tablet1024:ml-[254px]">{children}</div>
+        <div className={`ml-auto mr-auto pr-4 pl-4 ${containerStyle}`}>{children}</div>
     )
 }
 
 Container.propTypes = {
   children: PropTypes.node.isRequired,
+  containerStyle: PropTypes.string,
 };
