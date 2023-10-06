@@ -5,6 +5,7 @@ import { ButtonBlockIcon, PlusIcon } from "../utils/icons";
 
 const Products = () => {
   return (
+
     <div>
       <h1>Products.....</h1>
       
@@ -28,12 +29,10 @@ const Products = () => {
           linkstyle={'bg-bgBrandLight1 '}
           bigIcon={<ButtonBlockIcon className="fill-textBrand absolute bottom-0 left-[132px]"/>}
         />
-    
-      
+          
       </div>
 
-    
-      <Outlet />
+         <Outlet />
     </div>
   );
 };
