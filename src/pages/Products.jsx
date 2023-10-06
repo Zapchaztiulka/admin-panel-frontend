@@ -2,7 +2,6 @@
 import { Outlet } from "react-router-dom";
 import { BigButton } from "../components/Buttons/BigButton";
 import { ButtonBlockIcon, PlusIcon } from "../utils/icons";
-import { DotsSlider } from "../components/Сommon/DotsSlider";
 
 const Products = () => {
   return (
@@ -33,7 +32,7 @@ const Products = () => {
       
       </div>
 
-      {/* <DotsSlider /> */}
+    
       <Outlet />
     </div>
   );

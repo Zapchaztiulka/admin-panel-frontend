@@ -19,4 +19,4 @@ export const UserInfo = () => {
     )
 }
 
-// line-clamp-2    
+

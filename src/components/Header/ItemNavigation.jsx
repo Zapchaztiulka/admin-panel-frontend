@@ -11,7 +11,6 @@ export const ItemNavigation = ({
   styleBefore,
   arrowButton: ArrowButton,
   changeState,
-  // isOpen,
 }) => {
   const { toggle } = useToggleModal();
   const toggleModal = () => {
