@@ -1,12 +1,14 @@
 import { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import { TemporaryComponent } from "./components/TemporaryComponent";
-import { RegisterForm } from "./components/RegisterForm";
+import { RegisterForm } from "./components/Forms/RegisterForm";
 import { SharedLayout } from "./components/SharedLayout";
-import { RestrictedRoute } from './components/RestrictedRoute';
-import { PrivateRoute } from "./components/PrivateRoute";
-import { PrivateRouteSuperAdmin } from "./components/PrivateRouteSuperAdmin";
+
+import { RestrictedRoute } from './components/Routes/RestrictedRoute';
+import { PrivateRoute } from "./components/Routes/PrivateRoute";
+import { PrivateRouteSuperAdmin } from "./components/Routes/PrivateRouteSuperAdmin";
 import { AddOneProduct } from "./components/Products/AddOneProduct";
+
 
 const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));

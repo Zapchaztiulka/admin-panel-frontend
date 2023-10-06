@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserOptions } from "../redux/options/selectors";
+import { selectUserOptions } from "../../redux/options/selectors";
 import { useEffect } from "react";
-import { fetchUserOptions } from "../redux/options/operations";
+import { fetchUserOptions } from "../../redux/options/operations";
 import { Form, Formik } from "formik";
 
-import { DynamicProperties } from "./DynamicProperties/DynamicProperties";
+import { DynamicProperties } from "../DynamicProperties/DynamicProperties";
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
