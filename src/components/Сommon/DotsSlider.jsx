@@ -1,16 +1,19 @@
-
-import { Outlet } from "react-router-dom";
-import { BigButton } from "../components/Buttons/BigButton";
-import { ButtonBlockIcon, PlusIcon } from "../utils/icons";
-import { DotsSlider } from "../components/Сommon/DotsSlider";
-
-const Products = () => {
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { BigButton } from "../Buttons/BigButton";
+import { ButtonBlockIcon, PlusIcon } from "../../utils/icons";
+export const DotsSlider = () => {
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1
+  };
   return (
-    <div>
-      <h1>Products.....</h1>
-      
-      <div className="flex gap-[12px]">
-        <BigButton
+    <Slider {...settings}>
+    <BigButton
           to="edit"
           text="Додати товар"
           icon={<PlusIcon className="stroke-iconContrast" />}
@@ -29,13 +32,6 @@ const Products = () => {
           linkstyle={'bg-bgBrandLight1 '}
           bigIcon={<ButtonBlockIcon className="fill-textBrand absolute bottom-0 left-[132px]"/>}
         />
-    
-      
-      </div>
-
-      {/* <DotsSlider /> */}
-      <Outlet />
-    </div>
+    </Slider>
   );
-};
-export default Products;
+} 

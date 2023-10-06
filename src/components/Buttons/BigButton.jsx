@@ -10,7 +10,7 @@ export const BigButton = ({
   bigIcon: BigIcon,
 }) => {
   return (
-    <li className="w-[230px] h-[116px] relative">
+    <div className="w-[230px] h-[116px] relative">
       <Link
         to={to}
         className={`flex gap-[8px] items-end w-[230px] h-[116px] pl-[12px] pr-[12px] pb-[16px]
@@ -20,7 +20,7 @@ export const BigButton = ({
         {text}
         {Icon} {BigIcon}
       </Link>
-    </li>
+    </div>
   );
 };
 
