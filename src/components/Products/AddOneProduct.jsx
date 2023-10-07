@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik';
 import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
 import { addProduct, getAllCategories } from '../../service/apiService';
 import { Select } from '../DynamicProperties/Options/Select';
+import Button from "../../../universal-components-frontend/src/components/buttons/button"
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -41,6 +42,7 @@ export const AddOneProduct = () => {
     }
     return (
         <>
+            <Button />
             <FlowCrumbs 
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}
