@@ -26,6 +26,7 @@ export const AddOneProduct = () => {
 
     const handleSubmit = (values) => {
         // тимчасова функція
+        
         console.log(values, Number(values.price));
         const newProduct = {
             ...values, 
