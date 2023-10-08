@@ -11,6 +11,8 @@ import { ReactComponent as ArrowDownIcon } from "../images/icons/arrowDown.svg";
 import { ReactComponent as ArrowUpIcon } from "../images/icons/arrowUp.svg";
 import { ReactComponent as FolderIcon } from "../images/icons/folder.svg";
 import { ReactComponent as LogOutIcon } from "../images/icons/logout.svg";
+import { ReactComponent as PlusIcon } from "../images/icons/plus.svg";
+import { ReactComponent as ButtonBlockIcon } from "../images/icons/buttonBlock.svg";
 
 export {
   Error,
@@ -26,4 +28,6 @@ export {
   ArrowUpIcon,
   FolderIcon,
   LogOutIcon,
+  PlusIcon,
+  ButtonBlockIcon,
 };
