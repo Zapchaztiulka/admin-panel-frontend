@@ -3,7 +3,7 @@ import { useRoutes } from "react-router-dom";
 import { TemporaryComponent } from "./components/TemporaryComponent";
 import { RegisterForm } from "./components/Forms/RegisterForm";
 import { SharedLayout } from "./components/SharedLayout";
-import { RestrictedRoute } from './components/Routes/RestrictedRoute';
+import { RestrictedRoute } from "./components/Routes/RestrictedRoute";
 import { PrivateRoute } from "./components/Routes/PrivateRoute";
 import { PrivateRouteSuperAdmin } from "./components/Routes/PrivateRouteSuperAdmin";
 
@@ -23,15 +23,29 @@ export const Router = () => {
       path: "/",
       element: <SharedLayout />,
       children: [
-        { index: true, element:<PrivateRoute component={<StatisticsPage />} test='StatisticsPage' redirectTo="/login"/>},
+        {
+          index: true,
+          element: (
+            <PrivateRoute
+              component={<StatisticsPage />}
+              test="StatisticsPage"
+              redirectTo="/login"
+            />
+          ),
+        },
         LogInRoute,
         ProductsRoute,
+        ProductByIDRoute,
+        AddProductRoute,
+        MultipleAddProductRoute,
         ClientsRoute,
         OrdersRoute,
         ChatbotRoute,
+        AdminProfileRoute,
         ManagerRoute,
-        ProfileRoute,
-                { path: "*", element: <NotFoundPage /> },
+        ManagerByIDRoute,
+        StaticRoute,
+        { path: "*", element: <NotFoundPage /> },
       ],
     },
   ]);
@@ -40,53 +54,87 @@ export const Router = () => {
 
 export const LogInRoute = {
   path: "/login",
-  element: <RestrictedRoute component={<LogInPage />} redirectTo="/"/>,
+  element: <RestrictedRoute component={<LogInPage />} redirectTo="/" />,
 };
 
 export const ProductsRoute = {
   path: "/products",
-  element: <PrivateRoute component={<ProductsPage />} redirectTo="/login"/>,
-  children: [
-    { path: "add", element: <TemporaryComponent title="Додати товар" /> },
-    { path: "edit", element: <TemporaryComponent title="Оновити товар" /> },
-  ],
+  element: <PrivateRoute component={<ProductsPage />} redirectTo="/login" />,
 };
+export const ProductByIDRoute = {
+  path: "/products/:productId",
+  element: (
+    <PrivateRoute
+      component={<TemporaryComponent title="Один товар" />}
+      redirectTo="/login"
+    />
+  ),
+};
+export const AddProductRoute = {
+  path: "/products/add",
+  element: (
+    <PrivateRoute
+      component={<TemporaryComponent title="Додати товар" />}
+      redirectTo="/login"
+    />
+  ),
+};
+export const MultipleAddProductRoute = {
+  path: "/products/multipleadd",
+  element: (
+    <PrivateRoute
+      component={<TemporaryComponent title="Додати товар" />}
+      redirectTo="/login"
+    />
+  ),
+};
+
 export const ClientsRoute = {
   path: "/clients",
-  element: <PrivateRoute component={<ClientsPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<ClientsPage />} redirectTo="/login" />,
 };
 
 export const OrdersRoute = {
   path: "/orders",
-  element: <PrivateRoute component={<OrdersPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<OrdersPage />} redirectTo="/login" />,
   children: [
-    { path: "pending", element: <TemporaryComponent title="Додати товар" /> },
+    {
+      path: "pending",
+      element: <TemporaryComponent title="Нові замовлення" />,
+    },
     {
       path: "processed",
-      element: <TemporaryComponent title="Оновити товар" />,
+      element: <TemporaryComponent title="Опрацьовані замовлення" />,
     },
   ],
 };
 
 export const ChatbotRoute = {
   path: "/chatbot",
-  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/login" />,
 };
 
-export const ProfileRoute = {
+export const AdminProfileRoute = {
   path: "/profile",
-  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/login"/>,
+  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/login" />,
 };
-
+//
+export const ManagerByIDRoute = {
+  path: "/manager/:managerId",
+  element: (
+    <PrivateRouteSuperAdmin
+      component={<TemporaryComponent title="Інфо по одному менеджеру" />}
+      redirectTo="/login"
+    />
+  ),
+};
 export const ManagerRoute = {
   path: "/manager",
-  element: <PrivateRouteSuperAdmin component={<ManagersPage />} redirectTo="/"/>,
+  element: (
+    <PrivateRouteSuperAdmin component={<ManagersPage />} redirectTo="/" />
+  ),
   children: [
-    { path: "register", element: <RegisterForm /> },
-    {
-      path: "delete",
-      element: <TemporaryComponent title="Видалити існуючого менеджера" />,
-    },
+    { path: "add", element: <RegisterForm /> },
     {
       path: "statistics",
       element: (
@@ -94,4 +142,14 @@ export const ManagerRoute = {
       ),
     },
   ],
+};
+
+export const StaticRoute = {
+  path: "/static",
+  element: (
+    <PrivateRouteSuperAdmin
+      component={<TemporaryComponent title="Статична інформація" />}
+      redirectTo="/login"
+    />
+  ),
 };

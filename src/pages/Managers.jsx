@@ -7,11 +7,9 @@ const Managers = () => {
       <h1>Managers</h1>
       <ul>
         <li>
-          <Link to="register">Зареєструвати нового менеджера</Link>
+          <Link to="add">Зареєструвати нового менеджера</Link>
         </li>
-        <li>
-          <Link to="delete">Видалити існуючого менеджера</Link>
-        </li>
+       
         <li>
           <Link to="statistics">Інфо/статистика по кожному менеджер</Link>
         </li>

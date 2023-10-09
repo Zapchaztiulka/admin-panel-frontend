@@ -70,7 +70,7 @@ export const Navigation = () => {
                     {" "}
                     <ItemNavigation
                       style="ml-[28px]"
-                      to="/"
+                      to="/static"
                       title="Статична інформація"
                     />
                   </li>
