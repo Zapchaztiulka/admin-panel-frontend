@@ -3,9 +3,13 @@ import { useRoutes } from "react-router-dom";
 import { TemporaryComponent } from "./components/TemporaryComponent";
 import { RegisterForm } from "./components/Forms/RegisterForm";
 import { SharedLayout } from "./components/SharedLayout";
+
 import { RestrictedRoute } from "./components/Routes/RestrictedRoute";
+
 import { PrivateRoute } from "./components/Routes/PrivateRoute";
 import { PrivateRouteSuperAdmin } from "./components/Routes/PrivateRouteSuperAdmin";
+import { AddOneProduct } from "./components/Products/AddOneProduct";
+
 
 const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));
@@ -59,6 +63,7 @@ export const LogInRoute = {
 
 export const ProductsRoute = {
   path: "/products",
+
   element: <PrivateRoute component={<ProductsPage />} redirectTo="/login" />,
 };
 export const ProductByIDRoute = {
@@ -78,6 +83,7 @@ export const AddProductRoute = {
       redirectTo="/login"
     />
   ),
+
 };
 export const MultipleAddProductRoute = {
   path: "/products/multipleadd",
