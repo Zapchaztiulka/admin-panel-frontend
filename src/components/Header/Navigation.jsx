@@ -11,13 +11,13 @@ import {
   StatisticsIcon,
 } from "../../utils/icons";
 import { useState } from "react";
-import { ItemNavigationWithoutLink } from "./ItemNavigationWithoutLink";
 import { ItemNavigation } from "./ItemNavigation";
+import { ArrowButton } from "../Buttons/ArrowButton";
 
 export const Navigation = () => {
   const { isLoggedIn, user } = useAuth();
   const [isOpenCatalog, setIsOpenCatalog] = useState(true);
-  const [isOpenOrders, seIisOpenOrders] = useState(true);
+  const [isOpenOrders, setIsOpenOrders] = useState(true);
   const location = useLocation();
 
   const changeStateCatalog = () => {
@@ -25,7 +25,7 @@ export const Navigation = () => {
   };
 
   const changeStateOrders = () => {
-    seIisOpenOrders((prev) => !prev);
+    setIsOpenOrders((prev) => !prev);
   };
   return (
     <nav>
@@ -33,127 +33,174 @@ export const Navigation = () => {
         <ul className="flex flex-col gap-[8px] ">
           <li>
             <ul className="flex flex-col gap-[4px]">
-              <ItemNavigationWithoutLink
-                component={<ListingViewIcon className="stroke-iconPrimary" />}
-                title="Каталог"
-                changeState={changeStateCatalog}
-                isOpen={isOpenCatalog}
-              />
-
+                       <li>
+                <ItemNavigation
+                  iconComponent={
+                    <ListingViewIcon className="stroke-iconPrimary" />
+                  }
+                  title="Каталог"
+                  changeState={changeStateCatalog}
+                  arrowButton={
+                    <ArrowButton
+                      changeState={changeStateCatalog}
+                      isOpen={isOpenCatalog}
+                    />
+                  }
+                />
+              </li>
               {isOpenCatalog && (
                 <>
-                  <ItemNavigation
-                    style="ml-[28px]"
-                    to="/products"
-                    title="Товари"
-                  />
-                  <ItemNavigation style="ml-[28px]" to="" title="Категорії" />
-                  <ItemNavigation
-                    style="ml-[28px]"
-                    to=""
-                    title="Статична інформація"
-                  />
+                  <li>
+                    {" "}
+                    <ItemNavigation
+                      style="ml-[28px]"
+                      to="/products"
+                      title="Товари"
+                    />
+                  </li>
+                  <li>
+                    {" "}
+                    <ItemNavigation
+                      style="ml-[28px]"
+                      to="/"
+                      title="Категорії"
+                    />
+                  </li>
+                  <li>
+                    {" "}
+                    <ItemNavigation
+                      style="ml-[28px]"
+                      to="/static"
+                      title="Статична інформація"
+                    />
+                  </li>
                 </>
               )}
             </ul>
           </li>
-
-          <ItemNavigation
-            to="/clients"
-            title="Клієнти"
-            component={
-              <CustomersIcon
-                className={
-                  location.pathname === "/clients"
-                    ? "stroke-currentColor"
-                    : "stroke-iconPrimary"
-                }
-              />
-            }
-          />
           <li>
-            <ul>
-              <ItemNavigationWithoutLink
-                component={<BellIcon className="stroke-iconPrimary" />}
-                title="Замовлення"
-                changeState={changeStateOrders}
-                isOpen={isOpenOrders}
-              />
-              {isOpenOrders && (
-                <>
-                  <ItemNavigation
-                    style="ml-[28px]"
-                    to="/orders/pending"
-                    title="Нові"
-                  />
-                  <ItemNavigation
-                    style="ml-[28px]"
-                    to="/orders/processed"
-                    title="Опрацьовані"
-                  />
-                </>
-              )}
-            </ul>
-          </li>
-
-          <ItemNavigation
-            to="/chatbot"
-            title="Чатбот"
-            component={
-              <ChatIcon
-                className={
-                  location.pathname === "/chatbot"
-                    ? "stroke-currentColor"
-                    : "stroke-iconPrimary"
-                }
-              />
-            }
-          />
-
-          <ItemNavigation
-            to="/"
-            title="Статистика"
-            component={
-              <StatisticsIcon
-                className={
-                  location.pathname === "/"
-                    ? "stroke-currentColor"
-                    : "stroke-iconPrimary"
-                }
-              />
-            }
-          />
-          <ItemNavigation
-            to="/profile"
-            title="Мій профіль"
-            component={
-              <ProfileIcon
-                className={
-                  location.pathname === "/profile"
-                    ? "stroke-currentColor"
-                    : "stroke-iconPrimary"
-                }
-              />
-            }
-          />
-
-          {user.role === ROLE.superAdmin && (
             <ItemNavigation
-              style="relative mt-[24px] "
-              styleBefore="before:content-[''] before:absolute before:top-[-16px] before:left-0 
-            before:block before:w-[226px] before:h-[1px] before:bg-borderDefault"
-              to="/manager"
-              title="Менеджери"
-              component={
-                <FolderIcon
+              to="/clients"
+              title="Клієнти"
+              iconComponent={
+                <CustomersIcon
                   className={
-                    location.pathname === "/manager"
-                      ? "stroke-currentColor"
+                    location.pathname === "/clients"
+                      ? "stroke-iconBrandDark"
                       : "stroke-iconPrimary"
                   }
                 />
               }
             />
+          </li>
+          <li>
+            <ul>
+              <li>
+                <ItemNavigation
+                  iconComponent={<BellIcon className="stroke-iconPrimary" />}
+                  title="Замовлення"
+                  changeState={changeStateOrders}
+                  arrowButton={
+                    <ArrowButton
+                      changeState={changeStateOrders}
+                      isOpen={isOpenCatalog}
+                    />
+                  }
+                />
+              </li>
+
+              {isOpenOrders && (
+                <>
+                  <li>
+                    {" "}
+                    <ItemNavigation
+                      style="ml-[28px]"
+                      to="/orders/pending"
+                      title="Нові"
+                    />
+                  </li>
+                  <li>
+                    <ItemNavigation
+                      style="ml-[28px]"
+                      to="/orders/processed"
+                      title="Опрацьовані"
+                    />
+                  </li>
+                </>
+              )}
+            </ul>
+          </li>
+
+          <li>
+            {" "}
+            <ItemNavigation
+              to="/chatbot"
+              title="Чатбот"
+              iconComponent={
+                <ChatIcon
+                  className={
+                    location.pathname === "/chatbot"
+                      ? "stroke-iconBrandDark"
+                      : "stroke-iconPrimary"
+                  }
+                />
+              }
+            />
+          </li>
+
+          <li>
+            {" "}
+            <ItemNavigation
+              to="/"
+              title="Статистика"
+              iconComponent={
+                <StatisticsIcon
+                  className={
+                    location.pathname === "/"
+                      ? "stroke-iconBrandDark"
+                      : "stroke-iconPrimary"
+                  }
+                />
+              }
+            />
+          </li>
+
+          <li>
+            <ItemNavigation
+              to="/profile"
+              title="Мій профіль"
+              iconComponent={
+                <ProfileIcon
+                  className={
+                    location.pathname === "/profile"
+                      ? "stroke-iconBrandDark"
+                      : "stroke-iconPrimary"
+                  }
+                />
+              }
+            />
+          </li>
+
+          {user.role === ROLE.superAdmin && (
+            <li>
+              {" "}
+              <ItemNavigation
+                style="relative mt-[24px] "
+                styleBefore="before:content-[''] before:absolute before:top-[-16px] before:left-0 
+            before:block before:w-[226px] before:h-[1px] before:bg-borderDefault"
+                to="/manager"
+                title="Менеджери"
+                iconComponent={
+                  <FolderIcon
+                    className={
+                      location.pathname === "/manager"
+                        ? "stroke-iconBrandDark"
+                        : "stroke-iconPrimary"
+                    }
+                  />
+                }
+              />
+            </li>
           )}
         </ul>
       )}

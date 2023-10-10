@@ -13,7 +13,7 @@ export const SharedLayout = () => {
       <Suspense>
         <main>
           {" "}
-          <Container>
+          <Container containerStyle='mt-[56px] tablet1024:ml-[254px]'>
             <Outlet />
           </Container>
         </main>

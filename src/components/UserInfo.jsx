@@ -6,12 +6,17 @@ export const UserInfo = () => {
     const { user } = useAuth();
   
     return (
-        <div className="flex gap-[8px] items-center pt-[4px] pb-[4px] pl-[4px] mb-[24px]">
-            <div className="flex justify-center items-center w-[36px] h-[36px] rounded-[50%]
+     
+        <div className="flex items-center p-[4px] mb-[24px]  tablet1024:mr-0  ">
+            <div className="flex justify-center items-center mr-[8px] w-[36px] h-[36px] rounded-[50%]
             text-textBrand tracking-[-0.4px] font-500 bg-bgBrandLight2 ">
-                <span>{cutFirstLetter(user.username)}{cutFirstLetter(user.userSurname)}</span>
+                {cutFirstLetter(user.username)}{cutFirstLetter(user.userSurname)}
             </div>
-            <h2>{changeFirstLetter(user.username, user.userSurname)} </h2>
+            <p className="w-[176px] mobile375:w-[219px] tablet1024:w-[174px] max-h-[40px] 
+            text-ellipsis">{changeFirstLetter(user.username, user.userSurname)} </p>
         </div>
+
     )
 }
+
+

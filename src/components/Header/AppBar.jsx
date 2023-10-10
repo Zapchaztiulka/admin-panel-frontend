@@ -17,15 +17,14 @@ export const AppBar = () => {
 
       <div
         className="hidden tablet1024:block 
-      absolute z-30 top-0 left-0 pt-[24px] pb-[24px] pr-[12px] pl-[12px]  h-[100vh] w-[100%]
-         "
-      >
+      absolute z-30 top-0 left-0 pt-[24px] pb-[24px] pr-[12px] pl-[12px]  h-[100vh] w-[100%]">
         <UserInfo />
         <Navigation />
         <LogOutButton />
       </div>
+
       {isOpen && (
-        <ModalContainer toggle={toggle}>
+        <ModalContainer toggle={toggle} styleContainer={'tablet1024:hidden'} isOpen={isOpen}>
           <UserInfo />
           <Navigation toggle={toggle} />
           <LogOutButton />

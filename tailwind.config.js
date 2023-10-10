@@ -46,6 +46,7 @@ export default {
       iconSecondary: "#888D92",
       iconContrast: "#FFFFFF",
       iconBrand: "#1570EF",
+      iconBrandDark: "#1849A9",
       iconError: "#F04438",
       iconSuccess: "#12B76A",
       iconWarning: "#F79009",
