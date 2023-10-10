@@ -4,22 +4,18 @@ import { AppBar } from "./Header/AppBar";
 import { useAuth } from "../hooks";
 import { Container } from "./Сommon/Container";
 
-
-
-
-
 export const SharedLayout = () => {
-  const {isLoggedIn} = useAuth()
+  const { isLoggedIn } = useAuth();
   return (
     <>
-  {isLoggedIn && <AppBar />}
-      
+      {isLoggedIn && <AppBar />}
+
       <Suspense>
         <main>
           {" "}
           <Container>
             <Outlet />
-            </Container>
+          </Container>
         </main>
       </Suspense>
     </>
