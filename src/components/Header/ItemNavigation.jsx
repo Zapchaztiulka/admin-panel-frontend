@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { useToggleModal } from "../../hooks/useToggleModal";
 
-
 export const ItemNavigation = ({
   iconComponent: IconComponent,
   title,

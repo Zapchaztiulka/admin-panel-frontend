@@ -12,7 +12,11 @@ import {
   REGISTER,
 } from "redux-persist";
 import { optionsReduser } from "./options/optionsSlice";
+
 import { productsReduser } from "./products/productsSlice";
+
+import { chatReducer } from "./chat/slice";
+
 
 const authPersistConfig = {
   key: "auth",
@@ -24,6 +28,8 @@ export const store = configureStore({
     auth: persistReducer(authPersistConfig, authReducer),
     options: optionsReduser,
     products: productsReduser,
+    chat: chatReducer,
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

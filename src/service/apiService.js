@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://spares-backend-i2mq.onrender.com/api/";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
