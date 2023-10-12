@@ -52,8 +52,13 @@ export const updateProduct = async (productId, product) => {
   return data;
 };
 
-export const deleteProduct = async (productId) => {
+export const deleteProductById = async (productId) => {
   const { data } = await axios.delete(`products/${productId}`);
+  return data;
+};
+
+export const deleteMultipleProducts = async (products) => {
+  const { data } = await axios.delete(`products/`, products);
   return data;
 };
 

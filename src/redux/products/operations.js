@@ -13,3 +13,29 @@ export const fetchProducts = createAsyncThunk(
     }
   }
 );
+
+export const deleteProductById = createAsyncThunk(
+  "products/deleteProductByID",
+
+  async (productId, thunkAPI) => {
+    try {
+      const response = await api.deleteProductById(productId);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteMultipleProducts = createAsyncThunk(
+  "products/deleteMultipleProducts",
+
+  async (products, thunkAPI) => {
+    try {
+      const response = await api.deleteMultipleProducts(products);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
