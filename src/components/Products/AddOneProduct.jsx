@@ -43,7 +43,7 @@ export const AddOneProduct = () => {
     }
     return (
         <>
-            <Button />
+            {/* <Button /> */}
             <FlowCrumbs 
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}

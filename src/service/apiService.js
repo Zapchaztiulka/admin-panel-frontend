@@ -57,9 +57,9 @@ export const deleteProduct = async (productId) => {
   return data;
 };
 
-export const fetchProductByQuery = async (page, limit, query) => {
+export const fetchProducts = async ({ page = 1, limit = 10, query = "" }) => {
   const { data } = await axios.get(
-    `products?page=${page}&limit${limit}&query${query}`
+    `products?page=${page}&limit=${limit}&query=${query}`
   );
   return data;
 };
