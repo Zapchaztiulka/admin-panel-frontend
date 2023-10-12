@@ -7,8 +7,8 @@ import { ProductsNavigation } from "../components/Products/ProductsNavigation";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
-  const totalCount = useSelector(selectTotalCount);
+  // const products = useSelector(selectProducts);
+  // const totalCount = useSelector(selectTotalCount);
     useEffect(() => {
     dispatch(fetchProducts({
   page: 1,
@@ -18,8 +18,8 @@ const Products = () => {
       
     }, [dispatch]);
   
-  console.log(products);
-  console.log(totalCount);
+  // console.log(products);
+  // console.log(totalCount);
   return (
 
     <div>

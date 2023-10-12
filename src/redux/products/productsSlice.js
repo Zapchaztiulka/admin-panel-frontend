@@ -33,7 +33,6 @@ export const productsSlice = createSlice({
       .addCase(deleteMultipleProducts.rejected, handleRejected)
 
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        console.log(action);
         state.isLoading = false;
         state.error = null;
         state.products = action.payload;
