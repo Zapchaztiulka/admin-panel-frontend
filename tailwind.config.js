@@ -1,1 +1,1 @@
-export * from "universal-components-frontend/tailwind.config"
+export * from "./universal-components-frontend/tailwind.config"
