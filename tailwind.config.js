@@ -2,7 +2,7 @@
 export default {
   presets: [
     // eslint-disable-next-line no-undef
-    require('./universal-components-frontend/tailwind.config')
+    require('universal-components-frontend/tailwind.config.js')
   ],
   content: [
     './src/**/*.{html,js,jsx,ts,tsx}',
