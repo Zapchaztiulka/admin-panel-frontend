@@ -10,9 +10,9 @@ export const ArrowButton = ({ isOpen, buttonStyle, changeState }) => {
       className={`group-hover:rounded-minimal group-hover:bg-bgHoverGrey group-active:bg-bgPressedGrey group-active:rounded-minimal ${buttonStyle}`}
     >
       {isOpen ? (
-        <ArrowDownIcon className="stroke-iconSecondary" />
-      ) : (
         <ArrowUpIcon className="stroke-iconSecondary" />
+      ) : (
+        <ArrowDownIcon className="stroke-iconSecondary" />
       )}
     </button>
   );
@@ -21,5 +21,5 @@ export const ArrowButton = ({ isOpen, buttonStyle, changeState }) => {
 ArrowButton.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   buttonStyle: PropTypes.string,
-  changeState: PropTypes.func.isRequired
+  changeState: PropTypes.func.isRequired,
 };
