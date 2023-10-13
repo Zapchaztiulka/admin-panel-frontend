@@ -79,7 +79,7 @@ export const AddProductRoute = {
   path: "/products/add",
   element: (
     <PrivateRoute
-      component={<TemporaryComponent title="Додати товар" />}
+      component={<AddOneProduct />}
       redirectTo="/login"
     />
   ),
