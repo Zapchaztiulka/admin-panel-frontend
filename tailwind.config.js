@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import {theme} from "universal-components-frontend/presets"
+import {theme} from "universal-components-frontend/presets.js"
 export default {
   content: [
     './src/**/*.{html,js,jsx,ts,tsx}',
