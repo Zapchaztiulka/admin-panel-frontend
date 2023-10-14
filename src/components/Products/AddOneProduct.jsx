@@ -26,6 +26,8 @@ export const AddOneProduct = () => {
 
     const handleSubmit = (values) => {
         // тимчасова функція
+        
+        console.log(values, Number(values.price));
         const newProduct = {
             ...values, 
             manufacturer: {
@@ -41,7 +43,7 @@ export const AddOneProduct = () => {
     }
     return (
         <>
-            <DestructiveBtn children="my button" />
+            <DestructiveBtn children="button" />
             <FlowCrumbs 
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}
