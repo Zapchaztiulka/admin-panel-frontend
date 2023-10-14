@@ -8,7 +8,7 @@ import { Form, Formik } from 'formik';
 import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
 import { addProduct, getAllCategories } from '../../service/apiService';
 import { Select } from '../DynamicProperties/Options/Select';
-import DestructiveBtn from "universal-components-frontend/src/components/buttons/universalComponents/DestructiveBtn";
+// import Button from "universal-components-frontend/src/components/buttons/button"
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -19,7 +19,7 @@ export const AddOneProduct = () => {
       }, [dispatch]);
 
     const options = useSelector(selectAddProductOptions);
-    const initialValues = {};   
+    const initialValues = {};
     if(options) {
         options.map(el => el.key).forEach(el => initialValues[el]='');
     }
@@ -43,7 +43,7 @@ export const AddOneProduct = () => {
     }
     return (
         <>
-            <DestructiveBtn children="button" />
+            {/* <Button /> */}
             <FlowCrumbs 
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}
