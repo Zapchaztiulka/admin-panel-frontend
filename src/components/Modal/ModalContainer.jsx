@@ -34,7 +34,7 @@ export const ModalContainer = ({ toggle, children }) => {
   };
   return createPortal(
     <>
-      <div onClick={onBackdroplOpen} className="fixed z-40 top-0 left-0 w-[100vw] h-[100vh] bg-backdrop ">
+      <div onClick={onBackdroplOpen} className="fixed z-40 top-0 left-0 w-[100vw] h-[100vh] bg-aditional1 ">
               <div className="absolute z-30 top-0 left-0 pt-[24px] pb-[24px] pr-[16px] pl-[16px] w-[304px] h-[100vh]
                bg-bgGreyLigth rounded-tr-minimal rounded-br-minimal border-r-[1px] border-borderDefault border-solid
                mobile375:w-[347px]
