@@ -8,7 +8,32 @@ import {
   extraOptions768,
   mainSliderOptions,
 } from "../../utils/constants";
-
+const itemsArray = [
+          <BigButton
+            key="Додати товар"
+            to="edit"
+            text="Додати товар"
+            icon={<PlusIcon className="stroke-iconContrast" />}
+            linkstyle={"bg-bgBrandLight3 text-textContrast"}
+          />,
+          <BigButton
+            key="Множинне додавання товарі"
+            to="add"
+            text={"Множинне\nдодавання товарі"}
+            icon={<PlusIcon className="stroke-iconBrand " />}
+            linkstyle={"bg-bgBrandLight1 "}
+          />,
+          <BigButton
+            key="Імпортувати данні з таблиці"
+            to="adds"
+            text={"Імпортувати\nданні з таблиці"}
+            icon={<PlusIcon className="stroke-iconBrand " />}
+            linkstyle={"bg-bgBrandLight1 "}
+            bigIcon={
+              <ButtonBlockIcon className="absolute bottom-[0] left-[132px] fill-textBrand desktop1200:w-[138px] desktop1200:h-[109px]" />
+            }
+          />,
+        ]
 export const ProductsNavigation = () => {
   const [isMobile480, setIsMobile480] = useState(
     window.innerWidth >= 480 && window.innerWidth < 768
@@ -37,32 +62,7 @@ export const ProductsNavigation = () => {
           (isTablet768 && extraOptions768) ||
           (isDesktop1200 && extraOptions1200)
         }
-        itemsArray={[
-          <BigButton
-            key="Додати товар"
-            to="edit"
-            text="Додати товар"
-            icon={<PlusIcon className="stroke-iconContrast" />}
-            linkstyle={"bg-bgBrandLight3 text-textContrast"}
-          />,
-          <BigButton
-            key="Множинне додавання товарі"
-            to="add"
-            text={"Множинне\nдодавання товарі"}
-            icon={<PlusIcon className="stroke-iconBrand " />}
-            linkstyle={"bg-bgBrandLight1 "}
-          />,
-          <BigButton
-            key="Імпортувати данні з таблиці"
-            to="adds"
-            text={"Імпортувати\nданні з таблиці"}
-            icon={<PlusIcon className="stroke-iconBrand " />}
-            linkstyle={"bg-bgBrandLight1 "}
-            bigIcon={
-              <ButtonBlockIcon className="absolute bottom-[0] left-[132px] fill-textBrand desktop1200:w-[138px] desktop1200:h-[109px]" />
-            }
-          />,
-        ]}
+        itemsArray={itemsArray}
       />
     </div>
   );
