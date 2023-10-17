@@ -1,13 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../redux/products/operations";
-// import { selectProducts, selectTotalCount } from "../redux/products/selectors";
 import { ProductsNavigation } from "../components/Products/ProductsNavigation";
 
 const Products = () => {
   const dispatch = useDispatch();
-  // const products = useSelector(selectProducts);
-  // const totalCount = useSelector(selectTotalCount);
+
   useEffect(() => {
     dispatch(
       fetchProducts({
@@ -18,16 +16,10 @@ const Products = () => {
     );
   }, [dispatch]);
 
-  // console.log(products);
-  // console.log(totalCount);
-
-
   return (
     <>
       <h1>Products.....</h1>
-<ProductsNavigation />
-    
-
+      <ProductsNavigation />
     </>
   );
 };
