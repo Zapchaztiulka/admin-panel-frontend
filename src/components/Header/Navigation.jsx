@@ -186,7 +186,7 @@ export const Navigation = () => {
               {" "}
               <ItemNavigation
                 style="relative mt-[24px] "
-                styleBefore="before:content-[''] before:absolute before:top-[-16px] before:left-0 
+                styleBefore="before:content-[''] before:absolute before:top-[-16px] before:left-[0] 
             before:block before:w-[226px] before:h-[1px] before:bg-borderDefault"
                 to="/manager"
                 title="Менеджери"

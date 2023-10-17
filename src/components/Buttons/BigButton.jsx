@@ -10,10 +10,10 @@ export const BigButton = ({
   bigIcon: BigIcon,
 }) => {
   return (
-    <div className="w-[230px] h-[116px] relative">
+    <div className="w-[230px] h-[116px] relative desktop1200:w-[270px] overflow-hidden">
       <Link
         to={to}
-        className={`flex gap-[8px] items-end w-[230px] h-[116px] pl-[12px] pr-[12px] pb-[16px]
+        className={`flex gap-[8px] items-end w-[100%] h-[116px] pl-[12px] pr-[12px] pb-[16px]
                rounded-[8px] ${linkstyle} text-[16px] font-500 leading-[1.4] tracking-[-0.24px]
                 text-textBrand  whitespace-pre-wrap`}
       >
