@@ -1,4 +1,5 @@
-export const updateUserStatus = (userId, isOnline) => ({
-  type: "UPDATE_USER_STATUS",
-  payload: { userId, isOnline },
-});
+export const updateUserStatus = "UPDATE_USER_STATUS";
+
+export const updateIsChatRoomOpen = "UPDATE_IS_CHATROOM_OPEN";
+
+export const updateManager = "UPDATE_MANAGER";
