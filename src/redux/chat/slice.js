@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getChatRoomsInProgress } from "./operations";
-import { updateUserStatus } from "./actions";
+import {
+  updateUserStatus,
+  updateIsChatRoomOpen,
+  updateManager,
+} from "./actions";
 
 const handlePending = (state) => {
   state.isLoading = true;
@@ -22,6 +26,8 @@ export const chatSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+
+      // slices to connect to database
       .addCase(getChatRoomsInProgress.pending, handlePending)
       .addCase(getChatRoomsInProgress.fulfilled, (state, { payload }) => {
         Object.assign(state, payload);
@@ -30,11 +36,39 @@ export const chatSlice = createSlice({
       })
       .addCase(getChatRoomsInProgress.rejected, handleRejected)
 
+      // slices to update only Redux state
+      .addCase(updateManager, (state, { payload }) => {
+        const {
+          roomId,
+          manager: { id, username, userSurname },
+          isChatRoomProcessed,
+        } = payload;
+
+        const roomIndex = state.chatRooms.findIndex(
+          (room) => room._id === roomId
+        );
+
+        if (roomIndex !== -1) {
+          state.chatRooms[roomIndex].managerId = id;
+          state.chatRooms[roomIndex].managerName = username;
+          state.chatRooms[roomIndex].managerSurname = userSurname;
+          state.chatRooms[roomIndex].isChatRoomProcessed = isChatRoomProcessed;
+        }
+      })
+
       .addCase(updateUserStatus, (state, { payload }) => {
         const { userId, isOnline } = payload;
         const chatRoom = state.chatRooms.find((room) => room.userId === userId);
         if (chatRoom) {
           chatRoom.isOnline = isOnline;
+        }
+      })
+
+      .addCase(updateIsChatRoomOpen, (state, { payload }) => {
+        const { userId, isChatRoomOpen } = payload;
+        const chatRoom = state.chatRooms.find((room) => room.userId === userId);
+        if (chatRoom) {
+          chatRoom.isChatRoomOpen = isChatRoomOpen;
         }
       });
   },
