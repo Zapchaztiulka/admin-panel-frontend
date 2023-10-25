@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-// import { myPreset } from "./presets";
+import myPreset from "./presets";
 // import myPreset from "universal-components-frontend/preset";
 
 export default {
@@ -10,7 +10,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  presets: [],
+  presets: [myPreset],
   theme: {
     extend: {},
   },

@@ -1,2 +1,2 @@
-// import myPreset from "universal-components-frontend/preset";
-// export { myPreset };
+import myPreset from "universal-components-frontend/preset";
+export default myPreset;
