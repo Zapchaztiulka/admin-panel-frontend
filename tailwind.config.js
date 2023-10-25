@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-// import myPreset from "./presets";
-import myPreset from "universal-components-frontend/preset";
+import { myPreset } from "./presets";
+// import myPreset from "universal-components-frontend/preset";
 
 export default {
   content: [
