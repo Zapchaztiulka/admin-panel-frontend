@@ -19,8 +19,6 @@ export const ChatRoomList = () => {
   const chatRoomsInProgress = useSelector(selectChatRooms);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedChatRoom, setSelectedChatRoom] = useState(null);
-  const [isUserOnline, setIsUserOnline] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const sortedChatRooms = chatRoomsInProgress?.toSorted(
     (a, b) => b.isOnline - a.isOnline
@@ -45,8 +43,7 @@ export const ChatRoomList = () => {
 
   // update chat room when user enters in chat or close one
   useEffect(() => {
-    socket.on("userStatusChanged", ({ userId, isOnline, serverMessage }) => {
-      setIsUserOnline(serverMessage);
+    socket.on("userStatusChanged", ({ userId, isOnline }) => {
       dispatch(getChatRoomsInProgress());
       dispatch({ type: updateUserStatus, payload: { userId, isOnline } });
 
@@ -65,17 +62,13 @@ export const ChatRoomList = () => {
 
   // update chat room when user rolling up a chat room or unfolds one
   useEffect(() => {
-    socket.on(
-      "chatRoomOpenChanged",
-      ({ userId, isChatRoomOpen, serverMessage }) => {
-        setIsChatOpen(serverMessage);
-        dispatch(getChatRoomsInProgress());
-        dispatch({
-          type: updateIsChatRoomOpen,
-          payload: { userId, isChatRoomOpen },
-        });
-      }
-    );
+    socket.on("chatRoomOpenChanged", ({ userId, isChatRoomOpen }) => {
+      dispatch(getChatRoomsInProgress());
+      dispatch({
+        type: updateIsChatRoomOpen,
+        payload: { userId, isChatRoomOpen },
+      });
+    });
 
     return () => {
       socket.off("chatRoomOpenChanged");
@@ -109,8 +102,6 @@ export const ChatRoomList = () => {
         <ChatWithClient
           chatRoom={selectedChatRoom}
           onBackClick={handleBackClick}
-          isUserOnline={isUserOnline}
-          isChatOpen={isChatOpen}
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import "./slyles.css";
-import { formatDate } from "../../../helpers";
+import { formatDate } from "../../../utils/formatDate";
 
 export const ChatRoomCard = ({ room, onConnectClick }) => {
   return (
