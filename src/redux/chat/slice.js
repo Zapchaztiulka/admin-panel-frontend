@@ -4,6 +4,7 @@ import {
   updateUserStatus,
   updateIsChatRoomOpen,
   updateManager,
+  addMessage,
 } from "./actions";
 
 const handlePending = (state) => {
@@ -70,6 +71,20 @@ export const chatSlice = createSlice({
         if (chatRoom) {
           chatRoom.isChatRoomOpen = isChatRoomOpen;
         }
+      })
+
+      .addCase(addMessage, (state, { payload }) => {
+        const { roomId, message } = payload;
+
+        state.chatRooms = state.chatRooms.map((room) => {
+          if (room._id === roomId) {
+            return {
+              ...room,
+              messages: [...room.messages, message],
+            };
+          }
+          return room;
+        });
       });
   },
 });

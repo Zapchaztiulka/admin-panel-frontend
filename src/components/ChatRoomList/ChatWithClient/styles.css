@@ -1,0 +1,5 @@
+.message-container {
+  max-height: calc(100vh - 15vh);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
