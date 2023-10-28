@@ -1,9 +1,3 @@
-footer {
-  position: absolute;
-  bottom: 0px;
-  width: calc(100% - 282px);
-}
-
 .input-style {
   @apply p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer
   hover:bg-bgHoverGrey hover:border-borderActive border-t border-solid border-borderDefault 

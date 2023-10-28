@@ -1,18 +1,26 @@
-import { format, parseISO } from 'date-fns';
-import ukLocale from 'date-fns/locale/uk';
+import { format, parseISO, fromUnixTime } from "date-fns";
+import ukLocale from "date-fns/locale/uk";
 
-export const formatDate = stringDate => {
-  if (typeof stringDate !== 'string') {
-    return 'Invalid Date';
+export const formatDate = (date) => {
+  if (typeof date === "number") {
+    const dateObject = fromUnixTime(date / 1000);
+    if (isNaN(dateObject)) {
+      return "Invalid Date";
+    }
+    return format(dateObject, "PPpp", {
+      locale: ukLocale,
+    });
+  } else if (typeof date === "string") {
+    const parsedDate = parseISO(date);
+
+    if (isNaN(parsedDate)) {
+      return "Invalid Date";
+    }
+
+    return format(parsedDate, "PPpp", {
+      locale: ukLocale,
+    });
+  } else {
+    return "Invalid Date";
   }
-
-  const parsedDate = parseISO(stringDate);
-
-  if (isNaN(parsedDate)) {
-    return 'Invalid Date';
-  }
-
-  return format(parsedDate, 'PPpp', {
-    locale: ukLocale,
-  });
 };

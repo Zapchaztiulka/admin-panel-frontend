@@ -29,12 +29,12 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
   const [isSendingFile, setIsSendingFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
-  const userId = localStorage.getItem("userId");
 
   // handle closing of chat room
   const handleCloseChat = () => {
     if (activeChatRoom) {
-      dispatch(closeChatRoom({ chatRoomId: activeChatRoom._id, userId }));
+      const { _id, userId } = activeChatRoom;
+      dispatch(closeChatRoom({ chatRoomId: _id, userId }));
     }
   };
 
@@ -59,16 +59,16 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
   const handleSubmitMessage = () => {
     if (message.trim() === "") return;
 
+    const { _id, userId } = activeChatRoom;
     const messageData = {
-      userId: activeChatRoom.userId,
-      roomId: activeChatRoom._id,
+      userId,
+      roomId: _id,
       message: {
         messageOwner: manager.role,
         messageType: "text",
         messageText: message,
       },
     };
-    console.log("🚀 ~  messageData:", messageData);
 
     dispatch({
       type: addMessage,
@@ -90,9 +90,11 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
       formData.append("chatImageURL", selectedFile);
       sendFile(formData)
         .then((data) => {
+          const { _id, userId } = activeChatRoom;
+
           const messageData = {
-            userId: activeChatRoom.userId,
-            roomId: activeChatRoom._id,
+            userId,
+            roomId: _id,
             message: {
               messageOwner: manager.role,
               messageType: "image",
@@ -228,10 +230,9 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
             <div className="flex gap-xs py-xs justify-center fade-in">
               <PrimaryBtn>Розпочати діалог</PrimaryBtn>
               <DestructiveBtn
-                disabled
-                to="/chatbot"
+                to="/"
                 onClick={() => {
-                  handleCloseChat(), onBackClick();
+                  handleCloseChat(), onBackClick;
                 }}
               >
                 Завершити діалог

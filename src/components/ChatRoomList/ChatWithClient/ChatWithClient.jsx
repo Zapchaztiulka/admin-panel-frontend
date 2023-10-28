@@ -8,7 +8,12 @@ import { MessageTemplate } from "../MessageTemplate";
 import { ChatFooter } from "../ChatFooter";
 import { selectUser } from "../../../redux/auth/selectors";
 import { selectActiveChatRoom } from "../../../redux/chat/selectors";
-import { updateManager, addMessage } from "../../../redux/chat/actions";
+import {
+  updateManager,
+  updateIsChatRoomOpen,
+  closeChatByUser,
+  addMessage,
+} from "../../../redux/chat/actions";
 
 export const ChatWithClient = ({ chatRoom, onBackClick }) => {
   const dispatch = useDispatch();
@@ -46,6 +51,66 @@ export const ChatWithClient = ({ chatRoom, onBackClick }) => {
     };
   }, [dispatch]);
 
+  // handle to close chat by User
+  useEffect(() => {
+    socket.on("closeChatByUser", ({ room }) => {
+      dispatch({
+        type: closeChatByUser,
+        payload: { room },
+      });
+
+      const messageData = {
+        roomId: room._id,
+        message: {
+          messageOwner: "Бот",
+          messageType: "text",
+          messageText: "Клієнт завершив чат. Переходьте до іншого",
+          createdAt: Date.now(),
+        },
+      };
+
+      dispatch({
+        type: addMessage,
+        payload: messageData,
+      });
+    });
+
+    return () => {
+      socket.off("closeChatByUser");
+    };
+  }, [dispatch]);
+
+  // update chat room and send message to manager when user rolling up a chat room or unfolds one
+  useEffect(() => {
+    socket.on("chatRoomOpenChanged", ({ userId, roomId, isChatRoomOpen }) => {
+      dispatch({
+        type: updateIsChatRoomOpen,
+        payload: { userId, isChatRoomOpen },
+      });
+
+      const messageData = {
+        roomId,
+        message: {
+          messageOwner: "Бот",
+          messageType: "text",
+          messageText: isChatRoomOpen
+            ? "Клієнт розгорнув чат. Продовжуйте обслуговування"
+            : "Клієнт згорнув чат. Зачекайте або перейдіть в інший чат для обслуговування іншого клієнта",
+          createdAt: Date.now(),
+        },
+      };
+
+      dispatch({
+        type: addMessage,
+        payload: messageData,
+      });
+    });
+
+    return () => {
+      socket.off("chatRoomOpenChanged");
+    };
+  }, [dispatch]);
+
   // automatic scroll when new message is added
   useEffect(() => {
     if (messageContainerRef.current) {
@@ -78,7 +143,9 @@ export const ChatWithClient = ({ chatRoom, onBackClick }) => {
                 key={_id}
                 owner={
                   messageOwner === "user"
-                    ? `Клієнт ${activeChatRoom.username}`
+                    ? `Клієнт - ${activeChatRoom.username} ${activeChatRoom.userSurname}`
+                    : messageOwner === "Бот"
+                    ? "Бот"
                     : "Ви"
                 }
                 type={messageType}

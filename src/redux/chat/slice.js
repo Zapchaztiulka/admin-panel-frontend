@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getChatRoomsInProgress } from "./operations";
+import { getChatRoomsInProgress, closeChatRoom } from "./operations";
 import {
+  createChatByUser,
   updateUserStatus,
   updateIsChatRoomOpen,
   updateManager,
+  closeChatByUser,
   addMessage,
 } from "./actions";
 
@@ -37,7 +39,29 @@ export const chatSlice = createSlice({
       })
       .addCase(getChatRoomsInProgress.rejected, handleRejected)
 
+      .addCase(closeChatRoom.pending, handlePending)
+      .addCase(closeChatRoom.fulfilled, (state, { payload }) => {
+        const roomIndex = state.chatRooms.findIndex(
+          (room) => room._id === payload.roomId
+        );
+
+        if (roomIndex !== -1) {
+          state.chatRooms[roomIndex].chatRoomStatus = "completed";
+          state.chatRooms[roomIndex].isChatRoomProcessed = false;
+        }
+
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(closeChatRoom.rejected, handleRejected)
+
       // slices to update only Redux state
+      .addCase(createChatByUser, (state, { payload }) => {
+        const { room, isOnline, username, userSurname } = payload;
+        const newRoom = { ...room, isOnline, username, userSurname };
+        state.chatRooms.push(newRoom);
+      })
+
       .addCase(updateManager, (state, { payload }) => {
         const {
           roomId,
@@ -70,6 +94,18 @@ export const chatSlice = createSlice({
         const chatRoom = state.chatRooms.find((room) => room.userId === userId);
         if (chatRoom) {
           chatRoom.isChatRoomOpen = isChatRoomOpen;
+        }
+      })
+
+      .addCase(closeChatByUser, (state, { payload }) => {
+        const chatRoom = state.chatRooms.find(
+          (room) => room._id === payload.room._id
+        );
+        if (chatRoom) {
+          chatRoom.chatRoomStatus = "completed";
+          chatRoom.isChatRoomOpen = false;
+          chatRoom.isChatRoomProcessed = false;
+          chatRoom.isOnline = false;
         }
       })
 

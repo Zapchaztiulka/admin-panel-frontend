@@ -17,9 +17,12 @@ export const closeChatRoom = createAsyncThunk(
   "chat/closeChat",
   async ({ chatRoomId, userId }, thunkAPI) => {
     try {
-      const { data } = await axios.patch(`/chats/chatRoom/${chatRoomId}`, {
-        userId,
-      });
+      const { data } = await axios.patch(
+        `/chats/closeChatByManager/${chatRoomId}`,
+        {
+          userId,
+        }
+      );
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
