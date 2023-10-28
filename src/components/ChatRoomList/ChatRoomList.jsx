@@ -10,6 +10,8 @@ import { selectToken } from "../../redux/auth/selectors";
 import {
   updateUserStatus,
   updateIsChatRoomOpen,
+  createChatByUser,
+  addMessage,
 } from "../../redux/chat/actions";
 import { getChatRoomsInProgress } from "../../redux/chat/operations";
 
@@ -41,10 +43,40 @@ export const ChatRoomList = () => {
     dispatch(getChatRoomsInProgress());
   }, [dispatch]);
 
+  // handle to create new chat by User
+  useEffect(() => {
+    socket.on(
+      "createChatByUser",
+      ({ room, isOnline, username, userSurname }) => {
+        dispatch({
+          type: createChatByUser,
+          payload: { room, isOnline, username, userSurname },
+        });
+      }
+    );
+
+    return () => {
+      socket.off("createChatByUser");
+    };
+  }, [dispatch]);
+
+  // handle new message from user
+  useEffect(() => {
+    socket.on("userMessage", ({ roomId, message }) => {
+      dispatch({
+        type: addMessage,
+        payload: { roomId, message },
+      });
+    });
+
+    return () => {
+      socket.off("userMessage");
+    };
+  }, [dispatch]);
+
   // update chat room when user enters in chat or close one
   useEffect(() => {
     socket.on("userStatusChanged", ({ userId, isOnline }) => {
-      dispatch(getChatRoomsInProgress());
       dispatch({ type: updateUserStatus, payload: { userId, isOnline } });
 
       if (isOnline === false) {
@@ -57,21 +89,6 @@ export const ChatRoomList = () => {
 
     return () => {
       socket.off("userStatusChanged");
-    };
-  }, [dispatch]);
-
-  // update chat room when user rolling up a chat room or unfolds one
-  useEffect(() => {
-    socket.on("chatRoomOpenChanged", ({ userId, isChatRoomOpen }) => {
-      dispatch(getChatRoomsInProgress());
-      dispatch({
-        type: updateIsChatRoomOpen,
-        payload: { userId, isChatRoomOpen },
-      });
-    });
-
-    return () => {
-      socket.off("chatRoomOpenChanged");
     };
   }, [dispatch]);
 
@@ -88,22 +105,34 @@ export const ChatRoomList = () => {
   }
 
   return (
-    <div className="flex flex-col gap-m py-xs2">
-      {!selectedChatRoom &&
-        sortedChatRooms &&
-        sortedChatRooms.map((room) => (
-          <ChatRoomCard
-            key={room._id}
-            room={room}
-            onConnectClick={() => handleConnectClick(room)}
-          />
-        ))}
-      {selectedChatRoom && (
-        <ChatWithClient
-          chatRoom={selectedChatRoom}
-          onBackClick={handleBackClick}
-        />
-      )}
+    <div className="h-screen">
+      <h6 className="font-sans font-400 text-textTertiary text-sm leading-5 mb-m">
+        Чатбот / <span className="text-textPrimary">Чати з клієнтами</span>
+      </h6>
+      <h1 className="font-sans font-500 text-textTertiary text-xl leading-6 mb-m">
+        Чати з клієнтами
+      </h1>
+      <section className="flex w-full h-5/6">
+        <div></div>
+        <div className="flex flex-col w-1/3 p-xs border border-solid border-borderDefault rounded-medium bg-bgWhite">
+          {sortedChatRooms &&
+            sortedChatRooms.map((room) => (
+              <ChatRoomCard
+                key={room._id}
+                room={room}
+                onConnectClick={() => handleConnectClick(room)}
+              />
+            ))}
+        </div>
+        <div className="flex flex-col w-2/3 p-xs border border-solid border-borderDefault bg-bgWhite justify-between">
+          {selectedChatRoom && (
+            <ChatWithClient
+              chatRoom={selectedChatRoom}
+              onBackClick={handleBackClick}
+            />
+          )}
+        </div>
+      </section>
     </div>
   );
 };

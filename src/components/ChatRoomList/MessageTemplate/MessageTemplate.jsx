@@ -10,7 +10,9 @@ export const MessageTemplate = ({ owner = "Бот", text, type, time }) => {
                   ${
                     owner === "Ви"
                       ? "bg-bgBrandLight1 self-end"
-                      : "bg-bgGreyLigth self-start"
+                      : owner === "Бот"
+                      ? "bg-bgGreyLigth self-start"
+                      : "bg-bgBrandLight2 self-start"
                   }
                   ${
                     type !== "text" &&
