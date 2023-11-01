@@ -1,15 +1,14 @@
 import { lazy } from "react";
 import { useRoutes } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 import { TemporaryComponent } from "./components/TemporaryComponent";
 import { RegisterForm } from "./components/Forms/RegisterForm";
 import { SharedLayout } from "./components/SharedLayout";
 
 import { RestrictedRoute } from "./components/Routes/RestrictedRoute";
-
 import { PrivateRoute } from "./components/Routes/PrivateRoute";
 import { PrivateRouteSuperAdmin } from "./components/Routes/PrivateRouteSuperAdmin";
 import { AddOneProduct } from "./components/Products/AddOneProduct";
-
 
 const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));
@@ -64,40 +63,70 @@ export const LogInRoute = {
 export const ProductsRoute = {
   path: "/products",
 
-  element: <PrivateRoute component={<ProductsPage />} redirectTo="/login" />,
+  element: (
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the Product page" />
+      }
+    >
+      <PrivateRoute component={<ProductsPage />} redirectTo="/login" />
+    </ErrorBoundary>
+  ),
 };
 export const ProductByIDRoute = {
   path: "/products/:productId",
   element: (
-    <PrivateRoute
-      component={<TemporaryComponent title="Один товар" />}
-      redirectTo="/login"
-    />
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the ProductByID page" />
+      }
+    >
+      <PrivateRoute
+        component={<TemporaryComponent title="Один товар" />}
+        redirectTo="/login"
+      />
+    </ErrorBoundary>
   ),
 };
 export const AddProductRoute = {
   path: "/products/add",
   element: (
-    <PrivateRoute
-      component={<AddOneProduct />}
-      redirectTo="/login"
-    />
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the AddProduct page" />
+      }
+    >
+      <PrivateRoute component={<AddOneProduct />} redirectTo="/login" />
+    </ErrorBoundary>
   ),
-
 };
 export const MultipleAddProductRoute = {
   path: "/products/multipleadd",
   element: (
-    <PrivateRoute
-      component={<TemporaryComponent title="Додати товар" />}
-      redirectTo="/login"
-    />
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the MultipleAddProduct page" />
+      }
+    >
+      <PrivateRoute
+        component={<TemporaryComponent title="Додати товар" />}
+        redirectTo="/login"
+      />
+    </ErrorBoundary>
   ),
 };
 
 export const ClientsRoute = {
   path: "/clients",
-  element: <PrivateRoute component={<ClientsPage />} redirectTo="/login" />,
+  element: (
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the Clients page" />
+      }
+    >
+      <PrivateRoute component={<ClientsPage />} redirectTo="/login" />
+    </ErrorBoundary>
+  ),
 };
 
 export const OrdersRoute = {
@@ -106,32 +135,58 @@ export const OrdersRoute = {
   children: [
     {
       path: "pending",
-      element: <TemporaryComponent title="Нові замовлення" />,
+      element: (
+        <ErrorBoundary
+          fallback={
+            <TemporaryComponent title="Something went wrong on the Orders/pending page" />
+          }
+        >
+          <TemporaryComponent title="Нові замовлення" />
+        </ErrorBoundary>
+      ),
     },
     {
       path: "processed",
-      element: <TemporaryComponent title="Опрацьовані замовлення" />,
+      element: (
+        <ErrorBoundary
+          fallback={
+            <TemporaryComponent title="Something went wrong on the Orders/processed page" />
+          }
+        >
+          <TemporaryComponent title="Опрацьовані замовлення" />
+        </ErrorBoundary>
+      ),
     },
   ],
 };
 
 export const ChatbotRoute = {
   path: "/chatbot",
-  element: <PrivateRoute component={<ChatbotPage />} redirectTo="/login" />,
+  element: (
+     <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Chatbot page'/>}>
+      <PrivateRoute component={<ChatbotPage />} redirectTo="/login" />
+      </ErrorBoundary>
+      ),
 };
 
 export const AdminProfileRoute = {
   path: "/profile",
-  element: <PrivateRoute component={<MyProfilePage />} redirectTo="/login" />,
+  element: (
+         <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the AdminProfile page'/>}>
+      <PrivateRoute component={<MyProfilePage />} redirectTo="/login" />
+      </ErrorBoundary> 
+      ),
 };
 //
 export const ManagerByIDRoute = {
   path: "/manager/:managerId",
   element: (
+      <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the ManagerByIDRoute page'/>}>
     <PrivateRouteSuperAdmin
       component={<TemporaryComponent title="Інфо по одному менеджеру" />}
       redirectTo="/login"
-    />
+      />
+      </ErrorBoundary>
   ),
 };
 export const ManagerRoute = {
@@ -140,11 +195,19 @@ export const ManagerRoute = {
     <PrivateRouteSuperAdmin component={<ManagersPage />} redirectTo="/" />
   ),
   children: [
-    { path: "add", element: <RegisterForm /> },
+    {
+      path: "add", element: (
+        <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Manager/add page'/>}>
+          <RegisterForm />
+          </ErrorBoundary>
+          )
+    },
     {
       path: "statistics",
       element: (
-        <TemporaryComponent title="Інфо/статистика по кожному менеджер" />
+          <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Manager/statistics page'/>}>
+          <TemporaryComponent title="Інфо/статистика по кожному менеджер" />
+          </ErrorBoundary>
       ),
     },
   ],
@@ -153,9 +216,11 @@ export const ManagerRoute = {
 export const StaticRoute = {
   path: "/static",
   element: (
+    <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Static page'/>}>
     <PrivateRouteSuperAdmin
       component={<TemporaryComponent title="Статична інформація" />}
       redirectTo="/login"
-    />
+      />
+      </ErrorBoundary>
   ),
 };

@@ -42,6 +42,7 @@ export const ProductsNavigation = () => {
     window.innerWidth >= 768 && window.innerWidth < 1200
   );
   const [isDesktop1200, setIsDesktop1200] = useState(window.innerWidth >= 1200);
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile480(window.innerWidth >= 480 && window.innerWidth < 768);
