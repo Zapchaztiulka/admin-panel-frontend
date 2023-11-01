@@ -163,30 +163,42 @@ export const OrdersRoute = {
 export const ChatbotRoute = {
   path: "/chatbot",
   element: (
-     <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Chatbot page'/>}>
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the Chatbot page" />
+      }
+    >
       <PrivateRoute component={<ChatbotPage />} redirectTo="/login" />
-      </ErrorBoundary>
-      ),
+    </ErrorBoundary>
+  ),
 };
 
 export const AdminProfileRoute = {
   path: "/profile",
   element: (
-         <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the AdminProfile page'/>}>
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the AdminProfile page" />
+      }
+    >
       <PrivateRoute component={<MyProfilePage />} redirectTo="/login" />
-      </ErrorBoundary> 
-      ),
+    </ErrorBoundary>
+  ),
 };
 //
 export const ManagerByIDRoute = {
   path: "/manager/:managerId",
   element: (
-      <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the ManagerByIDRoute page'/>}>
-    <PrivateRouteSuperAdmin
-      component={<TemporaryComponent title="Інфо по одному менеджеру" />}
-      redirectTo="/login"
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the ManagerByIDRoute page" />
+      }
+    >
+      <PrivateRouteSuperAdmin
+        component={<TemporaryComponent title="Інфо по одному менеджеру" />}
+        redirectTo="/login"
       />
-      </ErrorBoundary>
+    </ErrorBoundary>
   ),
 };
 export const ManagerRoute = {
@@ -196,18 +208,27 @@ export const ManagerRoute = {
   ),
   children: [
     {
-      path: "add", element: (
-        <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Manager/add page'/>}>
+      path: "add",
+      element: (
+        <ErrorBoundary
+          fallback={
+            <TemporaryComponent title="Something went wrong on the Manager/add page" />
+          }
+        >
           <RegisterForm />
-          </ErrorBoundary>
-          )
+        </ErrorBoundary>
+      ),
     },
     {
       path: "statistics",
       element: (
-          <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Manager/statistics page'/>}>
+        <ErrorBoundary
+          fallback={
+            <TemporaryComponent title="Something went wrong on the Manager/statistics page" />
+          }
+        >
           <TemporaryComponent title="Інфо/статистика по кожному менеджер" />
-          </ErrorBoundary>
+        </ErrorBoundary>
       ),
     },
   ],
@@ -216,11 +237,15 @@ export const ManagerRoute = {
 export const StaticRoute = {
   path: "/static",
   element: (
-    <ErrorBoundary  fallback={<TemporaryComponent title='Something went wrong on the Static page'/>}>
-    <PrivateRouteSuperAdmin
-      component={<TemporaryComponent title="Статична інформація" />}
-      redirectTo="/login"
+    <ErrorBoundary
+      fallback={
+        <TemporaryComponent title="Something went wrong on the Static page" />
+      }
+    >
+      <PrivateRouteSuperAdmin
+        component={<TemporaryComponent title="Статична інформація" />}
+        redirectTo="/login"
       />
-      </ErrorBoundary>
+    </ErrorBoundary>
   ),
 };
