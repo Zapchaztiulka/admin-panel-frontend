@@ -6,7 +6,7 @@ export const getValitadionSchemaLoginForm = () => {
   const emailValidationText = "Не дійсна електронна пошта";
   const passwordRegExp = "^(?=.*[a-z])(?=.*[A-Z]).{6,}$";
   const passwordValidationText =
-    "Пароль повинен містити не менше 6 символів та мати хоча б одну велику та малу літери";
+    "Має містити щонайменше 6 цифр або букв латинського алфавіту, принаймні одну велику і одну маленьку літеру";
   return yup.object().shape({
     email: yup
       .string()

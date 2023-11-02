@@ -5,7 +5,7 @@ import { ProductsNavigation } from "../components/Products/ProductsNavigation";
 
 const Products = () => {
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
     dispatch(
       fetchProducts({
