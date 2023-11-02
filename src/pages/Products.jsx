@@ -5,7 +5,7 @@ import { ProductsNavigation } from "../components/Products/ProductsNavigation";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const arrayQ = [];
+ 
   useEffect(() => {
     dispatch(
       fetchProducts({
@@ -20,9 +20,6 @@ const Products = () => {
     <>
       <h1>Products.....</h1>
       <ProductsNavigation />
-      {arrayQ.map(item => 
-      (  <div key={item}>{item}</div>)
-      )}
     </>
   );
 };

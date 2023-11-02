@@ -23,8 +23,8 @@ const handlePending = (state) => {
 export const authSlice = createSlice({
   name: "auth",
   initialState: authInitialState,
-  extraReducers: (biulder) => {
-    biulder
+  extraReducers: (builder) => {
+    builder
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload;
         state.token = action.payload.token;
