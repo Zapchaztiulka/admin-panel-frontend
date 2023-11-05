@@ -1,7 +1,7 @@
 .input-style {
   @apply p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer
-  hover:bg-bgHoverGrey hover:border-borderActive border-t border-solid border-borderDefault 
-  focus:border-borderDefault;
+   hover:bg-bgHoverGrey hover:border-borderActive border-y
+   border-solid border-borderDefault focus:border-borderDefault;
 }
 
 textarea:focus {
@@ -13,7 +13,7 @@ textarea:focus {
 }
 
 .icon-style {
-  @apply absolute right-xs top-1/2 transform -translate-y-1/2;
+  @apply absolute right-xs top-[44%] transform -translate-y-[44%];
 }
 
 @keyframes fade-in {

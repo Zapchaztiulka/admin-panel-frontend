@@ -1,24 +1,24 @@
 .prime {
-  @apply font-sans font-600 p-xs text-base leading-6 tracking-button
+  @apply font-sans font-500 py-xs px-m text-base leading-6 tracking-button
        text-textContrast bg-bgDefaultBlue hover:bg-bgHoverBlue 
        focus:outline-none rounded-medium transition-colors 
        duration-300;
 }
 
 .prime-disabled {
-  @apply font-sans font-600 p-xs text-base leading-6 tracking-button
+  @apply font-sans font-500 py-xs px-m text-base leading-6 tracking-button
        text-textDisabled bg-bgDisable rounded-medium cursor-not-allowed;
 }
 
 .destructive {
-  @apply font-sans font-600 px-l py-xs text-base leading-6 tracking-button
+  @apply font-sans font-500 py-xs px-m text-base leading-6 tracking-button
        text-textContrast  bg-bgDefaultDestructive
        hover:bg-bgHoverDestructive focus:outline-none 
        rounded-medium transition-colors duration-300;
 }
 
 .destructive-disabled {
-  @apply font-sans font-600 px-l py-xs text-base leading-6 tracking-button
+  @apply font-sans font-500 py-xs px-m text-base leading-6 tracking-button
        text-textDisabled bg-bgDisable border border-solid
        border-borderDisabled rounded-medium cursor-not-allowed;
 }

@@ -6,16 +6,18 @@ import { socket } from "../socket";
 import "./styles.css";
 import { MessageTemplate } from "../MessageTemplate";
 import { ChatFooter } from "../ChatFooter";
+import { InfoIcon } from "../../../images/icons";
+import { cutFirstLetter } from "../../../utils";
+
 import { selectUser } from "../../../redux/auth/selectors";
 import { selectActiveChatRoom } from "../../../redux/chat/selectors";
 import {
   updateManager,
-  updateIsChatRoomOpen,
-  closeChatByUser,
+  closeChat,
   addMessage,
 } from "../../../redux/chat/actions";
 
-export const ChatWithClient = ({ chatRoom, onBackClick }) => {
+export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
   const dispatch = useDispatch();
   const manager = useSelector(selectUser);
   const messageContainerRef = useRef(null);
@@ -23,8 +25,24 @@ export const ChatWithClient = ({ chatRoom, onBackClick }) => {
     selectActiveChatRoom(state, chatRoom._id)
   );
 
-  // send emit when manager entered in chat room and update Redux state
-  useEffect(() => {
+  const {
+    userId,
+    managerId,
+    managerName,
+    managerSurname,
+    username,
+    userSurname,
+    isOnline,
+    isChatRoomProcessed,
+    isChatRoomOpen,
+  } = activeChatRoom;
+  const isTheSameManager = manager.id === managerId;
+
+  const firstManagerLetters =
+    cutFirstLetter(managerName) + cutFirstLetter(managerSurname);
+
+  // handle to start new chat and update Redux state
+  const handleStartChatByManager = () => {
     const { userId, _id } = chatRoom;
     const managerData = {
       userId,
@@ -35,27 +53,13 @@ export const ChatWithClient = ({ chatRoom, onBackClick }) => {
 
     dispatch({ type: updateManager, payload: managerData });
     socket.emit("managerJoinToChat", managerData);
-  }, [chatRoom, dispatch, manager]);
-
-  // handle new message from user
-  useEffect(() => {
-    socket.on("userMessage", ({ roomId, message }) => {
-      dispatch({
-        type: addMessage,
-        payload: { roomId, message },
-      });
-    });
-
-    return () => {
-      socket.off("userMessage");
-    };
-  }, [dispatch]);
+  };
 
   // handle to close chat by User
   useEffect(() => {
     socket.on("closeChatByUser", ({ room }) => {
       dispatch({
-        type: closeChatByUser,
+        type: closeChat,
         payload: { room },
       });
 
@@ -80,37 +84,6 @@ export const ChatWithClient = ({ chatRoom, onBackClick }) => {
     };
   }, [dispatch]);
 
-  // update chat room and send message to manager when user rolling up a chat room or unfolds one
-  useEffect(() => {
-    socket.on("chatRoomOpenChanged", ({ userId, roomId, isChatRoomOpen }) => {
-      dispatch({
-        type: updateIsChatRoomOpen,
-        payload: { userId, isChatRoomOpen },
-      });
-
-      const messageData = {
-        roomId,
-        message: {
-          messageOwner: "Бот",
-          messageType: "text",
-          messageText: isChatRoomOpen
-            ? "Клієнт розгорнув чат. Продовжуйте обслуговування"
-            : "Клієнт згорнув чат. Зачекайте або перейдіть в інший чат для обслуговування іншого клієнта",
-          createdAt: Date.now(),
-        },
-      };
-
-      dispatch({
-        type: addMessage,
-        payload: messageData,
-      });
-    });
-
-    return () => {
-      socket.off("chatRoomOpenChanged");
-    };
-  }, [dispatch]);
-
   // automatic scroll when new message is added
   useEffect(() => {
     if (messageContainerRef.current) {
@@ -125,42 +98,120 @@ export const ChatWithClient = ({ chatRoom, onBackClick }) => {
 
   return (
     <>
-      <section
-        ref={messageContainerRef}
-        className="flex flex-col gap-sPlus py-sPlus message-container"
-      >
-        {activeChatRoom &&
-          activeChatRoom?.messages.map((message, idx) => {
-            const {
-              _id = idx,
-              messageOwner,
-              messageText,
-              messageType,
-              createdAt = Date.now(),
-            } = message;
-            return (
-              <MessageTemplate
-                key={_id}
-                owner={
-                  messageOwner === "user"
-                    ? `Клієнт - ${activeChatRoom.username} ${activeChatRoom.userSurname}`
-                    : messageOwner === "Бот"
-                    ? "Бот"
-                    : "Ви"
+      <div>
+        <header
+          className="flex p-s border-b border-solid border-borderDefault
+                     rounded-tr-medium justify-between items-end"
+        >
+          <div className="flex flex-col gap-xs3 items-start">
+            <div className="font-500 text-base leading-6">
+              {username
+                ? `${username} ${userSurname}`
+                : `Гість ${userId.slice(22, 24)}`}
+            </div>
+            <div className="flex gap-xs2">
+              <div
+                className={`text-[10px] leading-4 font-500 rounded-medium3 py-xs3 px-xs2 
+                ${
+                  isOnline &&
+                  isChatRoomOpen &&
+                  "bg-bgSuccessDark text-textSuccess"
                 }
-                type={messageType}
-                text={messageText}
-                time={createdAt}
-              />
-            );
-          })}
-      </section>
-      <ChatFooter chatRoom={chatRoom} onClick={onBackClick} />
+                ${
+                  isOnline &&
+                  !isChatRoomOpen &&
+                  "bg-bgWarningDark text-textWarning"
+                }
+                ${
+                  isOnline &&
+                  !isChatRoomOpen &&
+                  "bg-bgDisable text-textSecondary"
+                }`}
+              >
+                {isOnline && isChatRoomOpen && "Онлайн"}
+                {isOnline && !isChatRoomOpen && "Чат згорнутий"}
+                {!isOnline && "Оффлайн"}
+              </div>
+              {!isChatRoomProcessed && isOnline && (
+                <div
+                  className="text-[10px] leading-4 font-500 rounded-medium3 py-xs3 px-xs2
+                              bg-bgWarningDark text-textWarning"
+                >
+                  Очікує менеджера
+                </div>
+              )}
+            </div>
+          </div>
+          {isChatRoomProcessed && (
+            <div className="flex gap-xs3 items-center">
+              <div>Обслуговує: </div>
+              <div
+                className="inline-block font-500 rounded-[50%] leading-5 tracking-[-0.4px]
+                        text-[10px] item-center text-textBrand bg-bgBrandLight2"
+              >
+                <span className="p-xs3">{firstManagerLetters}</span>
+              </div>
+              <div className="font-400 leading-4 text-xs text-textSecondary">
+                {managerName} {managerSurname}
+              </div>
+            </div>
+          )}
+        </header>
+        <section
+          ref={messageContainerRef}
+          className="flex flex-col gap-sPlus p-m message-container"
+        >
+          <>
+            {activeChatRoom &&
+              activeChatRoom?.messages.map((message, idx) => {
+                const {
+                  _id = idx,
+                  messageOwner,
+                  messageText,
+                  messageType,
+                  createdAt = Date.now(),
+                } = message;
+                return (
+                  <MessageTemplate
+                    key={_id}
+                    owner={
+                      messageOwner === "user"
+                        ? `Клієнт`
+                        : messageOwner === "Бот"
+                        ? "Бот"
+                        : isTheSameManager
+                        ? "Ви"
+                        : "Менеджер"
+                    }
+                    type={messageType}
+                    text={messageText}
+                    time={createdAt}
+                  />
+                );
+              })}
+          </>
+        </section>
+      </div>
+      {isTheSameManager || (!isTheSameManager && !isChatRoomProcessed) ? (
+        <ChatFooter
+          chatRoom={chatRoom}
+          onStartChat={handleStartChatByManager}
+          onFinishChat={onFinishChat}
+        />
+      ) : (
+        <div
+          className="flex gap-xs3 p-xs m-m1 font-400 text-base leading-6 text-textError 
+          border border-solid border-borderError rounded-medium bg-bgErrorLight items-center"
+        >
+          <InfoIcon />
+          <div>Активний: Менеджера вже підключено</div>
+        </div>
+      )}
     </>
   );
 };
 
 ChatWithClient.propTypes = {
   chatRoom: PropTypes.object.isRequired,
-  onBackClick: PropTypes.func,
+  onFinishChat: PropTypes.func,
 };
