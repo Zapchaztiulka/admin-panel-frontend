@@ -6,9 +6,9 @@ export const MessageTemplate = ({ owner = "Бот", text, type, time }) => {
   return (
     <>
       <div
-        className={`font-sans font-400 tracking-button rounded-medium text-textPrimary flex flex-col gap-xs3 p-xs w-5/6
+        className={`font-sans font-400 tracking-button rounded-medium text-textPrimary flex flex-col gap-xs3 p-xs w-[60%]
                   ${
-                    owner === "Ви"
+                    owner === "Ви" || owner === "Менеджер"
                       ? "bg-bgBrandLight1 self-end"
                       : owner === "Бот"
                       ? "bg-bgGreyLigth self-start"

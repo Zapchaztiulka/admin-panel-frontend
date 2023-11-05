@@ -7,7 +7,7 @@ export const formatDate = (date) => {
     if (isNaN(dateObject)) {
       return "Invalid Date";
     }
-    return format(dateObject, "PPpp", {
+    return format(dateObject, "HH:mm", {
       locale: ukLocale,
     });
   } else if (typeof date === "string") {
@@ -17,7 +17,7 @@ export const formatDate = (date) => {
       return "Invalid Date";
     }
 
-    return format(parsedDate, "PPpp", {
+    return format(parsedDate, "HH:mm", {
       locale: ukLocale,
     });
   } else {

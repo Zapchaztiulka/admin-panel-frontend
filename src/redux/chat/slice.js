@@ -5,7 +5,8 @@ import {
   updateUserStatus,
   updateIsChatRoomOpen,
   updateManager,
-  closeChatByUser,
+  disconnectManager,
+  closeChat,
   addMessage,
 } from "./actions";
 
@@ -57,8 +58,15 @@ export const chatSlice = createSlice({
 
       // slices to update only Redux state
       .addCase(createChatByUser, (state, { payload }) => {
-        const { room, isOnline, username, userSurname } = payload;
-        const newRoom = { ...room, isOnline, username, userSurname };
+        const { room, isOnline, isChatRoomOpen, username, userSurname } =
+          payload;
+        const newRoom = {
+          ...room,
+          isOnline,
+          isChatRoomOpen,
+          username,
+          userSurname,
+        };
         state.chatRooms.push(newRoom);
       })
 
@@ -81,6 +89,26 @@ export const chatSlice = createSlice({
         }
       })
 
+      .addCase(disconnectManager, (state, { payload }) => {
+        state.chatRooms = state.chatRooms.map((chatRoom) => {
+          const roomIndex = payload.findIndex(
+            (room) => room._id === chatRoom._id
+          );
+
+          if (roomIndex !== -1) {
+            return {
+              ...chatRoom,
+              managerId: "",
+              managerName: "",
+              managerSurname: "",
+              isChatRoomProcessed: false,
+            };
+          }
+
+          return chatRoom;
+        });
+      })
+
       .addCase(updateUserStatus, (state, { payload }) => {
         const { userId, isOnline } = payload;
         const chatRoom = state.chatRooms.find((room) => room.userId === userId);
@@ -97,7 +125,7 @@ export const chatSlice = createSlice({
         }
       })
 
-      .addCase(closeChatByUser, (state, { payload }) => {
+      .addCase(closeChat, (state, { payload }) => {
         const chatRoom = state.chatRooms.find(
           (room) => room._id === payload.room._id
         );

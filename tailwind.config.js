@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 import theme from "./presets";
 export default {
   content: [

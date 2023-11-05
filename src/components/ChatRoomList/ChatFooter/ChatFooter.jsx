@@ -8,18 +8,20 @@ import "./styles.css";
 import { MenuIcon, AttachIcon, SendIcon } from "../../../images/icons";
 import { DestructiveBtn, PrimaryBtn } from "../../Buttons";
 import { Loader } from "../../Loader";
-import { closeChatRoom, sendFile } from "../../../redux/chat/operations";
+import { sendFile } from "../../../redux/chat/operations";
 import { selectActiveChatRoom } from "../../../redux/chat/selectors";
 import { selectUser } from "../../../redux/auth/selectors";
 import { addMessage } from "../../../redux/chat/actions";
 
-export const ChatFooter = ({ chatRoom, onBackClick }) => {
+export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
   const dispatch = useDispatch();
+  const manager = useSelector(selectUser);
   const activeChatRoom = useSelector((state) =>
     selectActiveChatRoom(state, chatRoom._id)
   );
-  const [activeMenu, setActiveMenu] = useState(false);
-  const manager = useSelector(selectUser);
+  const { isChatRoomProcessed, chatRoomStatus } = activeChatRoom;
+
+  const [activeMenu, setActiveMenu] = useState(true);
   const [message, setMessage] = useState("");
   const [rows, setRows] = useState(1);
   const rowsRef = useRef(rows);
@@ -29,14 +31,6 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
   const [isSendingFile, setIsSendingFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
-
-  // handle closing of chat room
-  const handleCloseChat = () => {
-    if (activeChatRoom) {
-      const { _id, userId } = activeChatRoom;
-      dispatch(closeChatRoom({ chatRoomId: _id, userId }));
-    }
-  };
 
   // handle input with auto extending of input field
   const handleMessageChange = (evt) => {
@@ -169,74 +163,82 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
         <Loader />
       ) : (
         <footer>
-          <div className="relative items-center bg-bgWhite">
-            <textarea
-              className="input-style"
-              type="text"
-              placeholder="Введіть ваше повідомлення"
-              rows={rows}
-              value={message}
-              onChange={handleMessageChange}
-              onKeyDown={handleKeyDown}
-              onFocus={handleFocus}
-              onBlur={() => setRows(1)} // return count of rows to initial value
-            />
-            {!message && !fileSelected && (
-              <>
+          {isChatRoomProcessed && chatRoomStatus === "in progress" && (
+            <div className="relative items-center bg-bgWhite">
+              <textarea
+                className="input-style"
+                type="text"
+                placeholder="Введіть ваше повідомлення"
+                rows={rows}
+                value={message}
+                onChange={handleMessageChange}
+                onKeyDown={handleKeyDown}
+                onFocus={handleFocus}
+                onBlur={() => setRows(1)} // return count of rows to initial value
+              />
+
+              {!message && !fileSelected && (
+                <>
+                  <button
+                    type="button"
+                    className="icon-style"
+                    style={{ right: "44px" }}
+                    onClick={toggleMenu}
+                  >
+                    <MenuIcon activeMenu={activeMenu} />
+                  </button>
+                  <button className="icon-style" onClick={openFileInput}>
+                    <input
+                      type="file"
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                      ref={fileInputRef}
+                    />
+                    <AttachIcon />
+                  </button>
+                </>
+              )}
+              {message && (
                 <button
-                  type="button"
+                  type="submit"
                   className="icon-style"
-                  style={{ right: "44px" }}
-                  onClick={toggleMenu}
+                  onClick={handleSubmitMessage}
                 >
-                  <MenuIcon activeMenu={activeMenu} />
+                  <SendIcon />
                 </button>
-                <button className="icon-style" onClick={openFileInput}>
-                  <input
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                    ref={fileInputRef}
-                  />
-                  <AttachIcon />
+              )}
+              {fileSelected && (
+                <button
+                  type="submit"
+                  className="icon-style"
+                  onClick={sendFileToServer}
+                >
+                  <SendIcon />
                 </button>
-              </>
-            )}
-            {message && (
-              <button
-                type="submit"
-                className="icon-style"
-                onClick={handleSubmitMessage}
-              >
-                <SendIcon />
-              </button>
-            )}
-            {fileSelected && (
-              <button
-                type="submit"
-                className="icon-style"
-                onClick={sendFileToServer}
-              >
-                <SendIcon />
-              </button>
-            )}
-            {temporaryImageURL && (
-              <div className="bg-bgWhite ml-sPlus py-sPlus">
-                <img src={temporaryImageURL} alt="Uploaded Image" />
-              </div>
-            )}
-          </div>
-          {activeMenu && (
-            <div className="flex gap-xs py-xs justify-center fade-in">
-              <PrimaryBtn>Розпочати діалог</PrimaryBtn>
-              <DestructiveBtn
-                to="/"
-                onClick={() => {
-                  handleCloseChat(), onBackClick;
-                }}
-              >
-                Завершити діалог
-              </DestructiveBtn>
+              )}
+              {temporaryImageURL && (
+                <div className="bg-bgWhite ml-sPlus py-sPlus">
+                  <img src={temporaryImageURL} alt="Uploaded Image" />
+                </div>
+              )}
+            </div>
+          )}
+          {activeMenu && chatRoomStatus === "in progress" && (
+            <div className="flex gap-xs py-xs px-s fade-in">
+              {!isChatRoomProcessed ? (
+                <PrimaryBtn onClick={() => onStartChat()}>
+                  Розпочати діалог
+                </PrimaryBtn>
+              ) : (
+                <PrimaryBtn disabled>Розпочати діалог</PrimaryBtn>
+              )}
+              {isChatRoomProcessed ? (
+                <DestructiveBtn to="/chatbot" onClick={() => onFinishChat()}>
+                  Завершити діалог
+                </DestructiveBtn>
+              ) : (
+                <DestructiveBtn disabled>Завершити діалог</DestructiveBtn>
+              )}
             </div>
           )}
         </footer>
@@ -247,5 +249,6 @@ export const ChatFooter = ({ chatRoom, onBackClick }) => {
 
 ChatFooter.propTypes = {
   chatRoom: PropTypes.object.isRequired,
-  onBackClick: PropTypes.func,
+  onFinishChat: PropTypes.func.isRequired,
+  onStartChat: PropTypes.func.isRequired,
 };

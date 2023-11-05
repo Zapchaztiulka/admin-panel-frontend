@@ -6,6 +6,8 @@ export const updateIsChatRoomOpen = "UPDATE_IS_CHATROOM_OPEN";
 
 export const updateManager = "UPDATE_MANAGER";
 
+export const disconnectManager = "DISCONNECT_MANAGER";
+
 export const addMessage = "ADD_MESSAGE";
 
-export const closeChatByUser = "CLOSE_CHAT_BY_USER";
+export const closeChat = "CLOSE_CHAT_BY_USER";
