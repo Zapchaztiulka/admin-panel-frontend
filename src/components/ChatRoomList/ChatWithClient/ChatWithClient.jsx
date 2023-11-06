@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../socket";
 
 import "./styles.css";
 import { MessageTemplate } from "../MessageTemplate";
 import { ChatFooter } from "../ChatFooter";
+import { PrimaryBtn } from "../../Buttons";
+import { BtnLoader } from "../../Loader";
 import { InfoIcon } from "../../../images/icons";
 import { cutFirstLetter } from "../../../utils";
 
@@ -19,8 +21,10 @@ import {
 
 export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
   const dispatch = useDispatch();
-  const manager = useSelector(selectUser);
+  const [isTyping, setIsTyping] = useState(false);
   const messageContainerRef = useRef(null);
+
+  const manager = useSelector(selectUser);
   const activeChatRoom = useSelector((state) =>
     selectActiveChatRoom(state, chatRoom._id)
   );
@@ -54,6 +58,19 @@ export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
     dispatch({ type: updateManager, payload: managerData });
     socket.emit("managerJoinToChat", managerData);
   };
+
+  // handle to typing by User
+  useEffect(() => {
+    socket.on("userTyping", ({ isTyping }) => {
+      if (isTyping) {
+        setIsTyping(true);
+      } else setIsTyping(false);
+    });
+
+    return () => {
+      socket.off("userTyping");
+    };
+  }, []);
 
   // handle to close chat by User
   useEffect(() => {
@@ -94,7 +111,7 @@ export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
         messageContainerRef.current.scrollTop = scrollHeight - maxVisibleHeight;
       }
     }
-  }, [activeChatRoom]);
+  }, [activeChatRoom, isTyping]);
 
   return (
     <>
@@ -122,11 +139,7 @@ export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
                   !isChatRoomOpen &&
                   "bg-bgWarningDark text-textWarning"
                 }
-                ${
-                  isOnline &&
-                  !isChatRoomOpen &&
-                  "bg-bgDisable text-textSecondary"
-                }`}
+                ${!isOnline && "bg-bgDisable text-textSecondary"}`}
               >
                 {isOnline && isChatRoomOpen && "Онлайн"}
                 {isOnline && !isChatRoomOpen && "Чат згорнутий"}
@@ -186,9 +199,22 @@ export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
                     type={messageType}
                     text={messageText}
                     time={createdAt}
+                    isTyping={isTyping}
                   />
                 );
               })}
+            {isTyping && isTheSameManager && (
+              <div>
+                <PrimaryBtn disabled>
+                  <div className="flex gap-xs2">
+                    <div className="font-400 text-sm leading-5 text-textTertiary">
+                      Клієнт друкує повідомлення
+                    </div>
+                    <BtnLoader height={20} width={48} radius={8} />
+                  </div>
+                </PrimaryBtn>
+              </div>
+            )}
           </>
         </section>
       </div>

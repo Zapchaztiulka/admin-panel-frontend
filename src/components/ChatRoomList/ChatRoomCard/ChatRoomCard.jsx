@@ -47,7 +47,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setLastClientMessage(getLastClientMessage(messages));
-    }, 1000);
+    }, 5000);
 
     return () => {
       clearInterval(intervalId);
@@ -57,24 +57,32 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   return (
     <button
       onClick={onConnectClick}
-      className={`relative flex p-xs gap-xs2 border-b border-solid border-borderDefault cursor-pointer rounded-tl-medium
-      ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
+      className={`relative flex p-xs gap-xs2 border-b border-solid
+                border-borderDefault cursor-pointer rounded-tl-medium
+                  ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
       `}
     >
-      <div className="relative text-textBrand font-500 rounded-[50%] bg-bgBrandLight2 avatar-wrapper">
+      <div
+        className="relative text-textBrand font-500 rounded-[50%]
+                    bg-bgBrandLight2 avatar-wrapper"
+      >
         {username ? (
           <div className="w-m1 h-m1 p-xs2">{firstClientLetters}</div>
         ) : (
           <Avatar />
         )}
         <div
-          className={`absolute bottom-[0] right-[0] w-s h-s border-2 border-solid border-iconWhite rounded-medium3 
-          ${isOnline && isChatRoomOpen && "bg-iconSuccess"} 
-          ${isOnline && !isChatRoomOpen && "bg-iconWarning"} 
-          ${!isOnline && "bg-iconSecondary"}
+          className={`absolute bottom-[0] right-[0] w-s h-s border-2 border-solid
+                    border-iconWhite rounded-medium3 
+                      ${isOnline && isChatRoomOpen && "bg-iconSuccess"} 
+                      ${isOnline && !isChatRoomOpen && "bg-iconWarning"} 
+                      ${!isOnline && "bg-iconSecondary"}
           `}
         ></div>
-        <div className="description hidden absolute top-[100%] left-[50%] bg-bgGreyDark p-xs2 rounded-medium text-textContrast">
+        <div
+          className="description hidden absolute top-[100%] left-[50%] bg-bgGreyDark 
+                        p-xs2 rounded-medium text-textContrast whitespace-nowrap"
+        >
           {isOnline && isChatRoomOpen && "Користувач онлайн"}
           {isOnline && !isChatRoomOpen && "Користувач згорнув чат"}
           {!isOnline && "Користувач оффлайн"}
@@ -134,25 +142,31 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-s items-center justify-center">
-        {waitingTime && (
-          <div
-            className={`font-500 text-xs leading-5 whitespace-nowrap ${
-              isSelected ? "text-textContrast" : "text-textSecondary"
-            } ${waitingTime >= 2 && "pulse"}`}
-          >
-            {waitingTime} хв
-          </div>
-        )}
-        {countUnreadClientMessages && !isSelected && (
-          <div
-            className="font-400 text-xs text-iconContrast leading-4 w-s h-s
+      {isOnline && (
+        <div className="flex flex-col gap-s items-center justify-center">
+          {waitingTime && (
+            <div
+              className={`font-500 text-xs leading-5 whitespace-nowrap 
+                          ${
+                            isSelected
+                              ? "text-textContrast"
+                              : "text-textSecondary"
+                          } 
+                          ${waitingTime >= 2 && "pulse"}`}
+            >
+              {waitingTime} хв
+            </div>
+          )}
+          {countUnreadClientMessages && !isSelected && (
+            <div
+              className="font-400 text-xs text-iconContrast leading-4 w-s h-s
                        bg-bgBrandDark rounded-[50%]"
-          >
-            {countUnreadClientMessages}
-          </div>
-        )}
-      </div>
+            >
+              {countUnreadClientMessages}
+            </div>
+          )}
+        </div>
+      )}
     </button>
   );
 };
