@@ -96,13 +96,6 @@ export const ChatRoomList = () => {
   useEffect(() => {
     socket.on("userStatusChanged", ({ userId, isOnline }) => {
       dispatch({ type: updateUserStatus, payload: { userId, isOnline } });
-
-      if (isOnline === false) {
-        dispatch({
-          type: updateIsChatRoomOpen,
-          payload: { userId, isChatRoomOpen: false },
-        });
-      }
     });
 
     return () => {

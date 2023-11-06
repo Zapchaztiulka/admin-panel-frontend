@@ -32,6 +32,8 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
 
+  let typingTimeout;
+
   // handle input with auto extending of input field
   const handleMessageChange = (evt) => {
     const textarea = evt.target;
@@ -47,6 +49,15 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
 
     setRows(currentRows);
     rowsRef.current = currentRows;
+
+    // send emit when manager is typing
+    socket.emit("managerTyping", { isTyping: true, manager });
+
+    // Additionally - if the manager stops entering text after 2 second, we assume that he has stopped typing
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit("managerTyping", { isTyping: false, manager });
+    }, 1000);
   };
 
   // handle a text message
@@ -140,6 +151,12 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
     }
   };
 
+  // handle to lost focus on input
+  const handleOnBlur = () => {
+    setRows(1); // return count of rows to initial value
+    socket.emit("managerTyping", { isTyping: false, manager }); // if the manager lost focus on input, we assume that he has stopped typing
+  };
+
   // handle to send a message after pushing of button "Enter"
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -166,7 +183,11 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
           {isChatRoomProcessed && chatRoomStatus === "in progress" && (
             <div className="relative items-center bg-bgWhite">
               <textarea
-                className="input-style"
+                className={`p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer
+                         hover:bg-bgHoverGrey hover:border-borderActive ${
+                           activeMenu ? "border-y" : "border-t"
+                         }
+                           border-solid border-borderDefault focus:border-borderDefault input-style`}
                 type="text"
                 placeholder="Введіть ваше повідомлення"
                 rows={rows}
@@ -174,7 +195,7 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
                 onChange={handleMessageChange}
                 onKeyDown={handleKeyDown}
                 onFocus={handleFocus}
-                onBlur={() => setRows(1)} // return count of rows to initial value
+                onBlur={handleOnBlur} // return count of rows to initial value
               />
 
               {!message && !fileSelected && (
