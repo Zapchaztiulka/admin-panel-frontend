@@ -8,7 +8,7 @@ import { MessageTemplate } from "../MessageTemplate";
 import { ChatFooter } from "../ChatFooter";
 import { PrimaryBtn } from "../../Buttons";
 import { BtnLoader } from "../../Loader";
-import { InfoIcon } from "../../../images/icons";
+import { InfoIcon } from "../../Icons/ChatIcons";
 import { cutFirstLetter } from "../../../utils";
 
 import { selectUser } from "../../../redux/auth/selectors";
@@ -19,7 +19,7 @@ import {
   addMessage,
 } from "../../../redux/chat/actions";
 
-export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
+export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
   const dispatch = useDispatch();
   const [isTyping, setIsTyping] = useState(false);
   const messageContainerRef = useRef(null);
@@ -222,7 +222,7 @@ export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
         <ChatFooter
           chatRoom={chatRoom}
           onStartChat={handleStartChatByManager}
-          onFinishChat={onFinishChat}
+          isOpenModal={isOpenModal}
         />
       ) : (
         <div
@@ -239,5 +239,5 @@ export const ChatWithClient = ({ chatRoom, onFinishChat }) => {
 
 ChatWithClient.propTypes = {
   chatRoom: PropTypes.object.isRequired,
-  onFinishChat: PropTypes.func,
+  isOpenModal: PropTypes.func.isRequired,
 };

@@ -9,7 +9,7 @@ import {
   getLastClientMessage,
   getUnreadClientMessages,
 } from "../../../utils";
-import { Avatar } from "../../../images/icons";
+import { Avatar } from "../../Icons/ChatIcons";
 import { selectUser } from "../../../redux/auth/selectors";
 
 export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
@@ -81,7 +81,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
         ></div>
         <div
           className="description hidden absolute top-[100%] left-[50%] bg-bgGreyDark 
-                        p-xs2 rounded-medium text-textContrast whitespace-nowrap"
+                        p-xs2 rounded-medium text-textContrast whitespace-nowrap z-10"
         >
           {isOnline && isChatRoomOpen && "Користувач онлайн"}
           {isOnline && !isChatRoomOpen && "Користувач згорнув чат"}

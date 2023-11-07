@@ -10,6 +10,19 @@
        text-textDisabled bg-bgDisable rounded-medium cursor-not-allowed;
 }
 
+.second-grey {
+  @apply font-sans font-500 px-l py-xs text-base leading-6 tracking-button
+       text-textPrimary  bg-bgWhite hover:bg-bgHoverGrey 
+       border border-solid border-borderDefault focus:outline-none 
+      rounded-medium transition-colors duration-300;
+}
+
+.second-grey-disabled {
+  @apply font-sans font-500 px-l py-xs text-base leading-6 tracking-button
+       text-textDisabled bg-bgDisable border border-solid
+       border-borderDisabled rounded-medium cursor-not-allowed;
+}
+
 .destructive {
   @apply font-sans font-500 py-xs px-m text-base leading-6 tracking-button
        text-textContrast  bg-bgDefaultDestructive
