@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { socket } from "../socket";
 
 import "./styles.css";
-import { MenuIcon, AttachIcon, SendIcon } from "../../../images/icons";
+import { MenuIcon, AttachIcon, SendIcon } from "../../Icons/ChatIcons";
 import { DestructiveBtn, PrimaryBtn } from "../../Buttons";
 import { Loader } from "../../Loader";
 import { sendFile } from "../../../redux/chat/operations";
@@ -13,7 +13,7 @@ import { selectActiveChatRoom } from "../../../redux/chat/selectors";
 import { selectUser } from "../../../redux/auth/selectors";
 import { addMessage } from "../../../redux/chat/actions";
 
-export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
+export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   const dispatch = useDispatch();
   const manager = useSelector(selectUser);
   const activeChatRoom = useSelector((state) =>
@@ -254,7 +254,7 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
                 <PrimaryBtn disabled>Розпочати діалог</PrimaryBtn>
               )}
               {isChatRoomProcessed ? (
-                <DestructiveBtn to="/chatbot" onClick={() => onFinishChat()}>
+                <DestructiveBtn to="/chatbot" onClick={() => isOpenModal()}>
                   Завершити діалог
                 </DestructiveBtn>
               ) : (
@@ -270,6 +270,6 @@ export const ChatFooter = ({ chatRoom, onFinishChat, onStartChat }) => {
 
 ChatFooter.propTypes = {
   chatRoom: PropTypes.object.isRequired,
-  onFinishChat: PropTypes.func.isRequired,
   onStartChat: PropTypes.func.isRequired,
+  isOpenModal: PropTypes.func.isRequired,
 };

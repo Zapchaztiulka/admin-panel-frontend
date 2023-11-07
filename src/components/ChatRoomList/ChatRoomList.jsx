@@ -10,7 +10,8 @@ import {
   ChatRoomEmptyIcon,
   ChatListEmptyIcon,
   BellIcon,
-} from "../../images/icons";
+} from "../Icons/ChatIcons";
+import { ModalWarning } from "../Modal";
 
 import { selectChatRooms } from "../../redux/chat/selectors";
 import { selectToken, selectUser } from "../../redux/auth/selectors";
@@ -35,6 +36,7 @@ export const ChatRoomList = () => {
   const chatRooms = useSelector(selectChatRooms);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedChatRoom, setSelectedChatRoom] = useState(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const chatRoomsInProgress = chatRooms?.filter(
     (room) => room.chatRoomStatus === "in progress"
@@ -183,6 +185,7 @@ export const ChatRoomList = () => {
     }
 
     setSelectedChatRoom(null);
+    setIsOpenModal(false);
   };
 
   // handle to close chat by another manager
@@ -218,6 +221,8 @@ export const ChatRoomList = () => {
     };
   }, [dispatch, manager.id]);
 
+  const handleOpenModal = () => setIsOpenModal(true);
+
   if (!isAuthenticated) {
     return null;
   }
@@ -247,7 +252,10 @@ export const ChatRoomList = () => {
       </div>
       <section className="flex w-full indicators-hidden">
         {chatRoomsInProgress?.length > 0 && (
-          <div className="flex flex-col w-[40%] border border-solid border-borderDefault rounded-tl-medium bg-bgWhite">
+          <div
+            className="flex flex-col w-[40%] border border-solid border-borderDefault 
+                       rounded-tl-medium bg-bgWhite"
+          >
             {chatRoomsInProgress?.map((room) => (
               <ChatRoomCard
                 key={room._id}
@@ -261,7 +269,10 @@ export const ChatRoomList = () => {
           </div>
         )}
         {!chatRoomsInProgress?.length && (
-          <div className="flex flex-col w-[40%] border border-solid border-borderDefault rounded-tl-medium bg-bgWhite justify-center items-center">
+          <div
+            className="flex flex-col w-[40%] border border-solid border-borderDefault 
+                       rounded-tl-medium bg-bgWhite justify-center items-center"
+          >
             <ChatListEmptyIcon />
             <div className="font-sans font-500 text-xl leading-6 mt-xs text-center">
               Активні діалоги відсутні
@@ -269,15 +280,21 @@ export const ChatRoomList = () => {
           </div>
         )}
         {selectedChatRoom && (
-          <div className="flex flex-col w-[60%] border-t border-b border-r border-solid border-borderDefault rounded-tr-medium bg-bgWhite justify-between">
+          <div
+            className="flex flex-col w-[60%] border-t border-b border-r border-solid
+                     border-borderDefault rounded-tr-medium bg-bgWhite justify-between"
+          >
             <ChatWithClient
               chatRoom={selectedChatRoom}
-              onFinishChat={handleFinishChat}
+              isOpenModal={handleOpenModal}
             />
           </div>
         )}
         {!selectedChatRoom && (
-          <div className="flex flex-col w-[60%] border-t border-b border-r border-solid border-borderDefault rounded-tr-medium bg-bgWhite justify-center items-center">
+          <div
+            className="flex flex-col w-[60%] border-t border-b border-r border-solid
+                     border-borderDefault rounded-tr-medium bg-bgWhite justify-center items-center"
+          >
             <ChatRoomEmptyIcon />
             <div className="font-sans font-500 text-xl leading-6 mt-xs text-center">
               Оберіть діалог зі списку, щоб почати спілкування
@@ -285,6 +302,12 @@ export const ChatRoomList = () => {
           </div>
         )}
       </section>
+      {isOpenModal && (
+        <ModalWarning
+          onFinishChat={handleFinishChat}
+          closeModal={() => setIsOpenModal(false)}
+        />
+      )}
     </div>
   );
 };

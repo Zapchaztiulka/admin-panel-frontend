@@ -6,3 +6,4 @@ export { default as ChatRoomEmptyIcon } from "./ChatRoomEmptyIcon";
 export { default as ChatListEmptyIcon } from "./ChatListEmptyIcon";
 export { default as InfoIcon } from "./InfoIcon";
 export { default as BellIcon } from "./BellIcon";
+export { default as AlertIcon } from "./AlertIcon";
