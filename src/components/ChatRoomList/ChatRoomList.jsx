@@ -40,8 +40,9 @@ export const ChatRoomList = () => {
     (room) => room.chatRoomStatus === "in progress"
   );
 
-  const unprocessedChatRooms = chatRooms?.filter(
-    (room) => !room.isChatRoomProcessed
+  // calculate a count of unprocessed chats
+  const unprocessedChatRooms = chatRoomsInProgress?.filter(
+    (room) => !room.isChatRoomProcessed && room.isOnline
   );
 
   // send token to the server for authentication
