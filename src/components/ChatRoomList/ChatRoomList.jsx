@@ -81,6 +81,35 @@ export const ChatRoomList = () => {
     };
   }, [dispatch]);
 
+  // handle to close chat by User
+  useEffect(() => {
+    socket.on("closeChatByUser", ({ room }) => {
+      dispatch({
+        type: closeChat,
+        payload: { room },
+      });
+
+      const messageData = {
+        roomId: room._id,
+        message: {
+          messageOwner: "Бот",
+          messageType: "text",
+          messageText: "Клієнт завершив чат. Переходьте до іншого",
+          createdAt: Date.now(),
+        },
+      };
+
+      dispatch({
+        type: addMessage,
+        payload: messageData,
+      });
+    });
+
+    return () => {
+      socket.off("closeChatByUser");
+    };
+  }, [dispatch]);
+
   // handle new message from user
   useEffect(() => {
     socket.on("userMessage", ({ roomId, message }) => {
@@ -177,17 +206,6 @@ export const ChatRoomList = () => {
     };
   }, [dispatch]);
 
-  // handle to close chat by manager
-  const handleFinishChat = () => {
-    if (selectedChatRoom) {
-      const { _id, userId } = selectedChatRoom;
-      dispatch(closeChatRoom({ chatRoomId: _id, userId }));
-    }
-
-    setSelectedChatRoom(null);
-    setIsOpenModal(false);
-  };
-
   // handle to close chat by another manager
   useEffect(() => {
     socket.on("closeChatByManager", ({ room }) => {
@@ -221,6 +239,18 @@ export const ChatRoomList = () => {
     };
   }, [dispatch, manager.id]);
 
+  // handle to close chat by manager
+  const handleFinishChat = () => {
+    if (selectedChatRoom) {
+      const { _id, userId } = selectedChatRoom;
+      dispatch(closeChatRoom({ chatRoomId: _id, userId }));
+    }
+
+    setSelectedChatRoom(null);
+    setIsOpenModal(false);
+  };
+
+  // handle to open modal window to approve of closing chat
   const handleOpenModal = () => setIsOpenModal(true);
 
   if (!isAuthenticated) {

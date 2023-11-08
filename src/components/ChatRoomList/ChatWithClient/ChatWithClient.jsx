@@ -13,11 +13,7 @@ import { cutFirstLetter } from "../../../utils";
 
 import { selectUser } from "../../../redux/auth/selectors";
 import { selectActiveChatRoom } from "../../../redux/chat/selectors";
-import {
-  updateManager,
-  closeChat,
-  addMessage,
-} from "../../../redux/chat/actions";
+import { updateManager } from "../../../redux/chat/actions";
 
 export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
   const dispatch = useDispatch();
@@ -71,35 +67,6 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
       socket.off("userTyping");
     };
   }, []);
-
-  // handle to close chat by User
-  useEffect(() => {
-    socket.on("closeChatByUser", ({ room }) => {
-      dispatch({
-        type: closeChat,
-        payload: { room },
-      });
-
-      const messageData = {
-        roomId: room._id,
-        message: {
-          messageOwner: "Бот",
-          messageType: "text",
-          messageText: "Клієнт завершив чат. Переходьте до іншого",
-          createdAt: Date.now(),
-        },
-      };
-
-      dispatch({
-        type: addMessage,
-        payload: messageData,
-      });
-    });
-
-    return () => {
-      socket.off("closeChatByUser");
-    };
-  }, [dispatch]);
 
   // automatic scroll when new message is added
   useEffect(() => {

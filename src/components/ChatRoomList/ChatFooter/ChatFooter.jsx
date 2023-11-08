@@ -254,7 +254,7 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
                 <PrimaryBtn disabled>Розпочати діалог</PrimaryBtn>
               )}
               {isChatRoomProcessed ? (
-                <DestructiveBtn to="/chatbot" onClick={() => isOpenModal()}>
+                <DestructiveBtn onClick={() => isOpenModal()}>
                   Завершити діалог
                 </DestructiveBtn>
               ) : (

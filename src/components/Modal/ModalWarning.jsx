@@ -50,7 +50,7 @@ export const ModalWarning = ({ onFinishChat, closeModal }) => {
         </div>
         <div className="flex gap-xs justify-between">
           <SecondaryGreyBtn onClick={closeModal}>Скасувати</SecondaryGreyBtn>
-          <DestructiveBtn onClick={() => onFinishChat()}>
+          <DestructiveBtn to="/chatbot" onClick={() => onFinishChat()}>
             Так, завершити
           </DestructiveBtn>
         </div>
