@@ -1,9 +1,23 @@
-export const cutFullName = (username, userSurname, chatNumber) => {
+import theme from "../../presets";
+import { cutFirstLetter } from "./";
+
+export const cutFullName = (username, userSurname, chatNumber, screenWidth) => {
   let cuttingUsername = null;
 
   const fullName = username + " " + userSurname;
-  if (fullName.length > 15) {
-    cuttingUsername = (username + " " + userSurname).slice(0, 15) + " ...";
+
+  const tablet1024 = Number(theme.screens.tablet1024.replace("px", ""));
+  const desktop1440 = Number(theme.screens.desktop1440.replace("px", ""));
+
+  let sliceLength =
+    screenWidth < tablet1024
+      ? 15
+      : screenWidth < desktop1440
+      ? 12
+      : fullName.length;
+
+  if (fullName.length > sliceLength) {
+    cuttingUsername = fullName.slice(0, sliceLength) + " ...";
   } else if (!username) {
     cuttingUsername = `Гість ${chatNumber}`;
   } else cuttingUsername = fullName;
@@ -24,7 +38,7 @@ export const getLastClientMessage = (messages) => {
 
     if (lastMessage) {
       lastClientMessage.messageText =
-        lastMessage.messageText.slice(0, 20) + " ...";
+        lastMessage.messageText.slice(0, 17) + " ...";
       if (lastMessageOwner === "user") {
         const waitingTime = Math.floor(
           (new Date() - new Date(lastMessage.createdAt).getTime()) / 1000 / 60
@@ -54,3 +68,6 @@ export const getUnreadClientMessages = (messages) => {
 
   return count;
 };
+
+export const firstLetter = (firstName, secondName) =>
+  cutFirstLetter(firstName) + cutFirstLetter(secondName);

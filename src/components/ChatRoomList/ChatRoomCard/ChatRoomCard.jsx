@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import "./slyles.css";
 import {
-  cutFirstLetter,
+  firstLetter,
   cutFullName,
   getLastClientMessage,
   getUnreadClientMessages,
@@ -27,32 +27,53 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
     isChatRoomProcessed,
   } = room;
 
+  const chatNumber = userId.slice(22, 24);
+
+  // get first letters for avatar
+  const firstClientLetters = firstLetter(username, userSurname);
+  const firstManagerLetters = firstLetter(managerName, managerSurname);
+
+  // get unread messages for a bell
+  const countUnreadClientMessages = getUnreadClientMessages(messages);
+
+  // get last message and cut it
   const [lastClientMessage, setLastClientMessage] = useState(
     getLastClientMessage(messages) || null
   );
   const { messageText, waitingTime } = lastClientMessage;
   const isTheSameManager = manager.id === managerId;
 
-  const chatNumber = userId.slice(22, 24);
+  useEffect(() => {
+    setLastClientMessage(getLastClientMessage(messages));
+  }, [messages]);
 
-  const firstClientLetters =
-    cutFirstLetter(username) + cutFirstLetter(userSurname);
-  const firstManagerLetters =
-    cutFirstLetter(managerName) + cutFirstLetter(managerSurname);
-
-  const cuttingUsername = cutFullName(username, userSurname, chatNumber);
-
-  const countUnreadClientMessages = getUnreadClientMessages(messages);
+  // get cutting user name and change its length according to the window width
+  const screenWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  const [cuttingUsername, setCuttingUsername] = useState(
+    cutFullName(username, userSurname, chatNumber, screenWidth) || null
+  );
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setLastClientMessage(getLastClientMessage(messages));
-    }, 5000);
+    const handleResize = () => {
+      const newScreenWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+
+      setCuttingUsername(
+        cutFullName(username, userSurname, chatNumber, newScreenWidth)
+      );
+    };
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      clearInterval(intervalId);
+      window.removeEventListener("resize", handleResize);
     };
-  }, [messages]);
+  }, [chatNumber, userSurname, username]);
 
   return (
     <button

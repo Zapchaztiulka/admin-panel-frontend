@@ -56,8 +56,16 @@ ol {
   margin-bottom: 0px;
 }
 
+.active {
+  color: #1849a9;
+  background-color: #d1e9ff;
+}
 
-    .active {
-    color: #1849A9;
-    background-color: #D1E9FF;
-    }
+.toast-info {
+  color: #1849a9;
+  background-color: #d1e9ff;
+  border: none;
+  box-shadow: none;
+  position: absolute;
+  top: 10%;
+}

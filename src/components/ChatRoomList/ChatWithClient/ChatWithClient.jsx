@@ -12,7 +12,10 @@ import { InfoIcon } from "../../Icons/ChatIcons";
 import { cutFirstLetter } from "../../../utils";
 
 import { selectUser } from "../../../redux/auth/selectors";
-import { selectActiveChatRoom } from "../../../redux/chat/selectors";
+import {
+  selectActiveChatRoom,
+  selectSelectedRoomId,
+} from "../../../redux/chat/selectors";
 import { updateManager } from "../../../redux/chat/actions";
 
 export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
@@ -24,6 +27,7 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
   const activeChatRoom = useSelector((state) =>
     selectActiveChatRoom(state, chatRoom._id)
   );
+  const selectedRoomId = useSelector(selectSelectedRoomId);
 
   const {
     userId,
@@ -57,8 +61,8 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
 
   // handle to typing by User
   useEffect(() => {
-    socket.on("userTyping", ({ isTyping }) => {
-      if (isTyping) {
+    socket.on("userTyping", ({ isTyping, roomId }) => {
+      if (isTyping && roomId === selectedRoomId) {
         setIsTyping(true);
       } else setIsTyping(false);
     });
@@ -66,7 +70,7 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
     return () => {
       socket.off("userTyping");
     };
-  }, []);
+  }, [selectedRoomId]);
 
   // automatic scroll when new message is added
   useEffect(() => {

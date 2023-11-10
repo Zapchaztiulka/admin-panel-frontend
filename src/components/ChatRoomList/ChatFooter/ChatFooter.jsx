@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import _debounce from "lodash/debounce";
 import { socket } from "../socket";
 
 import "./styles.css";
@@ -9,7 +10,10 @@ import { MenuIcon, AttachIcon, SendIcon } from "../../Icons/ChatIcons";
 import { DestructiveBtn, PrimaryBtn } from "../../Buttons";
 import { Loader } from "../../Loader";
 import { sendFile } from "../../../redux/chat/operations";
-import { selectActiveChatRoom } from "../../../redux/chat/selectors";
+import {
+  selectActiveChatRoom,
+  selectSelectedRoomId,
+} from "../../../redux/chat/selectors";
 import { selectUser } from "../../../redux/auth/selectors";
 import { addMessage } from "../../../redux/chat/actions";
 
@@ -19,6 +23,7 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   const activeChatRoom = useSelector((state) =>
     selectActiveChatRoom(state, chatRoom._id)
   );
+  const selectedRoom = useSelector(selectSelectedRoomId);
   const { isChatRoomProcessed, chatRoomStatus } = activeChatRoom;
 
   const [activeMenu, setActiveMenu] = useState(true);
@@ -33,6 +38,11 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   const fileInputRef = useRef(null);
 
   let typingTimeout;
+
+  // handle to send emit when manager is typing
+  const handleTyping = _debounce((isTyping) => {
+    socket.emit("managerTyping", { isTyping, roomId: selectedRoom });
+  }, 1000);
 
   // handle input with auto extending of input field
   const handleMessageChange = (evt) => {
@@ -50,14 +60,14 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
     setRows(currentRows);
     rowsRef.current = currentRows;
 
-    // send emit when manager is typing
-    socket.emit("managerTyping", { isTyping: true, manager });
+    handleTyping(true);
 
-    // Additionally - if the manager stops entering text after 2 second, we assume that he has stopped typing
+    // Additionally - if the user stops entering text,
+    // but cursor is in input field - we assume that he has stopped typing too
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
-      socket.emit("managerTyping", { isTyping: false, manager });
-    }, 1000);
+      handleTyping(false);
+    }, 2000);
   };
 
   // handle a text message
@@ -154,7 +164,8 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   // handle to lost focus on input
   const handleOnBlur = () => {
     setRows(1); // return count of rows to initial value
-    socket.emit("managerTyping", { isTyping: false, manager }); // if the manager lost focus on input, we assume that he has stopped typing
+    handleTyping(false); // if the manager lost focus on input, we assume that he has stopped typing
+    clearTimeout(typingTimeout);
   };
 
   // handle to send a message after pushing of button "Enter"
@@ -219,20 +230,20 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
                   </button>
                 </>
               )}
-              {message && (
+              {(fileSelected || message) && (
                 <button
                   type="submit"
                   className="icon-style"
-                  onClick={handleSubmitMessage}
-                >
-                  <SendIcon />
-                </button>
-              )}
-              {fileSelected && (
-                <button
-                  type="submit"
-                  className="icon-style"
-                  onClick={sendFileToServer}
+                  onClick={
+                    message && fileSelected
+                      ? () => {
+                          handleSubmitMessage();
+                          sendFileToServer();
+                        }
+                      : message
+                      ? handleSubmitMessage
+                      : sendFileToServer
+                  }
                 >
                   <SendIcon />
                 </button>
