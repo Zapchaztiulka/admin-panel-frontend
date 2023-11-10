@@ -8,6 +8,7 @@ import {
   disconnectManager,
   closeChat,
   addMessage,
+  selectRoom,
 } from "./actions";
 
 const handlePending = (state) => {
@@ -20,6 +21,7 @@ const handleRejected = (state, { payload }) => {
 
 const initialState = {
   chatRooms: [],
+  selectedRoomId: null,
   isLoading: false,
   error: null,
 };
@@ -149,6 +151,10 @@ export const chatSlice = createSlice({
           }
           return room;
         });
+      })
+
+      .addCase(selectRoom, (state, { payload }) => {
+        state.selectedRoomId = payload;
       });
   },
 });

@@ -11,3 +11,5 @@ export const disconnectManager = "DISCONNECT_MANAGER";
 export const addMessage = "ADD_MESSAGE";
 
 export const closeChat = "CLOSE_CHAT_BY_USER";
+
+export const selectRoom = "SELECT_ROOM";

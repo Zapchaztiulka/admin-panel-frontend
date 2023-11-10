@@ -23,6 +23,7 @@ import {
   disconnectManager,
   addMessage,
   closeChat,
+  selectRoom,
 } from "../../redux/chat/actions";
 import {
   getChatRoomsInProgress,
@@ -38,9 +39,29 @@ export const ChatRoomList = () => {
   const [selectedChatRoom, setSelectedChatRoom] = useState(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const chatRoomsInProgress = chatRooms?.filter(
-    (room) => room.chatRoomStatus === "in progress"
-  );
+  const chatRoomsInProgress = chatRooms
+    ?.filter((room) => room.chatRoomStatus === "in progress")
+    .sort((a, b) => {
+      if (a.isOnline && a.isChatRoomOpen && !a.isChatRoomProcessed) {
+        return -1;
+      } else if (a.isOnline && a.isChatRoomOpen && a.isChatRoomProcessed) {
+        if (!(b.isOnline && b.isChatRoomOpen && !b.isChatRoomProcessed)) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else if (!a.isOnline && a.isChatRoomProcessed) {
+        if (b.isOnline && b.isChatRoomOpen && b.isChatRoomProcessed) {
+          return -1;
+        } else if (b.isOnline && b.isChatRoomOpen && !b.isChatRoomProcessed) {
+          return 1;
+        } else {
+          return -1;
+        }
+      } else {
+        return b.isOnline && b.isChatRoomOpen && b.isChatRoomProcessed ? 1 : 0;
+      }
+    });
 
   // calculate a count of unprocessed chats
   const unprocessedChatRooms = chatRoomsInProgress?.filter(
@@ -83,7 +104,7 @@ export const ChatRoomList = () => {
 
   // handle to close chat by User
   useEffect(() => {
-    socket.on("closeChatByUser", ({ room }) => {
+    socket.on("closeChatByUser", ({ room, username, userSurname }) => {
       dispatch({
         type: closeChat,
         payload: { room },
@@ -94,7 +115,7 @@ export const ChatRoomList = () => {
         message: {
           messageOwner: "Бот",
           messageType: "text",
-          messageText: "Клієнт завершив чат. Переходьте до іншого",
+          messageText: `Клієнт ${username} ${userSurname} завершив чат.`,
           createdAt: Date.now(),
         },
       };
@@ -103,6 +124,8 @@ export const ChatRoomList = () => {
         type: addMessage,
         payload: messageData,
       });
+
+      toast.info(messageData.message.messageText, { className: "toast-info" });
     });
 
     return () => {
@@ -152,6 +175,11 @@ export const ChatRoomList = () => {
   // handle to choose chat room by manager
   const handleConnectClick = (chatRoom) => {
     setSelectedChatRoom(chatRoom);
+
+    dispatch({
+      type: selectRoom,
+      payload: chatRoom._id,
+    });
   };
 
   // update store after another manager sended new message
@@ -311,7 +339,7 @@ export const ChatRoomList = () => {
         )}
         {selectedChatRoom && (
           <div
-            className="flex flex-col w-[60%] border-t border-b border-r border-solid
+            className="flex flex-col w-[60%] border-t border-b border-r border-solid z-10
                      border-borderDefault rounded-tr-medium bg-bgWhite justify-between"
           >
             <ChatWithClient
@@ -322,7 +350,7 @@ export const ChatRoomList = () => {
         )}
         {!selectedChatRoom && (
           <div
-            className="flex flex-col w-[60%] border-t border-b border-r border-solid
+            className="flex flex-col w-[60%] border-t border-b border-r border-solid z-10
                      border-borderDefault rounded-tr-medium bg-bgWhite justify-center items-center"
           >
             <ChatRoomEmptyIcon />
