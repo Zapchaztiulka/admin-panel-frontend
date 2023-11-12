@@ -17,12 +17,11 @@ import {
 import { selectUser } from "../../../../redux/auth/selectors";
 import { addMessage } from "../../../../redux/chat/actions";
 
-export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
+export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
   const dispatch = useDispatch();
   const manager = useSelector(selectUser);
-  const activeChatRoom = useSelector((state) =>
-    selectActiveChatRoom(state, chatRoom._id)
-  );
+  const activeChatRoom =
+    useSelector((state) => selectActiveChatRoom(state, chatRoom?._id)) || {};
   const selectedRoom = useSelector(selectSelectedRoomId);
   const { isChatRoomProcessed, chatRoomStatus } = activeChatRoom;
 
@@ -36,6 +35,9 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   const [isSendingFile, setIsSendingFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  const isChatRoomInProgress =
+    (isChatRoomProcessed && chatRoomStatus === "in progress") || false;
 
   let typingTimeout;
 
@@ -191,70 +193,82 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
         <Loader />
       ) : (
         <footer>
-          {isChatRoomProcessed && chatRoomStatus === "in progress" && (
-            <div className="relative items-center bg-bgWhite">
-              <textarea
-                className={`p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer
-                         hover:bg-bgHoverGrey hover:border-borderActive ${
-                           activeMenu ? "border-y" : "border-t"
-                         }
-                           border-solid border-borderDefault focus:border-borderDefault input-style`}
-                type="text"
-                placeholder="Введіть ваше повідомлення"
-                rows={rows}
-                value={message}
-                onChange={handleMessageChange}
-                onKeyDown={handleKeyDown}
-                onFocus={handleFocus}
-                onBlur={handleOnBlur} // return count of rows to initial value
-              />
+          <div
+            className={`relative items-center ${
+              bg ? "bg-bgDisable" : "bg-bgWhite"
+            }`}
+          >
+            <textarea
+              className={`${
+                isChatRoomInProgress
+                  ? "textarea-style"
+                  : "textarea-style-disabled"
+              } ${activeMenu && !bg ? "border-y" : "border-t"} 
+                input-style`}
+              type="text"
+              placeholder="Введіть ваше повідомлення"
+              rows={rows}
+              value={message}
+              onChange={handleMessageChange}
+              onKeyDown={handleKeyDown}
+              onFocus={handleFocus}
+              onBlur={handleOnBlur} // return count of rows to initial value
+              disabled={!isChatRoomInProgress}
+            />
 
-              {!message && !fileSelected && (
-                <>
-                  <button
-                    type="button"
-                    className="icon-style"
-                    style={{ right: "44px" }}
-                    onClick={toggleMenu}
-                  >
-                    <MenuIcon activeMenu={activeMenu} />
-                  </button>
-                  <button className="icon-style" onClick={openFileInput}>
-                    <input
-                      type="file"
-                      style={{ display: "none" }}
-                      onChange={handleFileChange}
-                      ref={fileInputRef}
-                    />
-                    <AttachIcon />
-                  </button>
-                </>
-              )}
-              {(fileSelected || message) && (
+            {!message && !fileSelected && (
+              <>
                 <button
-                  type="submit"
+                  type="button"
                   className="icon-style"
-                  onClick={
-                    message && fileSelected
-                      ? () => {
-                          handleSubmitMessage();
-                          sendFileToServer();
-                        }
-                      : message
-                      ? handleSubmitMessage
-                      : sendFileToServer
-                  }
+                  style={{ right: "44px" }}
+                  onClick={toggleMenu}
+                  disabled={!isChatRoomInProgress}
                 >
-                  <SendIcon />
+                  <MenuIcon
+                    activeMenu={activeMenu}
+                    isChatRoomInProgress={isChatRoomInProgress}
+                  />
                 </button>
-              )}
-              {temporaryImageURL && (
-                <div className="bg-bgWhite ml-sPlus py-sPlus">
-                  <img src={temporaryImageURL} alt="Uploaded Image" />
-                </div>
-              )}
-            </div>
-          )}
+                <button
+                  className="icon-style"
+                  onClick={openFileInput}
+                  disabled={!isChatRoomInProgress}
+                >
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                  />
+                  <AttachIcon isChatRoomInProgress={isChatRoomInProgress} />
+                </button>
+              </>
+            )}
+            {(fileSelected || message) && (
+              <button
+                type="submit"
+                className="icon-style"
+                onClick={
+                  message && fileSelected
+                    ? () => {
+                        handleSubmitMessage();
+                        sendFileToServer();
+                      }
+                    : message
+                    ? handleSubmitMessage
+                    : sendFileToServer
+                }
+              >
+                <SendIcon />
+              </button>
+            )}
+            {temporaryImageURL && (
+              <div className="bg-bgWhite ml-sPlus py-sPlus">
+                <img src={temporaryImageURL} alt="Uploaded Image" />
+              </div>
+            )}
+          </div>
           {activeMenu && chatRoomStatus === "in progress" && (
             <div className="flex gap-xs py-xs px-s fade-in">
               {!isChatRoomProcessed ? (
@@ -280,7 +294,8 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
 };
 
 ChatRoomFooter.propTypes = {
-  chatRoom: PropTypes.object.isRequired,
-  onStartChat: PropTypes.func.isRequired,
-  isOpenModal: PropTypes.func.isRequired,
+  chatRoom: PropTypes.object,
+  onStartChat: PropTypes.func,
+  isOpenModal: PropTypes.func,
+  bg: PropTypes.bool,
 };

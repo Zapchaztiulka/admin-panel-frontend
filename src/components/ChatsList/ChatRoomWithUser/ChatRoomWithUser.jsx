@@ -130,13 +130,16 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
           isOpenModal={isOpenModal}
         />
       ) : (
-        <div
-          className="flex gap-xs3 p-xs m-m1 font-400 text-base leading-6 text-textError 
-                     border border-solid border-borderError rounded-medium
-                   bg-bgErrorLight items-center"
-        >
-          <InfoIcon />
-          <div>Активний: Менеджера вже підключено</div>
+        <div className="flex flex-col gap-m2">
+          <div
+            className="flex gap-xs3 p-xs self-center font-400 text-base leading-6 
+                     text-textError border border-solid border-borderError 
+                       rounded-medium bg-bgErrorLight items-center"
+          >
+            <InfoIcon />
+            <p>Активний: Менеджера вже підключено</p>
+          </div>
+          <ChatRoomFooter bg />
         </div>
       )}
     </>
