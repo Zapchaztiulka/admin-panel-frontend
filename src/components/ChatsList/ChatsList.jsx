@@ -4,13 +4,10 @@ import { toast } from "react-toastify";
 import { socket } from "./socket";
 
 import "./styles.css";
+import { ChatsHeader } from "./ChatsHeader";
 import { ChatRoomCard } from "./ChatRoomCard";
-import { ChatWithClient } from "./ChatWithClient";
-import {
-  ChatRoomEmptyIcon,
-  ChatListEmptyIcon,
-  BellIcon,
-} from "../Icons/ChatIcons";
+import { ChatRoomWithUser } from "./ChatRoomWithUser";
+import { ChatRoomEmptyIcon, ChatListEmptyIcon } from "../Icons/ChatIcons";
 import { ModalWarning } from "../Modal";
 
 import { selectChatRooms } from "../../redux/chat/selectors";
@@ -30,7 +27,7 @@ import {
   closeChatRoom,
 } from "../../redux/chat/operations";
 
-export const ChatRoomList = () => {
+export const ChatsList = () => {
   const dispatch = useDispatch();
   const manager = useSelector(selectUser);
   const storedToken = useSelector(selectToken);
@@ -64,9 +61,10 @@ export const ChatRoomList = () => {
     });
 
   // calculate a count of unprocessed chats
-  const unprocessedChatRooms = chatRoomsInProgress?.filter(
-    (room) => !room.isChatRoomProcessed && room.isOnline
-  );
+  const unprocessedChatRooms =
+    chatRoomsInProgress?.filter(
+      (room) => !room.isChatRoomProcessed && room.isOnline
+    ) || [];
 
   // send token to the server for authentication
   useEffect(() => {
@@ -287,33 +285,10 @@ export const ChatRoomList = () => {
 
   return (
     <div>
-      <h6 className="font-sans font-400 text-textTertiary text-sm leading-5 mb-m">
-        Чатбот / <span className="text-textPrimary">Чати з клієнтами</span>
-      </h6>
-      <div className="flex justify-between">
-        <h1 className="font-sans font-500 text-textTertiary text-xl leading-6 mb-m">
-          Чати з клієнтами
-        </h1>
-        <div className="relative">
-          <BellIcon />
-          {unprocessedChatRooms?.length > 0 && (
-            <div
-              className="absolute top-[0] right-[0] flex items-center justify-center 
-                         w-xs h-xs font-400 text-[8px] text-iconContrast leading-4
-                       bg-bgBrandDark rounded-[50%] 
-                       "
-            >
-              <span>{unprocessedChatRooms.length} </span>
-            </div>
-          )}
-        </div>
-      </div>
+      <ChatsHeader unprocessedChatRooms={unprocessedChatRooms} />
       <section className="flex w-full indicators-hidden">
         {chatRoomsInProgress?.length > 0 && (
-          <div
-            className="flex flex-col w-[40%] border border-solid border-borderDefault 
-                       rounded-tl-medium bg-bgWhite"
-          >
+          <div className="chats-list">
             {chatRoomsInProgress?.map((room) => (
               <ChatRoomCard
                 key={room._id}
@@ -327,36 +302,25 @@ export const ChatRoomList = () => {
           </div>
         )}
         {!chatRoomsInProgress?.length && (
-          <div
-            className="flex flex-col w-[40%] border border-solid border-borderDefault 
-                       rounded-tl-medium bg-bgWhite justify-center items-center"
-          >
+          <div className="chats-list justify-center items-center">
             <ChatListEmptyIcon />
-            <div className="font-sans font-500 text-xl leading-6 mt-xs text-center">
-              Активні діалоги відсутні
-            </div>
+            <p className="chatroom-empty-title">Активні діалоги відсутні</p>
           </div>
         )}
         {selectedChatRoom && (
-          <div
-            className="flex flex-col w-[60%] border-t border-b border-r border-solid z-10
-                     border-borderDefault rounded-tr-medium bg-bgWhite justify-between"
-          >
-            <ChatWithClient
+          <div className="chatroom-style justify-between">
+            <ChatRoomWithUser
               chatRoom={selectedChatRoom}
               isOpenModal={handleOpenModal}
             />
           </div>
         )}
         {!selectedChatRoom && (
-          <div
-            className="flex flex-col w-[60%] border-t border-b border-r border-solid z-10
-                     border-borderDefault rounded-tr-medium bg-bgWhite justify-center items-center"
-          >
+          <div className="chatroom-style justify-center items-center">
             <ChatRoomEmptyIcon />
-            <div className="font-sans font-500 text-xl leading-6 mt-xs text-center">
+            <p className="chatroom-empty-title">
               Оберіть діалог зі списку, щоб почати спілкування
-            </div>
+            </p>
           </div>
         )}
       </section>

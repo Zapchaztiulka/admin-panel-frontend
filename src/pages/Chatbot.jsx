@@ -1,7 +1,7 @@
-import { ChatRoomList } from "../components/ChatRoomList";
+import { ChatsList } from "../components/ChatsList";
 
 const Chatbot = () => {
-  return <ChatRoomList />;
+  return <ChatsList />;
 };
 
 export default Chatbot;

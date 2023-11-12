@@ -52,6 +52,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
     window.innerWidth ||
     document.documentElement.clientWidth ||
     document.body.clientWidth;
+
   const [cuttingUsername, setCuttingUsername] = useState(
     cutFullName(username, userSurname, chatNumber, screenWidth) || null
   );
@@ -83,10 +84,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
                   ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
       `}
     >
-      <div
-        className="relative text-textBrand font-500 rounded-[50%]
-                    bg-bgBrandLight2 avatar-wrapper"
-      >
+      <div className="relative text-textBrand font-500 bg-bgBrandLight2 avatar-wrapper">
         {username ? (
           <div className="w-m1 h-m1 p-xs2">{firstClientLetters}</div>
         ) : (
@@ -101,8 +99,8 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
           `}
         ></div>
         <div
-          className="description hidden absolute top-[100%] left-[50%] bg-bgGreyDark 
-                        p-xs2 rounded-medium text-textContrast whitespace-nowrap z-10"
+          className="description hidden absolute top-[100%] left-[50%] text-textContrast 
+                   bg-bgGreyDark p-xs2 rounded-medium whitespace-nowrap z-10"
         >
           {isOnline && isChatRoomOpen && "Користувач онлайн"}
           {isOnline && !isChatRoomOpen && "Користувач згорнув чат"}

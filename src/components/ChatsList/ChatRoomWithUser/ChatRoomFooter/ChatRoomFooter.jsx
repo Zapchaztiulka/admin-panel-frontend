@@ -3,21 +3,21 @@ import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import _debounce from "lodash/debounce";
-import { socket } from "../socket";
+import { socket } from "../../socket";
 
 import "./styles.css";
-import { MenuIcon, AttachIcon, SendIcon } from "../../Icons/ChatIcons";
-import { DestructiveBtn, PrimaryBtn } from "../../Buttons";
-import { Loader } from "../../Loader";
-import { sendFile } from "../../../redux/chat/operations";
+import { MenuIcon, AttachIcon, SendIcon } from "../../../Icons/ChatIcons";
+import { DestructiveBtn, PrimaryBtn } from "../../../Buttons";
+import { Loader } from "../../../Loader";
+import { sendFile } from "../../../../redux/chat/operations";
 import {
   selectActiveChatRoom,
   selectSelectedRoomId,
-} from "../../../redux/chat/selectors";
-import { selectUser } from "../../../redux/auth/selectors";
-import { addMessage } from "../../../redux/chat/actions";
+} from "../../../../redux/chat/selectors";
+import { selectUser } from "../../../../redux/auth/selectors";
+import { addMessage } from "../../../../redux/chat/actions";
 
-export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
+export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   const dispatch = useDispatch();
   const manager = useSelector(selectUser);
   const activeChatRoom = useSelector((state) =>
@@ -279,7 +279,7 @@ export const ChatFooter = ({ chatRoom, onStartChat, isOpenModal }) => {
   );
 };
 
-ChatFooter.propTypes = {
+ChatRoomFooter.propTypes = {
   chatRoom: PropTypes.object.isRequired,
   onStartChat: PropTypes.func.isRequired,
   isOpenModal: PropTypes.func.isRequired,

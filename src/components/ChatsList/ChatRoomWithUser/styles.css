@@ -1,8 +1,11 @@
-.indicators-hidden {
-  height: 80vh;
+.message-container {
+  max-height: 57vh;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 
   /* Скрити горизонтальний індикатор прокрутки */
   &::-webkit-scrollbar {

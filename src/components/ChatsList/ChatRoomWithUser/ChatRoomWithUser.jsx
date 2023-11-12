@@ -4,12 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../socket";
 
 import "./styles.css";
-import { MessageTemplate } from "../MessageTemplate";
-import { ChatFooter } from "../ChatFooter";
+import { ChatRoomHeader } from "./ChatRoomHeader";
+import { ChatRoomFooter } from "./ChatRoomFooter";
+import { MessageCard } from "./MessageCard";
 import { PrimaryBtn } from "../../Buttons";
 import { BtnLoader } from "../../Loader";
 import { InfoIcon } from "../../Icons/ChatIcons";
-import { cutFirstLetter } from "../../../utils";
 
 import { selectUser } from "../../../redux/auth/selectors";
 import {
@@ -18,32 +18,19 @@ import {
 } from "../../../redux/chat/selectors";
 import { updateManager } from "../../../redux/chat/actions";
 
-export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
+export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
   const dispatch = useDispatch();
   const [isTyping, setIsTyping] = useState(false);
   const messageContainerRef = useRef(null);
 
   const manager = useSelector(selectUser);
+  const selectedRoomId = useSelector(selectSelectedRoomId);
   const activeChatRoom = useSelector((state) =>
     selectActiveChatRoom(state, chatRoom._id)
   );
-  const selectedRoomId = useSelector(selectSelectedRoomId);
 
-  const {
-    userId,
-    managerId,
-    managerName,
-    managerSurname,
-    username,
-    userSurname,
-    isOnline,
-    isChatRoomProcessed,
-    isChatRoomOpen,
-  } = activeChatRoom;
+  const { managerId, isChatRoomProcessed } = activeChatRoom;
   const isTheSameManager = manager.id === managerId;
-
-  const firstManagerLetters =
-    cutFirstLetter(managerName) + cutFirstLetter(managerSurname);
 
   // handle to start new chat and update Redux state
   const handleStartChatByManager = () => {
@@ -87,60 +74,7 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
   return (
     <>
       <div>
-        <header
-          className="flex p-s border-b border-solid border-borderDefault
-                     rounded-tr-medium justify-between items-end"
-        >
-          <div className="flex flex-col gap-xs3 items-start">
-            <div className="font-500 text-base leading-6">
-              {username
-                ? `${username} ${userSurname}`
-                : `Гість ${userId.slice(22, 24)}`}
-            </div>
-            <div className="flex gap-xs2">
-              <div
-                className={`text-[10px] leading-4 font-500 rounded-medium3 py-xs3 px-xs2 
-                ${
-                  isOnline &&
-                  isChatRoomOpen &&
-                  "bg-bgSuccessDark text-textSuccess"
-                }
-                ${
-                  isOnline &&
-                  !isChatRoomOpen &&
-                  "bg-bgWarningDark text-textWarning"
-                }
-                ${!isOnline && "bg-bgDisable text-textSecondary"}`}
-              >
-                {isOnline && isChatRoomOpen && "Онлайн"}
-                {isOnline && !isChatRoomOpen && "Чат згорнутий"}
-                {!isOnline && "Оффлайн"}
-              </div>
-              {!isChatRoomProcessed && isOnline && (
-                <div
-                  className="text-[10px] leading-4 font-500 rounded-medium3 py-xs3 px-xs2
-                              bg-bgWarningDark text-textWarning"
-                >
-                  Очікує менеджера
-                </div>
-              )}
-            </div>
-          </div>
-          {isChatRoomProcessed && (
-            <div className="flex gap-xs3 items-center">
-              <div>Обслуговує: </div>
-              <div
-                className="inline-block font-500 rounded-[50%] leading-5 tracking-[-0.4px]
-                        text-[10px] item-center text-textBrand bg-bgBrandLight2"
-              >
-                <span className="p-xs3">{firstManagerLetters}</span>
-              </div>
-              <div className="font-400 leading-4 text-xs text-textSecondary">
-                {managerName} {managerSurname}
-              </div>
-            </div>
-          )}
-        </header>
+        <ChatRoomHeader activeChatRoom={activeChatRoom} />
         <section
           ref={messageContainerRef}
           className="flex flex-col gap-sPlus p-m message-container"
@@ -153,20 +87,20 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
                   messageOwner,
                   messageText,
                   messageType,
-                  createdAt = Date.now(),
+                  createdAt,
                 } = message;
+                const owner =
+                  messageOwner === "user"
+                    ? `Клієнт`
+                    : messageOwner === "Бот"
+                    ? "Бот"
+                    : isTheSameManager
+                    ? "Ви"
+                    : "Менеджер";
                 return (
-                  <MessageTemplate
+                  <MessageCard
                     key={_id}
-                    owner={
-                      messageOwner === "user"
-                        ? `Клієнт`
-                        : messageOwner === "Бот"
-                        ? "Бот"
-                        : isTheSameManager
-                        ? "Ви"
-                        : "Менеджер"
-                    }
+                    owner={owner}
                     type={messageType}
                     text={messageText}
                     time={createdAt}
@@ -190,7 +124,7 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
         </section>
       </div>
       {isTheSameManager || (!isTheSameManager && !isChatRoomProcessed) ? (
-        <ChatFooter
+        <ChatRoomFooter
           chatRoom={chatRoom}
           onStartChat={handleStartChatByManager}
           isOpenModal={isOpenModal}
@@ -198,7 +132,8 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
       ) : (
         <div
           className="flex gap-xs3 p-xs m-m1 font-400 text-base leading-6 text-textError 
-          border border-solid border-borderError rounded-medium bg-bgErrorLight items-center"
+                     border border-solid border-borderError rounded-medium
+                   bg-bgErrorLight items-center"
         >
           <InfoIcon />
           <div>Активний: Менеджера вже підключено</div>
@@ -208,7 +143,7 @@ export const ChatWithClient = ({ chatRoom, isOpenModal }) => {
   );
 };
 
-ChatWithClient.propTypes = {
+ChatRoomWithUser.propTypes = {
   chatRoom: PropTypes.object.isRequired,
   isOpenModal: PropTypes.func.isRequired,
 };
