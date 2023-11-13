@@ -1,5 +1,15 @@
-textarea:focus {
+.textarea-style {
+  @apply p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer 
+       hover:bg-bgHoverGrey hover:border-borderActive border-solid 
+       border-borderDefault focus:border-borderDefault;
+}
+
+.textarea-style:focus {
   box-shadow: 0px 0px 4px #2e90fa;
+}
+
+.textarea-style-disabled {
+  @apply p-xs pr-[80px] w-full outline-none border-solid  border-borderDefault;
 }
 
 .input-style::-webkit-resizer {
