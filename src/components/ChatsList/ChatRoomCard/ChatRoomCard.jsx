@@ -8,9 +8,9 @@ import {
   cutFullName,
   getLastClientMessage,
   getUnreadClientMessages,
-} from "../../../utils";
-import { Avatar } from "../../Icons/ChatIcons";
-import { selectUser } from "../../../redux/auth/selectors";
+} from "@/utils";
+import { Avatar } from "@/components/Icons/ChatIcons";
+import { selectUser } from "@/redux/auth/selectors";
 
 export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   const manager = useSelector(selectUser);
@@ -79,14 +79,16 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   return (
     <button
       onClick={onConnectClick}
-      className={`relative flex p-xs gap-xs2 border-b border-solid
+      className={`relative flex p-xs gap-xs2 border-b-1 border-solid
                 border-borderDefault cursor-pointer rounded-tl-medium
                   ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
       `}
     >
-      <div className="relative text-textBrand font-500 bg-bgBrandLight2 avatar-wrapper">
+      <div className="relative min-w-[36px] min-h-[36px] flex bg-bgBrandLight2 items-center justify-center rounded-[50%]">
         {username ? (
-          <div className="w-m1 h-m1 p-xs2">{firstClientLetters}</div>
+          <p className="text-caption text-textBrand font-500 leading-none">
+            {firstClientLetters}
+          </p>
         ) : (
           <Avatar />
         )}
@@ -125,7 +127,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
             </span>
           </div>
           <div
-            className={`font-500 text-base leading-6 truncate ${
+            className={`font-500 text-body truncate ${
               isSelected ? "text-textContrast" : "text-textPrimary"
             }`}
           >
@@ -152,7 +154,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
               <span className="p-xs3">{firstManagerLetters}</span>
             </div>
             <div
-              className={`font-400 leading-4 text-xs ${
+              className={`font-400 leading-4 text-[12px] ${
                 isSelected ? "text-textContrast" : "text-textSecondary"
               }`}
             >
@@ -165,7 +167,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
         <div className="flex flex-col gap-s items-center justify-center">
           {waitingTime && (
             <div
-              className={`font-500 text-xs leading-5 whitespace-nowrap 
+              className={`font-500 text-[12px] leading-5 whitespace-nowrap 
                           ${
                             isSelected
                               ? "text-textContrast"
@@ -178,7 +180,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
           )}
           {countUnreadClientMessages && !isSelected && (
             <div
-              className="font-400 text-xs text-iconContrast leading-4 w-s h-s
+              className="font-400 text-[12px] text-iconContrast leading-4 w-s h-s
                        bg-bgBrandDark rounded-[50%]"
             >
               {countUnreadClientMessages}

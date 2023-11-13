@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 
-import { BellIcon } from "../../Icons/ChatIcons";
+import { BellIcon } from "@/components/Icons/ChatIcons";
 
 export const ChatsHeader = ({ unprocessedChatRooms }) => {
   return (
     <>
-      <h6 className="font-sans font-400 text-textTertiary text-sm leading-5 mb-m">
+      <h6 className="font-400 text-textTertiary text-caption mb-m">
         Чатбот / <span className="text-textPrimary">Чати з клієнтами</span>
       </h6>
       <div className="flex justify-between">
-        <h1 className="font-sans font-500 text-textTertiary text-xl leading-6 mb-m">
+        <h1 className="font-500 text-textTertiary text-heading4 mb-m">
           Чати з клієнтами
         </h1>
         <div className="relative">

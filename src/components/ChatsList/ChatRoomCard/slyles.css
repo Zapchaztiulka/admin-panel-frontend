@@ -21,12 +21,6 @@
   text-overflow: ellipsis;
 }
 
-.avatar-wrapper {
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-}
-
 .avatar-wrapper:hover .description {
   display: block;
 }

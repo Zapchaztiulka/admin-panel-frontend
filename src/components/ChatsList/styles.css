@@ -26,14 +26,14 @@
 }
 
 .chats-list {
-  @apply flex flex-col w-[40%] border border-solid border-borderDefault rounded-tl-medium bg-bgWhite;
+  @apply flex flex-col w-[40%] border-1 border-solid border-borderDefault rounded-tl-medium bg-bgWhite;
 }
 
 .chatroom-style {
-  @apply flex flex-col w-[60%] border-t border-b border-r border-solid z-10
+  @apply flex flex-col w-[60%] border-t-1 border-b-1 border-r-1 border-solid z-10
        border-borderDefault rounded-tr-medium bg-bgWhite;
 }
 
 .chatroom-empty-title {
-  @apply font-sans font-500 text-xl leading-6 mt-xs text-center;
+  @apply font-sans font-500 text-heading4 mt-xs text-center;
 }

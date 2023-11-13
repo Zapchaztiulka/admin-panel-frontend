@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import { firstLetter } from "../../../../utils";
+import { firstLetter } from "@/utils";
 
 export const ChatRoomHeader = ({ activeChatRoom }) => {
   const {
@@ -18,11 +18,11 @@ export const ChatRoomHeader = ({ activeChatRoom }) => {
 
   return (
     <header
-      className="flex p-s border-b border-solid border-borderDefault
+      className="flex p-s border-b-1 border-solid border-borderDefault
                  rounded-tr-medium justify-between items-end"
     >
       <div className="flex flex-col gap-xs3 items-start">
-        <div className="font-500 text-base leading-6">
+        <div className="font-500 text-body">
           {username
             ? `${username} ${userSurname}`
             : `Гість ${userId.slice(22, 24)}`}
@@ -59,13 +59,12 @@ export const ChatRoomHeader = ({ activeChatRoom }) => {
       {isChatRoomProcessed && (
         <div className="flex gap-xs3 items-center">
           <div>Обслуговує: </div>
-          <div
-            className="font-500 text-[10px] leading-5 tracking-[-0.4px] text-textBrand
-                     bg-bgBrandLight2 rounded-[50%] item-center"
-          >
-            <span className="p-xs3">{firstManagerLetters}</span>
+          <div className="flex min-w-[24px] min-h-[24px] bg-bgBrandLight2 rounded-[50%] items-center justify-center">
+            <div className="font-500 text-[10px] leading-none tracking-[-0.4px] text-textBrand">
+              {firstManagerLetters}
+            </div>
           </div>
-          <div className="font-400 leading-4 text-xs text-textSecondary">
+          <div className="font-400 leading-4 text-[12px] text-textSecondary whitespace-nowrap">
             {managerName} {managerSurname}
           </div>
         </div>

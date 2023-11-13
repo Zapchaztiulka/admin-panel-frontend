@@ -7,16 +7,16 @@ import "./styles.css";
 import { ChatRoomHeader } from "./ChatRoomHeader";
 import { ChatRoomFooter } from "./ChatRoomFooter";
 import { MessageCard } from "./MessageCard";
-import { PrimaryBtn } from "../../Buttons";
-import { BtnLoader } from "../../Loader";
-import { InfoIcon } from "../../Icons/ChatIcons";
+import { PrimaryBtn } from "@/components/Buttons";
+import { BtnLoader } from "@/components/Loader";
+import { InfoIcon } from "@/components/Icons/ChatIcons";
 
-import { selectUser } from "../../../redux/auth/selectors";
+import { selectUser } from "@/redux/auth/selectors";
 import {
   selectActiveChatRoom,
   selectSelectedRoomId,
-} from "../../../redux/chat/selectors";
-import { updateManager } from "../../../redux/chat/actions";
+} from "@/redux/chat/selectors";
+import { updateManager } from "@/redux/chat/actions";
 
 export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
   const dispatch = useDispatch();
@@ -112,7 +112,7 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
               <div>
                 <PrimaryBtn disabled>
                   <div className="flex gap-xs2">
-                    <div className="font-400 text-sm leading-5 text-textTertiary">
+                    <div className="font-400 text-caption text-textTertiary">
                       Клієнт друкує повідомлення
                     </div>
                     <BtnLoader height={20} width={48} radius={8} />
@@ -132,9 +132,8 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
       ) : (
         <div className="flex flex-col gap-m2">
           <div
-            className="flex gap-xs3 p-xs self-center font-400 text-base leading-6 
-                     text-textError border border-solid border-borderError 
-                       rounded-medium bg-bgErrorLight items-center"
+            className="flex gap-xs3 p-xs self-center font-400 text-body text-textError border-1
+             border-solid border-borderError rounded-medium bg-bgErrorLight items-center"
           >
             <InfoIcon />
             <p>Активний: Менеджера вже підключено</p>

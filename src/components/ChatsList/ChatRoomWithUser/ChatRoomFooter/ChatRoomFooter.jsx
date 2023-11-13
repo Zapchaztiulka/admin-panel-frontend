@@ -3,19 +3,20 @@ import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import _debounce from "lodash/debounce";
-import { socket } from "../../socket";
+import { socket } from "@/components/ChatsList/socket";
 
 import "./styles.css";
-import { MenuIcon, AttachIcon, SendIcon } from "../../../Icons/ChatIcons";
-import { DestructiveBtn, PrimaryBtn } from "../../../Buttons";
-import { Loader } from "../../../Loader";
-import { sendFile } from "../../../../redux/chat/operations";
+import { MenuIcon, AttachIcon, SendIcon } from "@/components/Icons/ChatIcons";
+import { DestructiveBtn, PrimaryBtn } from "@/components/Buttons";
+import { Loader } from "@/components/Loader";
+
+import { addMessage } from "@/redux/chat/actions";
 import {
   selectActiveChatRoom,
   selectSelectedRoomId,
-} from "../../../../redux/chat/selectors";
-import { selectUser } from "../../../../redux/auth/selectors";
-import { addMessage } from "../../../../redux/chat/actions";
+} from "@/redux/chat/selectors";
+import { selectUser } from "@/redux/auth/selectors";
+import { sendFile } from "@/redux/chat/operations";
 
 export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
   const dispatch = useDispatch();
@@ -203,7 +204,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
                 isChatRoomInProgress
                   ? "textarea-style"
                   : "textarea-style-disabled"
-              } ${activeMenu && !bg ? "border-y" : "border-t"} 
+              } ${activeMenu && !bg ? "border-y-1" : "border-t-1"} 
                 input-style`}
               type="text"
               placeholder="Введіть ваше повідомлення"
