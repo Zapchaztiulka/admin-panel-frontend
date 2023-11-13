@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { formatDate } from "../../../../utils/formatDate";
+import { formatDate } from "@/utils";
 
 export const MessageCard = React.memo(
   ({ owner = "Бот", text, type, time = Date.now() }) => {
     return (
       <>
         <div
-          className={`font-sans font-400 tracking-button rounded-medium
+          className={`font-400 tracking-button rounded-medium
                       text-textPrimary flex flex-col gap-xs3 p-xs w-[60%]
                         ${
                           owner === "Ви" || owner === "Менеджер"
@@ -18,13 +18,13 @@ export const MessageCard = React.memo(
                         }
                         ${
                           type !== "text" &&
-                          "bg-bgWhite border border-solid border-borderDefault"
+                          "bg-bgWhite border-1 border-solid border-borderDefault"
                         }`}
           style={{ whiteSpace: "pre-line", wordWrap: "break-word" }}
         >
-          <p className="font-500 text-xs text-textTertiary">{owner}</p>
+          <p className="font-500 text-[12px] text-textTertiary">{owner}</p>
           {type === "text" && (
-            <p className="text-base text-textPrimary self-stretch">{text}</p>
+            <p className="text-body text-textPrimary self-stretch">{text}</p>
           )}
           {type === "image" && (
             <div className="max-w-xs h-auto">

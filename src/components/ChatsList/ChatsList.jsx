@@ -10,8 +10,8 @@ import { ChatRoomWithUser } from "./ChatRoomWithUser";
 import { ChatRoomEmptyIcon, ChatListEmptyIcon } from "../Icons/ChatIcons";
 import { ModalWarning } from "../Modal";
 
-import { selectChatRooms } from "../../redux/chat/selectors";
-import { selectToken, selectUser } from "../../redux/auth/selectors";
+import { selectChatRooms } from "@/redux/chat/selectors";
+import { selectToken, selectUser } from "@/redux/auth/selectors";
 import {
   updateUserStatus,
   updateIsChatRoomOpen,
@@ -21,11 +21,8 @@ import {
   addMessage,
   closeChat,
   selectRoom,
-} from "../../redux/chat/actions";
-import {
-  getChatRoomsInProgress,
-  closeChatRoom,
-} from "../../redux/chat/operations";
+} from "@/redux/chat/actions";
+import { getChatRoomsInProgress, closeChatRoom } from "@/redux/chat/operations";
 
 export const ChatsList = () => {
   const dispatch = useDispatch();

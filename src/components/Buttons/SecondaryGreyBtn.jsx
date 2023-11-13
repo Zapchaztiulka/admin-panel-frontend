@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
+import theme from "../../../presets";
 import "./styles.css";
 
-export const SecondaryGreyBtn = ({ children, to, disabled, onClick }) => {
+export const SecondaryGreyBtn = ({
+  children,
+  to,
+  disabled,
+  pressed,
+  onClick,
+}) => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -14,11 +21,19 @@ export const SecondaryGreyBtn = ({ children, to, disabled, onClick }) => {
   };
 
   return !disabled ? (
-    <button className="second-grey" onClick={handleButtonClick}>
+    <button
+      className="common-style standard-button secondary-button-grey"
+      style={{
+        backgroundColor: pressed && theme.colors.bgPressedDestructive,
+      }}
+      onClick={handleButtonClick}
+    >
       {children}
     </button>
   ) : (
-    <button className="second-grey-disabled">{children}</button>
+    <button className="common-style disabled-button secondary-button-grey-disabled">
+      {children}
+    </button>
   );
 };
 

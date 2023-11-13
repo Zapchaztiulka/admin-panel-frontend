@@ -1,7 +1,14 @@
 import PropTypes from "prop-types";
 import { ThreeDots } from "react-loader-spinner";
 
-export const BtnLoader = ({ height, width, radius, color = "#2E3238" }) => {
+import theme from "../../../presets";
+
+export const BtnLoader = ({
+  height,
+  width,
+  radius,
+  color = theme.colors.iconPrimary,
+}) => {
   return (
     <ThreeDots
       height={height}

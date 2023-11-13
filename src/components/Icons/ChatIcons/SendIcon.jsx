@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 
-const SendIcon = ({ colorFill = "rgba(46, 50, 56, 1)" }) => (
+import theme from "../../../../presets";
+
+const SendIcon = ({ colorFill = theme.colors.iconPrimary }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
