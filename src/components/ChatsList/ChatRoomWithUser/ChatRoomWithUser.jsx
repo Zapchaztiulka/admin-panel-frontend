@@ -132,7 +132,7 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
       ) : (
         <div className="flex flex-col gap-m2">
           <div
-            className="flex gap-xs3 p-xs self-center font-400 text-body text-textError border-1
+            className="flex gap-xs3 p-xs self-center font-400 text-body text-textError border-[1px]
              border-solid border-borderError rounded-medium bg-bgErrorLight items-center"
           >
             <InfoIcon />

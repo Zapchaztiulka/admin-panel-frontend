@@ -18,7 +18,7 @@ export const MessageCard = React.memo(
                         }
                         ${
                           type !== "text" &&
-                          "bg-bgWhite border-1 border-solid border-borderDefault"
+                          "bg-bgWhite border-[1px] border-solid border-borderDefault"
                         }`}
           style={{ whiteSpace: "pre-line", wordWrap: "break-word" }}
         >
