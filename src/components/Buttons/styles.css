@@ -15,11 +15,11 @@
 }
 
 .secondary-button-grey {
-  @apply text-textPrimary  bg-bgWhite hover:bg-bgHoverGrey border-[1px] border-solid border-borderDefault;
+  @apply text-textPrimary  bg-bgWhite hover:bg-bgHoverGrey border-1 border-solid border-borderDefault;
 }
 
 .secondary-button-grey-disabled {
-  @apply border-[1px] border-solid border-borderDisabled;
+  @apply border-1 border-solid border-borderDisabled;
 }
 
 .destructive-button {
@@ -27,5 +27,5 @@
 }
 
 .destructive-button-disabled {
-  @apply border-[1px] border-solid border-borderDisabled;
+  @apply border-1 border-solid border-borderDisabled;
 }

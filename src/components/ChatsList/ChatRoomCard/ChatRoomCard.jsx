@@ -79,7 +79,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   return (
     <button
       onClick={onConnectClick}
-      className={`relative flex p-xs gap-xs2 border-b-[1px] border-solid
+      className={`relative flex p-xs gap-xs2 border-b-1 border-solid
                 border-borderDefault cursor-pointer rounded-tl-medium
                   ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
       `}
@@ -93,7 +93,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
           <Avatar />
         )}
         <div
-          className={`absolute bottom-[0] right-[0] w-s h-s border-[2px] border-solid
+          className={`absolute bottom-[0] right-[0] w-s h-s border-2 border-solid
                     border-iconWhite rounded-medium3 
                       ${isOnline && isChatRoomOpen && "bg-iconSuccess"} 
                       ${isOnline && !isChatRoomOpen && "bg-iconWarning"} 

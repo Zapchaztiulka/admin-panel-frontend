@@ -204,7 +204,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
                 isChatRoomInProgress
                   ? "textarea-style"
                   : "textarea-style-disabled"
-              } ${activeMenu && !bg ? "border-y-[1px]" : "border-t-[1px]"} 
+              } ${activeMenu && !bg ? "border-y-1" : "border-t-1"} 
                 input-style`}
               type="text"
               placeholder="Введіть ваше повідомлення"

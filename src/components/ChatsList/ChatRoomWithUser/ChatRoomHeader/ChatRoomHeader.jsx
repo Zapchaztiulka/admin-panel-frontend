@@ -18,7 +18,7 @@ export const ChatRoomHeader = ({ activeChatRoom }) => {
 
   return (
     <header
-      className="flex p-s border-b-[1px] border-solid border-borderDefault
+      className="flex p-s border-b-1 border-solid border-borderDefault
                  rounded-tr-medium justify-between items-end"
     >
       <div className="flex flex-col gap-xs3 items-start">
