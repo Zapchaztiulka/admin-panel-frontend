@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import _debounce from "lodash/debounce";
 import { socket } from "@/components/ChatsList/socket";
 
 import "./styles.css";
@@ -35,17 +34,17 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
   const [temporaryImageURL, setTemporaryImageURL] = useState(null);
   const [isSendingFile, setIsSendingFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [handleTypingExecuted, setHandleTypingExecuted] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
   const fileInputRef = useRef(null);
-
   const isChatRoomInProgress =
     (isChatRoomProcessed && chatRoomStatus === "in progress") || false;
 
-  let typingTimeout;
-
   // handle to send emit when manager is typing
-  const handleTyping = _debounce((isTyping) => {
+  const handleTyping = useCallback((isTyping) => {
     socket.emit("managerTyping", { isTyping, roomId: selectedRoom });
-  }, 1000);
+    setHandleTypingExecuted(isTyping);
+  }, [selectedRoom]);
 
   // handle input with auto extending of input field
   const handleMessageChange = (evt) => {
@@ -63,14 +62,15 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
     setRows(currentRows);
     rowsRef.current = currentRows;
 
-    handleTyping(true);
-
-    // Additionally - if the user stops entering text,
-    // but cursor is in input field - we assume that he has stopped typing too
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
+    if (!handleTypingExecuted) {
+      handleTyping(true);
+    }
+    clearTimeout(timeoutId);
+    const delayedFunction = () => {
       handleTyping(false);
-    }, 2000);
+    };
+    const id = setTimeout(delayedFunction, 3000);
+    setTimeoutId(id);
   };
 
   // handle a text message
@@ -94,6 +94,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
     });
 
     socket.emit("managerMessage", messageData);
+    handleTyping(false);
 
     setMessage("");
     setRows(1);
@@ -167,8 +168,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
   // handle to lost focus on input
   const handleOnBlur = () => {
     setRows(1); // return count of rows to initial value
-    handleTyping(false); // if the manager lost focus on input, we assume that he has stopped typing
-    clearTimeout(typingTimeout);
+    handleTyping(false);
   };
 
   // handle to send a message after pushing of button "Enter"
