@@ -7,7 +7,6 @@ import "./styles.css";
 import { ChatRoomHeader } from "./ChatRoomHeader";
 import { ChatRoomFooter } from "./ChatRoomFooter";
 import { MessageCard } from "./MessageCard";
-import { PrimaryBtn } from "@/components/Buttons";
 import { BtnLoader } from "@/components/Loader";
 import { InfoIcon } from "@/components/Icons/ChatIcons";
 
@@ -29,8 +28,7 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
     selectActiveChatRoom(state, chatRoom._id)
   );
 
-  const { managerId, isChatRoomProcessed } = activeChatRoom;
-  const isTheSameManager = manager.id === managerId;
+  const isTheSameManager = manager.id === activeChatRoom?.managerId;
 
   // handle to start new chat and update Redux state
   const handleStartChatByManager = () => {
@@ -109,21 +107,18 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
                 );
               })}
             {isTyping && isTheSameManager && (
-              <div>
-                <PrimaryBtn disabled>
-                  <div className="flex gap-xs2">
-                    <div className="font-400 text-caption text-textTertiary">
-                      Клієнт друкує повідомлення
-                    </div>
-                    <BtnLoader height={20} width={48} radius={8} />
-                  </div>
-                </PrimaryBtn>
+              <div className="flex gap-xs2">
+                <div className="font-400 text-caption text-textTertiary">
+                  Клієнт друкує повідомлення
+                </div>
+                <BtnLoader height={20} width={48} radius={8} />
               </div>
             )}
           </>
         </section>
       </div>
-      {isTheSameManager || (!isTheSameManager && !isChatRoomProcessed) ? (
+      {isTheSameManager ||
+      (!isTheSameManager && !activeChatRoom?.isChatRoomProcessed) ? (
         <ChatRoomFooter
           chatRoom={chatRoom}
           onStartChat={handleStartChatByManager}

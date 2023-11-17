@@ -1,7 +1,7 @@
 .textarea-style {
   @apply p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer 
        hover:bg-bgHoverGrey hover:border-borderActive border-solid 
-       border-borderDefault focus:border-borderDefault;
+       border-borderDefault focus:border-borderDefault leading-none;
 }
 
 .textarea-style:focus {
@@ -12,7 +12,7 @@
   @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault;
 }
 
-.input-style::-webkit-resizer {
+.textarea::-webkit-resizer {
   @apply outline-none;
 }
 

@@ -105,12 +105,15 @@ export const ChatsList = () => {
         payload: { room },
       });
 
+      const chatNumber = room.userId.slice(22, 24);
       const messageData = {
         roomId: room._id,
         message: {
           messageOwner: "Бот",
           messageType: "text",
-          messageText: `Клієнт ${username} ${userSurname} завершив чат.`,
+          messageText: `Клієнт ${
+            username ? username + " " + userSurname : "Гість" + " " + chatNumber
+          } завершив чат.`,
           createdAt: Date.now(),
         },
       };
@@ -153,7 +156,7 @@ export const ChatsList = () => {
     };
   }, [dispatch]);
 
-  // update chat room and send message to manager when user rolling up a chat room or unfolds one
+  // update chat room and send message to manager when user minimizes or extends a chat room
   useEffect(() => {
     socket.on("chatRoomOpenChanged", ({ userId, isChatRoomOpen }) => {
       dispatch({

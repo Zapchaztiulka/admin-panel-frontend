@@ -84,7 +84,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
                   ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
       `}
     >
-      <div className="relative min-w-[36px] min-h-[36px] flex bg-bgBrandLight2 items-center justify-center rounded-[50%]">
+      <div className="relative min-w-[36px] h-[36px] flex bg-bgBrandLight2 items-center justify-center rounded-[50%]">
         {username ? (
           <p className="text-caption text-textBrand font-500 leading-none">
             {firstClientLetters}

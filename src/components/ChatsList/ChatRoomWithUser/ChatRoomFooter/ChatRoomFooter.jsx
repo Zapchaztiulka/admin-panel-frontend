@@ -41,10 +41,13 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
     (isChatRoomProcessed && chatRoomStatus === "in progress") || false;
 
   // handle to send emit when manager is typing
-  const handleTyping = useCallback((isTyping) => {
-    socket.emit("managerTyping", { isTyping, roomId: selectedRoom });
-    setHandleTypingExecuted(isTyping);
-  }, [selectedRoom]);
+  const handleTyping = useCallback(
+    (isTyping) => {
+      socket.emit("managerTyping", { isTyping, roomId: selectedRoom });
+      setHandleTypingExecuted(isTyping);
+    },
+    [selectedRoom]
+  );
 
   // handle input with auto extending of input field
   const handleMessageChange = (evt) => {
@@ -65,6 +68,8 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
     if (!handleTypingExecuted) {
       handleTyping(true);
     }
+
+    // If the manager stops entering text, but cursor is in input field - we assume that he has stopped typing too
     clearTimeout(timeoutId);
     const delayedFunction = () => {
       handleTyping(false);
@@ -94,7 +99,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
     });
 
     socket.emit("managerMessage", messageData);
-    handleTyping(false);
+    handleTyping(false); // if manager sent a message, we assume that he has stopped typing
 
     setMessage("");
     setRows(1);
@@ -127,6 +132,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
           });
 
           socket.emit("managerMessage", messageData);
+          handleTyping(false); // if manager sent an image, we assume that he has stopped typing
         })
         .catch(() =>
           toast.error("Не вдалося завантажити фото. Спробуйте повторити")
@@ -193,19 +199,14 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <footer>
-          <div
-            className={`relative items-center ${
-              bg ? "bg-bgDisable" : "bg-bgWhite"
-            }`}
-          >
+        <footer className="relative bottom-[-6px]">
+          <div className={`relative ${bg ? "bg-bgDisable" : "bg-bgWhite"}`}>
             <textarea
               className={`${
                 isChatRoomInProgress
                   ? "textarea-style"
                   : "textarea-style-disabled"
-              } ${activeMenu && !bg ? "border-y-1" : "border-t-1"} 
-                input-style`}
+              } ${activeMenu && !bg ? "border-y-1" : "border-t-1"}`}
               type="text"
               placeholder="Введіть ваше повідомлення"
               rows={rows}
@@ -213,10 +214,9 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
               onChange={handleMessageChange}
               onKeyDown={handleKeyDown}
               onFocus={handleFocus}
-              onBlur={handleOnBlur} // return count of rows to initial value
+              onBlur={handleOnBlur}
               disabled={!isChatRoomInProgress}
             />
-
             {!message && !fileSelected && (
               <>
                 <button
