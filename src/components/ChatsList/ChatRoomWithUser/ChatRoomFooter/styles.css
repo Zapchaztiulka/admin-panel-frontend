@@ -5,19 +5,19 @@
 }
 
 .textarea-style:focus {
-  box-shadow: 0px 0px 4px #2e90fa;
+  @apply shadow-btFocus;
 }
 
 .textarea-style-disabled {
   @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault;
 }
 
-.textarea::-webkit-resizer {
+.input-style::-webkit-resizer {
   @apply outline-none;
 }
 
 .icon-style {
-  @apply absolute right-xs top-[44%] transform -translate-y-[44%];
+  @apply absolute right-xs top-[44%] transform -translate-y-[50%];
 }
 
 @keyframes fade-in {
