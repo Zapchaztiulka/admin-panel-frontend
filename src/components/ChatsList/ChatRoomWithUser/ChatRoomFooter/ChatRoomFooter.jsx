@@ -202,7 +202,7 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
         <footer className="relative bottom-[-6px]">
           <div className={`relative ${bg ? "bg-bgDisable" : "bg-bgWhite"}`}>
             <textarea
-              className={`${
+              className={`input-style ${
                 isChatRoomInProgress
                   ? "textarea-style"
                   : "textarea-style-disabled"
