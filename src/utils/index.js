@@ -6,3 +6,4 @@ export * from "./formatDate";
 export * from "./icons";
 export * from "./inputType";
 export * from "./validateText";
+export * from "./compressAndResizeImage";
