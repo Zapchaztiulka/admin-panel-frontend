@@ -119,13 +119,15 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
       </div>
       {isTheSameManager ||
       (!isTheSameManager && !activeChatRoom?.isChatRoomProcessed) ? (
-        <ChatRoomFooter
-          chatRoom={chatRoom}
-          onStartChat={handleStartChatByManager}
-          isOpenModal={isOpenModal}
-        />
+        <div className="absolute w-full bottom-[-6px]">
+          <ChatRoomFooter
+            chatRoom={chatRoom}
+            onStartChat={handleStartChatByManager}
+            isOpenModal={isOpenModal}
+          />
+        </div>
       ) : (
-        <div className="flex flex-col gap-m2">
+        <div className="flex flex-col gap-m2 py-s">
           <div
             className="flex gap-xs3 p-xs self-center font-400 text-body text-textError border-1
              border-solid border-borderError rounded-medium bg-bgErrorLight items-center"
@@ -133,7 +135,9 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
             <InfoIcon />
             <p>Активний: Менеджера вже підключено</p>
           </div>
-          <ChatRoomFooter bg />
+          <div className="absolute w-full bottom-[-6px]">
+            <ChatRoomFooter disabled />
+          </div>
         </div>
       )}
     </>

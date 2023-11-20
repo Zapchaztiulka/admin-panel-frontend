@@ -9,7 +9,7 @@
 }
 
 .textarea-style-disabled {
-  @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault;
+  @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault leading-none;
 }
 
 .input-style::-webkit-resizer {

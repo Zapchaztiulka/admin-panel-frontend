@@ -18,7 +18,12 @@ import {
 import { selectUser } from "@/redux/auth/selectors";
 import { sendFile } from "@/redux/chat/operations";
 
-export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
+export const ChatRoomFooter = ({
+  chatRoom,
+  onStartChat,
+  isOpenModal,
+  disabled,
+}) => {
   const dispatch = useDispatch();
   const manager = useSelector(selectUser);
   const activeChatRoom =
@@ -206,14 +211,14 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <footer className="relative bottom-[-6px]">
-          <div className={`relative ${bg ? "bg-bgDisable" : "bg-bgWhite"}`}>
+        <footer className="relative">
+          <div className="relative">
             <textarea
               className={`input-style ${
                 isChatRoomInProgress
                   ? "textarea-style"
-                  : "textarea-style-disabled"
-              } ${activeMenu && !bg ? "border-y-1" : "border-t-1"}`}
+                  : "textarea-style-disabled border-y-1"
+              } ${activeMenu ? "border-y-1" : "border-t-1"}`}
               type="text"
               placeholder="Введіть ваше повідомлення"
               rows={rows}
@@ -277,22 +282,20 @@ export const ChatRoomFooter = ({ chatRoom, onStartChat, isOpenModal, bg }) => {
               </div>
             )}
           </div>
-          {activeMenu && chatRoomStatus === "in progress" && (
+          {activeMenu && isChatRoomProcessed && (
             <div className="flex gap-xs py-xs px-s fade-in">
-              {!isChatRoomProcessed ? (
-                <PrimaryBtn onClick={() => onStartChat()}>
-                  Розпочати діалог
-                </PrimaryBtn>
-              ) : (
-                <PrimaryBtn disabled>Розпочати діалог</PrimaryBtn>
-              )}
-              {isChatRoomProcessed ? (
-                <DestructiveBtn onClick={() => isOpenModal()}>
-                  Завершити діалог
-                </DestructiveBtn>
-              ) : (
-                <DestructiveBtn disabled>Завершити діалог</DestructiveBtn>
-              )}
+              <PrimaryBtn disabled>Розпочати діалог</PrimaryBtn>
+              <DestructiveBtn onClick={() => isOpenModal()} disabled={disabled}>
+                Завершити діалог
+              </DestructiveBtn>
+            </div>
+          )}{" "}
+          {!isChatRoomProcessed && (
+            <div className="flex gap-xs py-xs px-s fade-in">
+              <PrimaryBtn onClick={() => onStartChat()} disabled={disabled}>
+                Розпочати діалог
+              </PrimaryBtn>
+              <DestructiveBtn disabled>Завершити діалог</DestructiveBtn>
             </div>
           )}
         </footer>
@@ -305,5 +308,5 @@ ChatRoomFooter.propTypes = {
   chatRoom: PropTypes.object,
   onStartChat: PropTypes.func,
   isOpenModal: PropTypes.func,
-  bg: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
