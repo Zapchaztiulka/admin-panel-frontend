@@ -75,7 +75,9 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
         <ChatRoomHeader activeChatRoom={activeChatRoom} />
         <section
           ref={messageContainerRef}
-          className="flex flex-col gap-sPlus p-m message-container"
+          className={`flex flex-col gap-sPlus p-m ${
+            isTheSameManager ? "max-h-[63vh]" : "max-h-[56vh]"
+          } message-container`}
         >
           <>
             {activeChatRoom &&
@@ -119,7 +121,7 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
       </div>
       {isTheSameManager ||
       (!isTheSameManager && !activeChatRoom?.isChatRoomProcessed) ? (
-        <div className="absolute w-full bottom-[-6px]">
+        <div className="absolute w-full bottom-[0] bg-bgWhite">
           <ChatRoomFooter
             chatRoom={chatRoom}
             onStartChat={handleStartChatByManager}
