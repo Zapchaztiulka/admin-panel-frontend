@@ -4,6 +4,7 @@ import {
   createChatByUser,
   updateUserStatus,
   updateIsChatRoomOpen,
+  updateIsLeavePage,
   updateManager,
   disconnectManager,
   closeChat,
@@ -113,7 +114,10 @@ export const chatSlice = createSlice({
 
       .addCase(updateUserStatus, (state, { payload }) => {
         const { userId, isOnline } = payload;
-        const chatRoom = state.chatRooms.find((room) => room.userId === userId);
+        const chatRoom = state.chatRooms.find(
+          (room) =>
+            room.userId === userId && room.chatRoomStatus === "in progress"
+        );
         if (chatRoom) {
           chatRoom.isOnline = isOnline;
         }
@@ -121,9 +125,23 @@ export const chatSlice = createSlice({
 
       .addCase(updateIsChatRoomOpen, (state, { payload }) => {
         const { userId, isChatRoomOpen } = payload;
-        const chatRoom = state.chatRooms.find((room) => room.userId === userId);
+        const chatRoom = state.chatRooms.find(
+          (room) =>
+            room.userId === userId && room.chatRoomStatus === "in progress"
+        );
         if (chatRoom) {
           chatRoom.isChatRoomOpen = isChatRoomOpen;
+        }
+      })
+
+      .addCase(updateIsLeavePage, (state, { payload }) => {
+        const { userId, isLeavePage } = payload;
+        const chatRoom = state.chatRooms.find(
+          (room) =>
+            room.userId === userId && room.chatRoomStatus === "in progress"
+        );
+        if (chatRoom) {
+          chatRoom.isLeavePage = isLeavePage;
         }
       })
 

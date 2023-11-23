@@ -214,7 +214,7 @@ export const ChatRoomFooter = ({
         <footer className="relative">
           <div className="relative">
             <textarea
-              className={`input-style ${
+              className={`${
                 isChatRoomInProgress
                   ? "textarea-style"
                   : "textarea-style-disabled border-y-1"
@@ -277,7 +277,7 @@ export const ChatRoomFooter = ({
               </button>
             )}
             {temporaryImageURL && (
-              <div className="bg-bgWhite ml-sPlus py-sPlus">
+              <div className="bg-bgWhite ml-sPlus">
                 <img src={temporaryImageURL} alt="Uploaded Image" />
               </div>
             )}
