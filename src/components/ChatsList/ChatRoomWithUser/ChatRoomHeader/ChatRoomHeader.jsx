@@ -12,6 +12,7 @@ export const ChatRoomHeader = ({ activeChatRoom }) => {
     isOnline,
     isChatRoomProcessed,
     isChatRoomOpen,
+    isLeavePage,
   } = activeChatRoom;
 
   const firstManagerLetters = firstLetter(managerName, managerSurname);
@@ -28,24 +29,29 @@ export const ChatRoomHeader = ({ activeChatRoom }) => {
             : `Гість ${userId.slice(22, 24)}`}
         </div>
         <div className="flex gap-xs2">
-          <div
-            className={`font-500 text-[10px] leading-4 rounded-medium3 py-xs3 px-xs2 
+          {!isOnline && (
+            <div className="font-500 text-[10px] leading-4 rounded-medium3 py-xs3 px-xs2 bg-bgDisable text-textSecondary">
+              Оффлайн
+            </div>
+          )}
+          {isOnline && (
+            <div
+              className={`font-500 text-[10px] leading-4 rounded-medium3 py-xs3 px-xs2 
                 ${
-                  isOnline &&
                   isChatRoomOpen &&
+                  !isLeavePage &&
                   "bg-bgSuccessDark text-textSuccess"
                 }
                 ${
-                  isOnline &&
-                  !isChatRoomOpen &&
+                  (!isChatRoomOpen || isLeavePage) &&
                   "bg-bgWarningDark text-textWarning"
-                }
-                ${!isOnline && "bg-bgDisable text-textSecondary"}`}
-          >
-            {isOnline && isChatRoomOpen && "Онлайн"}
-            {isOnline && !isChatRoomOpen && "Чат згорнутий"}
-            {!isOnline && "Оффлайн"}
-          </div>
+                } 
+                `}
+            >
+              {isChatRoomOpen && !isLeavePage && "Онлайн"}
+              {(!isChatRoomOpen || isLeavePage) && "Чат згорнутий"}
+            </div>
+          )}
           {!isChatRoomProcessed && isOnline && (
             <div
               className="font-500 text-[10px] leading-4 rounded-medium3 py-xs3 px-xs2

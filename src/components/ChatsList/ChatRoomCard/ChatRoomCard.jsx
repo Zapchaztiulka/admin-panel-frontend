@@ -25,6 +25,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
     isOnline,
     isChatRoomOpen,
     isChatRoomProcessed,
+    isLeavePage,
   } = room;
 
   const chatNumber = userId.slice(22, 24);
@@ -33,7 +34,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   const firstClientLetters = firstLetter(username, userSurname);
   const firstManagerLetters = firstLetter(managerName, managerSurname);
 
-  // get unread messages for a bell
+  // get unread messages
   const countUnreadClientMessages = getUnreadClientMessages(messages);
 
   // get last message and cut it
@@ -84,7 +85,10 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
                   ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
       `}
     >
-      <div className="relative min-w-[36px] h-[36px] flex bg-bgBrandLight2 items-center justify-center rounded-[50%]">
+      <div
+        className="relative min-w-[36px] h-[36px] flex bg-bgBrandLight2 
+                      items-center justify-center rounded-[50%] avatar-wrapper"
+      >
         {username ? (
           <p className="text-caption text-textBrand font-500 leading-none">
             {firstClientLetters}
@@ -95,8 +99,14 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
         <div
           className={`absolute bottom-[0] right-[0] w-s h-s border-2 border-solid
                     border-iconWhite rounded-medium3 
-                      ${isOnline && isChatRoomOpen && "bg-iconSuccess"} 
+                      ${
+                        isOnline &&
+                        isChatRoomOpen &&
+                        !isLeavePage &&
+                        "bg-iconSuccess"
+                      } 
                       ${isOnline && !isChatRoomOpen && "bg-iconWarning"} 
+                      ${isOnline && isLeavePage && "bg-iconWarning"} 
                       ${!isOnline && "bg-iconSecondary"}
           `}
         ></div>

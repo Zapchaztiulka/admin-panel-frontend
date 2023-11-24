@@ -4,6 +4,8 @@ export const updateUserStatus = "UPDATE_USER_STATUS";
 
 export const updateIsChatRoomOpen = "UPDATE_IS_CHATROOM_OPEN";
 
+export const updateIsLeavePage = "UPDATE_IS_LEAVE_PAGE";
+
 export const updateManager = "UPDATE_MANAGER";
 
 export const disconnectManager = "DISCONNECT_MANAGER";

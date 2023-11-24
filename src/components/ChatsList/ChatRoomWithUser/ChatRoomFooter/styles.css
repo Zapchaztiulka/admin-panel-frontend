@@ -1,7 +1,7 @@
 .textarea-style {
-  @apply p-xs pr-[80px] w-full resize-y overflow-y-auto outline-none cursor-pointer 
+  @apply p-xs pr-[80px] w-full overflow-y-auto outline-none cursor-pointer 
        hover:bg-bgHoverGrey hover:border-borderActive border-solid 
-       border-borderDefault focus:border-borderDefault leading-none;
+       border-borderDefault focus:border-borderDefault leading-none resize-none;
 }
 
 .textarea-style:focus {
@@ -9,11 +9,7 @@
 }
 
 .textarea-style-disabled {
-  @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault leading-none;
-}
-
-.input-style::-webkit-resizer {
-  @apply outline-none;
+  @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault leading-none resize-none;
 }
 
 .icon-style {

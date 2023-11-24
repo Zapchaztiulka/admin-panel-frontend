@@ -15,6 +15,7 @@ import { selectToken, selectUser } from "@/redux/auth/selectors";
 import {
   updateUserStatus,
   updateIsChatRoomOpen,
+  updateIsLeavePage,
   createChatByUser,
   updateManager,
   disconnectManager,
@@ -156,9 +157,9 @@ export const ChatsList = () => {
     };
   }, [dispatch]);
 
-  // update chat room and send message to manager when user minimizes or extends a chat room
+  // update chat room when user toggles a chat room
   useEffect(() => {
-    socket.on("chatRoomOpenChanged", ({ userId, isChatRoomOpen }) => {
+    socket.on("toggleChat", ({ userId, isChatRoomOpen }) => {
       dispatch({
         type: updateIsChatRoomOpen,
         payload: { userId, isChatRoomOpen },
@@ -166,7 +167,21 @@ export const ChatsList = () => {
     });
 
     return () => {
-      socket.off("chatRoomOpenChanged");
+      socket.off("toggleChat");
+    };
+  }, [dispatch]);
+
+  // update chat room when user leave page of on-line store
+  useEffect(() => {
+    socket.on("leavePage", ({ userId, isLeavePage }) => {
+      dispatch({
+        type: updateIsLeavePage,
+        payload: { userId, isLeavePage },
+      });
+    });
+
+    return () => {
+      socket.off("leavePage");
     };
   }, [dispatch]);
 
@@ -308,7 +323,7 @@ export const ChatsList = () => {
           </div>
         )}
         {selectedChatRoom && (
-          <div className="chatroom-style relative">
+          <div className="chatroom-style justify-between relative">
             <ChatRoomWithUser
               chatRoom={selectedChatRoom}
               isOpenModal={handleOpenModal}
