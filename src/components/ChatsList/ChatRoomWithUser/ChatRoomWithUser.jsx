@@ -76,7 +76,7 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
         <section
           ref={messageContainerRef}
           className={`flex flex-col gap-sPlus p-m ${
-            isTheSameManager ? "max-h-[61vh]" : "max-h-[52vh]"
+            isTheSameManager ? "max-h-[52vh]" : "max-h-[52vh]"
           } message-container`}
         >
           <>
