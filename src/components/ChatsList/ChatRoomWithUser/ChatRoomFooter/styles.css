@@ -12,6 +12,10 @@
   @apply p-xs pr-[80px] w-full outline-none border-solid border-borderDefault leading-none resize-none;
 }
 
+textarea::placeholder {
+  @apply whitespace-nowrap;
+}
+
 .icon-style {
   @apply absolute right-xs top-[44%] transform -translate-y-[50%];
 }
