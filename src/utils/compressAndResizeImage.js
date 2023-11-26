@@ -1,38 +1,26 @@
-// Function to compress and resize image
-export const compressAndResizeImage = (file, maxWidth, maxHeight, quality) => {
+// Compress and resize image
+export const compressAndResizeImage = (file, targetWidth, quality) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onload = (event) => {
       const img = new Image();
-
       img.src = event.target.result;
 
       img.onload = () => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 
-        let newWidth = img.width;
-        let newHeight = img.height;
+        const aspectRatio = img.width / img.height;
+        const targetHeight = targetWidth / aspectRatio;
 
-        if (img.width > maxWidth) {
-          newWidth = maxWidth;
-          newHeight = (img.height * maxWidth) / img.width;
-        }
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
 
-        if (img.height > maxHeight) {
-          newHeight = maxHeight;
-          newWidth = (img.width * maxHeight) / img.height;
-        }
-
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
         const compressedDataURL = canvas.toDataURL("image/jpeg", quality);
-
         resolve(compressedDataURL);
       };
     };

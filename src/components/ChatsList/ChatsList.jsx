@@ -323,7 +323,7 @@ export const ChatsList = () => {
           </div>
         )}
         {selectedChatRoom && (
-          <div className="chatroom-style justify-between relative">
+          <div className="chatroom-style relative">
             <ChatRoomWithUser
               chatRoom={selectedChatRoom}
               isOpenModal={handleOpenModal}

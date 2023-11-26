@@ -1,2 +1,3 @@
-export * from './Loader';
-export * from './BtnLoader';
+export * from "./Loader";
+export * from "./LoaderFooter";
+export * from "./BtnLoader";
