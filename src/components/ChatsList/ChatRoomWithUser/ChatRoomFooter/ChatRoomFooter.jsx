@@ -5,9 +5,14 @@ import { toast } from "react-toastify";
 import { socket } from "@/components/ChatsList/socket";
 
 import "./styles.css";
-import { MenuIcon, AttachIcon, SendIcon } from "@/components/Icons/ChatIcons";
+import {
+  MenuIcon,
+  AttachIcon,
+  SendIcon,
+  CloseIcon,
+} from "@/components/Icons/ChatIcons";
 import { DestructiveBtn, PrimaryBtn } from "@/components/Buttons";
-import { Loader } from "@/components/Loader";
+import { LoaderFooter } from "@/components/Loader";
 import { compressAndResizeImage } from "@/utils";
 
 import { addMessage } from "@/redux/chat/actions";
@@ -159,9 +164,9 @@ export const ChatRoomFooter = ({
     setSelectedFile(file);
     setFileSelected(true);
 
+    // compress and resize the image with a certain maximum width and a quality
     try {
-      // Compress and resize the image with a maximum width of 200 and maximum height of 200, and a quality of 0.8
-      const compressedImage = await compressAndResizeImage(file, 200, 200, 0.8);
+      const compressedImage = await compressAndResizeImage(file, 250, 0.8);
 
       setTemporaryImageURL(compressedImage);
     } catch (error) {
@@ -207,81 +212,96 @@ export const ChatRoomFooter = ({
   };
 
   return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <footer className="relative">
-          <div className="relative">
-            <textarea
-              className={`${
-                isChatRoomInProgress
-                  ? "textarea-style"
-                  : "textarea-style-disabled border-y-1"
-              } ${activeMenu ? "border-y-1" : "border-t-1"}`}
-              type="text"
-              placeholder="Введіть ваше повідомлення"
-              rows={rows}
-              value={message}
-              onChange={handleMessageChange}
-              onKeyDown={handleKeyDown}
-              onFocus={handleFocus}
-              onBlur={handleOnBlur}
+    <footer className="relative">
+      <div className="relative">
+        <textarea
+          className={`${
+            isChatRoomInProgress
+              ? "textarea-style"
+              : "textarea-style-disabled border-y-1"
+          } ${activeMenu ? "border-y-1" : "border-t-1"}`}
+          type="text"
+          placeholder="Введіть ваше повідомлення"
+          rows={rows}
+          value={message}
+          onChange={handleMessageChange}
+          onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleOnBlur}
+          disabled={!isChatRoomInProgress}
+        />
+        {!message && !fileSelected && (
+          <>
+            <button
+              type="button"
+              className="icon-style"
+              style={{ right: "44px" }}
+              onClick={toggleMenu}
               disabled={!isChatRoomInProgress}
-            />
-            {!message && !fileSelected && (
-              <>
-                <button
-                  type="button"
-                  className="icon-style"
-                  style={{ right: "44px" }}
-                  onClick={toggleMenu}
-                  disabled={!isChatRoomInProgress}
-                >
-                  <MenuIcon
-                    activeMenu={activeMenu}
-                    isChatRoomInProgress={isChatRoomInProgress}
-                  />
-                </button>
-                <button
-                  className="icon-style"
-                  onClick={openFileInput}
-                  disabled={!isChatRoomInProgress}
-                >
-                  <input
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                    ref={fileInputRef}
-                  />
-                  <AttachIcon isChatRoomInProgress={isChatRoomInProgress} />
-                </button>
-              </>
-            )}
-            {(fileSelected || message) && (
+            >
+              <MenuIcon
+                activeMenu={activeMenu}
+                isChatRoomInProgress={isChatRoomInProgress}
+              />
+            </button>
+            <button
+              className="icon-style"
+              onClick={openFileInput}
+              disabled={!isChatRoomInProgress}
+            >
+              <input
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                ref={fileInputRef}
+              />
+              <AttachIcon isChatRoomInProgress={isChatRoomInProgress} />
+            </button>
+          </>
+        )}
+        {(fileSelected || message) && (
+          <button
+            type="submit"
+            className="icon-style z-10"
+            onClick={
+              message && fileSelected
+                ? () => {
+                    handleSubmitMessage();
+                    sendFileToServer();
+                  }
+                : message
+                ? handleSubmitMessage
+                : sendFileToServer
+            }
+          >
+            <SendIcon />
+          </button>
+        )}
+        {!isLoading && temporaryImageURL && (
+          <div className="ml-s py-sPlus">
+            <div className="relative">
+              <img
+                className="border-1 border-solid border-borderDefault rounded-minimal"
+                src={temporaryImageURL}
+                alt="Uploaded Image"
+              />
               <button
-                type="submit"
-                className="icon-style"
-                onClick={
-                  message && fileSelected
-                    ? () => {
-                        handleSubmitMessage();
-                        sendFileToServer();
-                      }
-                    : message
-                    ? handleSubmitMessage
-                    : sendFileToServer
-                }
+                className="absolute top-[-8px] left-[242px] border-1 bg-bgWhite border-solid
+                               border-borderDefault rounded-[50%] cursor-pointer hover:bg-bgHoverGrey
+                               hover:border-borderHover transition-colors duration-300"
+                onClick={() => {
+                  setTemporaryImageURL(null);
+                  setFileSelected(false);
+                }}
               >
-                <SendIcon />
+                <CloseIcon />
               </button>
-            )}
-            {temporaryImageURL && (
-              <div className="bg-bgWhite ml-sPlus">
-                <img src={temporaryImageURL} alt="Uploaded Image" />
-              </div>
-            )}
+            </div>
           </div>
+        )}
+      </div>
+      {!isLoading ? (
+        <>
           {activeMenu && isChatRoomProcessed && (
             <div className="flex gap-xs py-xs px-s fade-in">
               <PrimaryBtn disabled>Розпочати діалог</PrimaryBtn>
@@ -289,7 +309,7 @@ export const ChatRoomFooter = ({
                 Завершити діалог
               </DestructiveBtn>
             </div>
-          )}{" "}
+          )}
           {!isChatRoomProcessed && (
             <div className="flex gap-xs py-xs px-s fade-in">
               <PrimaryBtn onClick={() => onStartChat()} disabled={disabled}>
@@ -298,9 +318,11 @@ export const ChatRoomFooter = ({
               <DestructiveBtn disabled>Завершити діалог</DestructiveBtn>
             </div>
           )}
-        </footer>
+        </>
+      ) : (
+        <LoaderFooter />
       )}
-    </>
+    </footer>
   );
 };
 

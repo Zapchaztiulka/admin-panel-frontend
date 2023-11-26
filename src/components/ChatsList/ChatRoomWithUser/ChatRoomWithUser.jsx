@@ -121,11 +121,13 @@ export const ChatRoomWithUser = ({ chatRoom, isOpenModal }) => {
       </div>
       {isTheSameManager ||
       (!isTheSameManager && !activeChatRoom?.isChatRoomProcessed) ? (
-        <ChatRoomFooter
-          chatRoom={chatRoom}
-          onStartChat={handleStartChatByManager}
-          isOpenModal={isOpenModal}
-        />
+        <div className="absolute bottom-[0] w-full bg-bgWhite">
+          <ChatRoomFooter
+            chatRoom={chatRoom}
+            onStartChat={handleStartChatByManager}
+            isOpenModal={isOpenModal}
+          />
+        </div>
       ) : (
         <div className="flex flex-col gap-m2">
           <div
