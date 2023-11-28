@@ -6,8 +6,10 @@ export const cutFullName = (username, userSurname, chatNumber, screenWidth) => {
 
   const fullName = username + " " + userSurname;
 
-  const tablet1024 = Number(theme.screens.tablet1024.replace("px", ""));
-  const desktop1440 = Number(theme.screens.desktop1440.replace("px", ""));
+  const tablet1024 = Number(theme.extend.screens.tablet1024.replace("px", ""));
+  const desktop1440 = Number(
+    theme.extend.screens.desktop1440.replace("px", "")
+  );
 
   let sliceLength =
     screenWidth < tablet1024
