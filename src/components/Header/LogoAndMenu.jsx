@@ -6,8 +6,8 @@ import { LogoIcon } from "../Icons/Logo/LogoIcon"
 export const LogoAndMenu = ({openModal}) => {
 
     return (
-         <div className="flex justify-between items-center pr-[16px] pl-[16px] pt-[8px] pb-[4px]
-     mobile480:pr-[24px] mobile480:pl-[24px] tablet1024:hidden">
+         <div className="flex justify-between items-center pr-s pl-s pt-xs2 pb-xs3
+     mobile480:pr-m mobile480:pl-m tablet1024:hidden">
         <button type="button" onClick={openModal}>
           <MenuIcon className="w-[44px] h-[44px] stroke-iconContrast" />
         </button>

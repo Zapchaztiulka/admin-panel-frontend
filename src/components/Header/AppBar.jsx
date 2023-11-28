@@ -9,15 +9,15 @@ export const AppBar = () => {
   const { isOpen, open, toggle } = useToggleModal();
   return (
     <header
-      className="fixed top-[0] left-0 z-10  w-[100%] bg-bgBrandLight3 
-     tablet1024:w-[250px] tablet1024:bg-bgGreyLigth tablet1024:border-r-[1px] tablet1024:h-[100vh]
+      className="fixed top-0 left-0 z-10  w-full bg-bgBrandLight3 
+     tablet1024:w-[250px] tablet1024:bg-bgGreyLigth tablet1024:border-r-1 tablet1024:h-[100vh]
      tablet1024:border-borderDefault tablet1024:rounded-tr-minimal tablet1024:rounded-br-minimal"
     >
       <LogoAndMenu openModal={open} />
 
       <div
         className="hidden tablet1024:block 
-      absolute z-30 top-[0] left-[0] pt-[24px] pb-[24px] pr-[12px] pl-[12px] h-[100vh] w-[100%]">
+      absolute z-30 top-0 left-0 pt-m pb-m pr-xs pl-xs h-[100vh] w-full">
         <UserInfo />
         <Navigation />
         <LogOutButton />

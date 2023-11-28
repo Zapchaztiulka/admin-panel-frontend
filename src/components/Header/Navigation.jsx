@@ -30,9 +30,9 @@ export const Navigation = () => {
   return (
     <nav>
       {isLoggedIn && (
-        <ul className="flex flex-col gap-[8px] ">
+        <ul className="flex flex-col gap-xs2 ">
           <li>
-            <ul className="flex flex-col gap-[4px]">
+            <ul className="flex flex-col gap-xs3">
                        <li>
                 <ItemNavigation
                   iconComponent={
@@ -53,7 +53,7 @@ export const Navigation = () => {
                   <li>
                     {" "}
                     <ItemNavigation
-                      style="ml-[28px]"
+                      style="ml-m1"
                       to="/products"
                       title="Товари"
                     />
@@ -61,7 +61,7 @@ export const Navigation = () => {
                   <li>
                     {" "}
                     <ItemNavigation
-                      style="ml-[28px]"
+                      style="ml-m1"
                       to="/"
                       title="Категорії"
                     />
@@ -69,7 +69,7 @@ export const Navigation = () => {
                   <li>
                     {" "}
                     <ItemNavigation
-                      style="ml-[28px]"
+                      style="ml-m1"
                       to="/static"
                       title="Статична інформація"
                     />
@@ -114,14 +114,14 @@ export const Navigation = () => {
                   <li>
                     {" "}
                     <ItemNavigation
-                      style="ml-[28px]"
+                      style="ml-m1"
                       to="/orders/pending"
                       title="Нові"
                     />
                   </li>
                   <li>
                     <ItemNavigation
-                      style="ml-[28px]"
+                      style="ml-m1"
                       to="/orders/processed"
                       title="Опрацьовані"
                     />
@@ -185,8 +185,8 @@ export const Navigation = () => {
             <li>
               {" "}
               <ItemNavigation
-                style="relative mt-[24px] "
-                styleBefore="before:content-[''] before:absolute before:top-[-16px] before:left-[0] 
+                style="relative mt-m "
+                styleBefore="before:content-[''] before:absolute before:-top-s before:left-0 
             before:block before:w-[226px] before:h-[1px] before:bg-borderDefault"
                 to="/manager"
                 title="Менеджери"
