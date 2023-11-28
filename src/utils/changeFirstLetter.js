@@ -3,7 +3,7 @@ export const changeFirstLetter = (name, surname) => {
   return string
     .toLowerCase()
     .split(" ")
-    .map((item) => item[0].toUpperCase() + item.substring(1))
+    .map((item) => item && item[0].toUpperCase() + item.substring(1))
     .join(" ")
     .split("-")
     .map((item) => item[0].toUpperCase() + item.substring(1))

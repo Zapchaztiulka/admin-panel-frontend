@@ -16,35 +16,35 @@ export const AddOneProduct = () => {
     useEffect(() => {
         dispatch(fetchProductOptions());
         getAllCategories().then(res => setCategories(res));
-      }, [dispatch]);
+    }, [dispatch]);
 
     const options = useSelector(selectAddProductOptions);
     const initialValues = {};
-    if(options) {
-        options.map(el => el.key).forEach(el => initialValues[el]='');
+    if (options) {
+        options.map(el => el.key).forEach(el => initialValues[el] = '');
     }
 
     const handleSubmit = (values) => {
         // тимчасова функція
-        
+
         console.log(values, Number(values.price));
         const newProduct = {
-            ...values, 
+            ...values,
             manufacturer: {
                 country: values.country,
                 factory: values.factory,
                 trademark: values.trademark
             },
-            categories:[categories.find(el=> el.categoryName === values.categories)._id],
+            categories: [categories.find(el => el.categoryName === values.categories)._id],
         };
         delete newProduct.trademark;
-        Object.entries(newProduct).map(a=>Object.entries(a[1]).filter(b=>b[1].length).length?a:delete newProduct[a[0]])
-        addProduct([{...newProduct, price: Number(values.price), quantity: Number(values.quantity)}])
+        Object.entries(newProduct).map(a => Object.entries(a[1]).filter(b => b[1].length).length ? a : delete newProduct[a[0]])
+        addProduct([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }])
     }
     return (
         <>
             {/* <Button /> */}
-            <FlowCrumbs 
+            <FlowCrumbs
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}
             />
@@ -56,7 +56,11 @@ export const AddOneProduct = () => {
                     return (
                         <Form>
                             <DynamicProperties options={options} />
-                            <Select list={categories.map(el=>el.categoryName)} name={'categories'} title={options.find(el=>el.key === "categories").title} />
+                            <Select list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} />
+                            <button className="block w-[343px] h-[48px] py-xs px-s bg-bgBrandLight1 border-1 border-borderDefaultBlue rounded-medium" type="button">
+                                <a href="https://zapchastiulka-product-photo-criteria.netlify.app/" target='_blank' rel="noreferrer">
+                                    Рекомендації зі стилю зображень</a>
+                            </button>
                             <button className="w-[20px] h-[40px]" type="submit">
                                 Створити товар
                             </button>
