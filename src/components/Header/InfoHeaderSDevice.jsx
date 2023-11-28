@@ -4,7 +4,7 @@ import { LogoIcon } from "../Icons/Logo/LogoIcon"
 export const InfoHeaderSDevice = () => {
 
     return (
-        <div className="flex justify-between items-center pr-[16px] pl-[16px] pt-[8px] pb-[4px]">
+        <div className="flex justify-between items-center pr-s pl-s pt-xs2 pb-xs3">
         <button type="button">
           <MenuIcon className="w-[44px] h-[44px] stroke-iconContrast" />
         </button>

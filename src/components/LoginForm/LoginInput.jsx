@@ -14,13 +14,13 @@ export const LoginInput = ({
 }) => {
   return (
     <label className="relative">
-      <span className="mb-[4px] text-secondary leading-[1.4]">{text}</span>
+      <span className="relative marker:mb-xs3 text-secondary leading-[1.4]">{text}</span>
       <Field
         name={name}
         type={type}
-              className={` w-[100%] p-[12px] border-[1px] border-borderDefault rounded-minimal text-[16px] text-textInputDefault  outline-0
-         focus:text-textInputActive focus:bg-bgD  hover:bg-bgBrandLight1  hover:text-textInputActive autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:hover:shadow-[inset_0_0_0px_1000px_rgb(239,248,255)] ${
-          valid ? "border-textError" : "focus:border-borderActive"
+              className={` w-full p-xs  outline-1 outline outline-borderDefault -outline-offset-1 rounded-minimal text-[16px] bg-bgWhite  text-textInputActive  font-400 leading-[1.5]
+          hover:bg-bgBrandLight1   autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:hover:shadow-[inset_0_0_0px_1000px_rgb(239,248,255)] ${
+          valid ? "outline-textError" : "focus:outline-borderActive"
         } `}
           />
       <FormError name={name} />
@@ -28,19 +28,19 @@ export const LoginInput = ({
         <button
           type="button"
           onClick={toogleShowPassword}
-          className="absolute top-[36px] right-[12px]"
+          className="absolute top-m3 left-[311px]"
         >
           {showPassword ? (
             <AiOutlineEyeInvisible
               title="Показати пароль"
-              className={`w-[16px] h-[16px] ${
+              className={`w-s h-s ${
                 value ? "fill-iconPrimary" : "fill-iconSecondary"
               } `}
             />
           ) : (
             <AiOutlineEye
               title="Сховати пароль"
-              className={`w-[16px] h-[16px] ${
+              className={`w-s h-s ${
                 value ? "fill-iconPrimary" : "fill-iconSecondary"
               } `}
             />

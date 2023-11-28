@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { ThreeDots } from  'react-loader-spinner'
+import { ThreeDots } from "react-loader-spinner";
 import { getValitadionSchemaLoginForm } from "../../utils/validationSchemas/getValitadionSchemaLoginForm";
 import { logIn } from "../../redux/auth/operations";
 import { LoginInput } from "./LoginInput";
@@ -33,14 +33,14 @@ export const LoginForm = () => {
           return (
             <Form>
               <div>
-                <div className="flex flex-col gap-[12px]">
+                <div className="flex flex-col gap-xs">
                   <LoginInput
                     name="email"
                     type="email"
                     text="Логін"
                     valid={formik.errors.email && formik.touched.email}
                   />
-                  <div className=" mb-[32px]">
+                  <div className=" mb-m2">
                     <LoginInput
                       name="password"
                       type={showPassword ? "password" : "text"}
@@ -56,22 +56,22 @@ export const LoginForm = () => {
                 <button
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
-                  className="flex justify-center items-center pt-[12px] pb-[12px] w-[100%] rounded-medium 
+                  className="flex justify-center items-center pt-xs pb-xs w-full rounded-medium 
           bg-bgBrandDark text-[16px] text-textContrast font-500 leading-[1.4] tracking-[-0.24px]
           disabled:bg-bgGreyLigth disabled:text-textDisabled
           hover:bg-bgHoverBlue focus-visible:shadow-btFocus  outline-0 active:bg-bgPressedBlue active:shadow-none"
                 >
                   {isLoading ? (
-                    <ThreeDots 
-height="16" 
-width="64" 
-radius="9"
-color="#53B1FD" 
-ariaLabel="three-dots-loading"
-wrapperStyle={{}}
-wrapperClassName=""
-visible={true}
- />
+                    <ThreeDots
+                      height="16"
+                      width="64"
+                      radius="9"
+                      color="#53B1FD"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClassName=""
+                      visible={true}
+                    />
                   ) : (
                     <span>Увійти</span>
                   )}

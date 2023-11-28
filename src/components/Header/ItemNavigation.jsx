@@ -20,15 +20,15 @@ export const ItemNavigation = ({
   };
   return (
     <div
-      className={`flex items-center  justify-between  rounded-[4px] group ${style}`}
+      className={`flex items-center  justify-between  rounded-minimal group ${style}`}
       onClick={toggleModal}
     >
       <>
         {to ? (
           <NavLink
             to={to}
-            className={`flex gap-[4px] items-center pt-[4px] pb-[4px] pr-[8px] pl-[8px] w-[100%]
-      rounded-[4px] hover:bg-bgHoverGrey active:bg-bgPressedGrey ${styleBefore}`}
+            className={`flex gap-xs3 items-center pt-xs3 pb-xs3 pr-xs2 pl-xs2 w-full
+      rounded-minimal hover:bg-bgHoverGrey active:bg-bgPressedGrey ${styleBefore}`}
           >
             {IconComponent}
             {title}
@@ -36,7 +36,7 @@ export const ItemNavigation = ({
         ) : (
           <div
             onClick={changeState}
-            className="flex gap-[4px] items-center w-[100%] pt-[4px] pb-[4px] pr-[8px] pl-[8px] cursor-pointer "
+            className="flex gap-xs3 items-center w-[100%] pt-xs3 pb-xs3 pr-xs2 pl-xs2 cursor-pointer "
           >
             {IconComponent} {title}
           </div>
