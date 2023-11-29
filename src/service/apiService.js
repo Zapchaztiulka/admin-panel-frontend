@@ -42,8 +42,8 @@ export const fetchProductById = async (productId) => {
   return data;
 };
 
-export const addProduct = async (product) => {
-  const { data } = await axios.post("products", product);
+export const addProducts = async (product) => {
+  const { data } = await axios.post("products/add", product);
   return data;
 };
 

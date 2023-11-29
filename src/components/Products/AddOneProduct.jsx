@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { fetchProductOptions } from '../../redux/options/operations';
 import { Form, Formik } from 'formik';
 import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
-import { addProduct, getAllCategories } from '../../service/apiService';
+import { addProducts, getAllCategories } from '../../service/apiService';
 import { Select } from '../DynamicProperties/Options/Select';
 // import Button from "universal-components-frontend/src/components/buttons/button"
 
@@ -39,7 +39,7 @@ export const AddOneProduct = () => {
         };
         delete newProduct.trademark;
         Object.entries(newProduct).map(a => Object.entries(a[1]).filter(b => b[1].length).length ? a : delete newProduct[a[0]])
-        addProduct([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }])
+        addProducts([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }])
     }
     return (
         <>
