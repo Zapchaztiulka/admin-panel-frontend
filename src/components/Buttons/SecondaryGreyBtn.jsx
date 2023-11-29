@@ -24,7 +24,7 @@ export const SecondaryGreyBtn = ({
     <button
       className="common-style standard-button secondary-button-grey"
       style={{
-        backgroundColor: pressed && theme.colors.bgPressedDestructive,
+        backgroundColor: pressed && theme.extend.colors.bgPressedDestructive,
       }}
       onClick={handleButtonClick}
     >

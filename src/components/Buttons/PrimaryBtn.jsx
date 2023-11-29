@@ -18,7 +18,7 @@ export const PrimaryBtn = ({ children, to, disabled, pressed, onClick }) => {
     <button
       className="common-style standard-button primary-button"
       style={{
-        backgroundColor: pressed && theme.colors.bgPressedDestructive,
+        backgroundColor: pressed && theme.extend.colors.bgPressedDestructive,
       }}
       onClick={handleButtonClick}
     >
