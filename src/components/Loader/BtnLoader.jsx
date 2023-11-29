@@ -7,7 +7,7 @@ export const BtnLoader = ({
   height,
   width,
   radius,
-  color = theme.colors.iconPrimary,
+  color = theme.extend.colors.iconPrimary,
 }) => {
   return (
     <ThreeDots

@@ -4,7 +4,7 @@ import theme from "../../../../presets";
 const CloseIcon = ({
   width = "16",
   height = "16",
-  stroke = theme.colors.iconPrimary,
+  stroke = theme.extend.colors.iconPrimary,
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

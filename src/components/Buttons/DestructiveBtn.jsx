@@ -24,7 +24,7 @@ export const DestructiveBtn = ({
     <button
       className="common-style standard-button destructive-button"
       style={{
-        backgroundColor: pressed && theme.colors.bgPressedDestructive,
+        backgroundColor: pressed && theme.extend.colors.bgPressedDestructive,
       }}
       onClick={handleButtonClick}
     >
