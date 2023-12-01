@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import * as api from "../../service/apiService";
+import api from "../../service/api";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProduct",
 
   async (data, thunkAPI) => {
     try {
-      const response = await api.fetchProducts(data);
+      const response = await api.product.fetchProducts(data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -19,7 +19,7 @@ export const deleteProductById = createAsyncThunk(
 
   async (productId, thunkAPI) => {
     try {
-      const response = await api.deleteProductById(productId);
+      const response = await api.product.deleteProductById(productId);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -32,7 +32,7 @@ export const deleteMultipleProducts = createAsyncThunk(
 
   async (products, thunkAPI) => {
     try {
-      const response = await api.deleteMultipleProducts(products);
+      const response = await api.product.deleteMultipleProducts(products);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

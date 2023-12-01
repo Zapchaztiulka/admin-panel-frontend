@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import * as api from "../../service/apiService";
+import api from "../../service/api";
 import { toast } from "react-toastify";
 import { Error } from "../../utils/icons";
 
@@ -8,7 +8,7 @@ export const register = createAsyncThunk(
 
   async (data, thunkAPI) => {
     try {
-      const response = await api.register(data);
+      const response = await api.users.register(data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -18,7 +18,7 @@ export const register = createAsyncThunk(
 
 export const logIn = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
-    const response = await api.logIn(data);
+    const response = await api.users.logIn(data);
     return response;
   } catch (error) {
     return thunkAPI.rejectWithValue(
@@ -32,7 +32,7 @@ export const logIn = createAsyncThunk("auth/login", async (data, thunkAPI) => {
 
 export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
-    await api.logOut();
+    await api.users.logOut();
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -48,7 +48,7 @@ export const refreshUser = createAsyncThunk(
     }
 
     try {
-      const response = await api.refreshUser(persistedToken);
+      const response = await api.users.refreshUser(persistedToken);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
