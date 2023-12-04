@@ -1,5 +1,4 @@
 .indicators-hidden {
-  height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
@@ -26,8 +25,50 @@
 }
 
 .chats-list {
-  @apply flex flex-col w-[40%] border-1 border-solid border-borderDefault 
-  rounded-tl-medium bg-bgWhite;
+  @apply flex flex-col w-[40%] overflow-y-auto overflow-x-hidden relative 
+  border-1 border-solid border-borderDefault rounded-tl-medium bg-bgWhite;
+}
+
+/* Стилізація горизонтального скролу */
+.chats-list::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+/* Стилізація повзунка горизонтального скролу */
+.chats-list::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* Стилізація фону горизонтального скролу */
+.chats-list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Стилізація кута горизонтального скролу */
+.chats-list::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+/* Стилізація вертикального скролу */
+.chats-list::-webkit-scrollbar-vertical {
+  width: 0.5em;
+}
+
+/* Стилізація повзунка вертикального скролу */
+.chats-list::-webkit-scrollbar-thumb:vertical {
+  background-color: #d1e9ff;
+  border-radius: 8px;
+}
+
+/* Стилізація фону вертикального скролу */
+.chats-list::-webkit-scrollbar-track:vertical {
+  background-color: #eff8ff;
+  border-radius: 8px;
+}
+
+/* Стилізація кута вертикального скролу */
+.chats-list::-webkit-scrollbar-corner:vertical {
+  background-color: transparent;
 }
 
 .chatroom-style {
