@@ -301,7 +301,7 @@ export const ChatsList = () => {
   return (
     <div>
       <ChatsHeader unprocessedChatRooms={unprocessedChatRooms} />
-      <section className="flex w-full indicators-hidden">
+      <section className="flex w-full h-[80vh] indicators-hidden">
         {chatRoomsInProgress?.length > 0 && (
           <div className="chats-list">
             {chatRoomsInProgress?.map((room) => (
