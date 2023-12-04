@@ -6,16 +6,15 @@ import { useEffect, useState } from 'react';
 import { fetchProductOptions } from '../../redux/options/operations';
 import { Form, Formik } from 'formik';
 import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
-import { addProducts, getAllCategories } from '../../service/apiService';
+import api from "../../service/api";
 import { Select } from '../DynamicProperties/Options/Select';
-// import Button from "universal-components-frontend/src/components/buttons/button"
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchProductOptions());
-        getAllCategories().then(res => setCategories(res));
+        api.categories.getAllCategories().then(res => setCategories(res));
     }, [dispatch]);
 
     const options = useSelector(selectAddProductOptions);
@@ -39,11 +38,10 @@ export const AddOneProduct = () => {
         };
         delete newProduct.trademark;
         Object.entries(newProduct).map(a => Object.entries(a[1]).filter(b => b[1].length).length ? a : delete newProduct[a[0]])
-        addProducts([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }])
+        api.product.addProducts([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }])
     }
     return (
         <>
-            {/* <Button /> */}
             <FlowCrumbs
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}

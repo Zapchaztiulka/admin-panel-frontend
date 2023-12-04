@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import * as api from "../../service/apiService";
+import api from "../../service/api";
 
 export const fetchUserOptions = createAsyncThunk(
   "options/user",
 
   async (_, thunkAPI) => {
     try {
-      const response = await api.fetchOptins("user");
+      const response = await api.options.fetchOptions("user");
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -19,7 +19,7 @@ export const fetchCategoryOptions = createAsyncThunk(
 
   async (_, thunkAPI) => {
     try {
-      const response = await api.fetchOptins("category");
+      const response = await api.options.fetchOptions("category");
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -32,7 +32,7 @@ export const fetchProductOptions = createAsyncThunk(
 
   async (_, thunkAPI) => {
     try {
-      const response = await api.fetchOptins("product");
+      const response = await api.options.fetchOptions("product");
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
