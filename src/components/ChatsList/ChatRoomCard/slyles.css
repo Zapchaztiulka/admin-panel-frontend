@@ -14,8 +14,14 @@
   animation: pulse 2s infinite;
 }
 
+.card-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+}
+
 .truncate {
-  width: 90%;
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

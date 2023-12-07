@@ -80,10 +80,9 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
   return (
     <button
       onClick={onConnectClick}
-      className={`relative flex p-xs gap-xs2 border-b-1 border-solid
-                border-borderDefault cursor-pointer rounded-tl-medium
-                  ${isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"}
-      `}
+      className={`relative flex p-xs gap-xs2 border-b-1 border-solid border-borderDefault cursor-pointer rounded-tl-medium ${
+        isSelected ? "bg-bgBrandLight3" : "bg-bgWhite"
+      }`}
     >
       <div
         className="relative min-w-[36px] h-[36px] flex bg-bgBrandLight2 
@@ -122,7 +121,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
       <div className="flex flex-col gap-xs2 items-start w-full">
         <div className="flex gap-xs2">
           <div
-            className={`text-[10px] leading-4 font-500 rounded-medium3 py-xs3 px-xs2 ${
+            className={`text-[10px] leading-4 font-500 rounded-medium3 py-xs3 px-xs2 whitespace-nowrap ${
               !isChatRoomProcessed
                 ? isSelected
                   ? "bg-bgWarningDark text-textWarning"
@@ -130,18 +129,16 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
                 : "bg-bgBrandLight1 text-textBrand"
             }`}
           >
-            <span className="whitespace-nowrap">
-              {!isChatRoomProcessed && "Новий"}
-              {isChatRoomProcessed && !isTheSameManager && "В процесі"}
-              {isChatRoomProcessed && isTheSameManager && "Мій чат"}
-            </span>
+            {!isChatRoomProcessed && "Новий"}
+            {isChatRoomProcessed && !isTheSameManager && "В процесі"}
+            {isChatRoomProcessed && isTheSameManager && "Мій чат"}
           </div>
           <div
             className={`font-500 text-body truncate ${
               isSelected ? "text-textContrast" : "text-textPrimary"
             }`}
           >
-            <span>{cuttingUsername}</span>
+            {cuttingUsername}
           </div>
         </div>
         <div
@@ -157,10 +154,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
         </div>
         {isChatRoomProcessed && (
           <div className="flex gap-xs3 justify-start items-center">
-            <div
-              className="font-500 rounded-[50%] leading-5 tracking-[-0.4px]
-                        text-[10px] text-textBrand bg-bgBrandLight2"
-            >
+            <div className="font-500 rounded-[50%] leading-5 tracking-[-0.4px] text-[10px] text-textBrand bg-bgBrandLight2">
               <span className="p-xs3">{firstManagerLetters}</span>
             </div>
             <div
@@ -189,10 +183,7 @@ export const ChatRoomCard = ({ room, onConnectClick, isSelected }) => {
             </div>
           )}
           {countUnreadClientMessages && !isSelected && (
-            <div
-              className="font-400 text-[12px] text-iconContrast leading-4 w-s h-s
-                       bg-bgBrandDark rounded-[50%]"
-            >
+            <div className="font-400 text-[12px] text-iconContrast leading-4 w-s h-s bg-bgBrandDark rounded-[50%]">
               {countUnreadClientMessages}
             </div>
           )}
