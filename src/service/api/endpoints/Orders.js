@@ -21,7 +21,7 @@ const createOrderByUser = async (orderData) => {
 };
 
 // Update Order
-const updateOrder = async (orderId, orderData) => {
+const updateOrder = async ({ orderId, orderData }) => {
     const { data } = await ApiClient.put(`orders/${orderId}`, orderData);
     return data;
 };
