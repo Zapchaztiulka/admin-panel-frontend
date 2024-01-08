@@ -16,6 +16,7 @@ import { optionsReduser } from "./options/optionsSlice";
 import { productsReduser } from "./products/productsSlice";
 
 import { chatReducer } from "./chat/slice";
+import { ordersReducer } from "./orders/orderSlice";
 
 
 const authPersistConfig = {
@@ -29,7 +30,7 @@ export const store = configureStore({
     options: optionsReduser,
     products: productsReduser,
     chat: chatReducer,
-
+    orders: ordersReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

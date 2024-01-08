@@ -14,7 +14,7 @@ const StatisticsPage = lazy(() => import("./pages/Statistics"));
 const LogInPage = lazy(() => import("./pages/Login"));
 const ProductsPage = lazy(() => import("./pages/Products"));
 const ClientsPage = lazy(() => import("./pages/Clients"));
-const OrdersPage = lazy(() => import("./pages/Orders"));
+const OrdersPage = lazy(() => import("./pages/Orders/Orders"));
 const ChatbotPage = lazy(() => import("./pages/Chatbot"));
 const MyProfilePage = lazy(() => import("./pages/MyProfile"));
 const ManagersPage = lazy(() => import("./pages/Managers"));
@@ -132,7 +132,7 @@ export const ClientsRoute = {
 export const OrdersRoute = {
   path: "/orders",
   element: <PrivateRoute component={<OrdersPage />} redirectTo="/login" />,
-  children: [
+  children2: [
     {
       path: "pending",
       element: (
