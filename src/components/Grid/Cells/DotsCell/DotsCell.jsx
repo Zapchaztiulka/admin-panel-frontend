@@ -11,6 +11,8 @@ export default function DotsCell({ onClick, colDef: { cellRendererParams } }) {
     <Tooltip
       placement="leftBottom"
       trigger={['click']}
+      showArrow={false}
+      overlayClassName='rc-custom'
       overlay={<Menu items={dotsItems} />}
     >
       <div className="cursor-pointer">

@@ -15,9 +15,24 @@
     display: flex;
     align-items: center;
 }
+.rc-custom.rc-custom{
+    opacity: 1;
+}
+.rc-custom .rc-tooltip-inner {
+    padding: 28px;
+    color: #1C1F23;
+    text-align: left; 
+     text-decoration: none; 
+     background-color: #fff; 
+     border: 1px solid #E6E8EA;
+     border-radius: 8px; 
+     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
+     min-height: 34px;
+     font-size: 16px;
+}
 
-@media(min-width: 1440px){
+@media(min-width: 1440px) {
     .cell-orderNumber {
         max-width: 176px;
-}
+    }
 }

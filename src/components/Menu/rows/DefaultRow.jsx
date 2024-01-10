@@ -1,9 +1,9 @@
 import React from 'react';
 
-const DefaultRow = ({ title, icon: IconComponent, onClick }) => {
+const DefaultRow = ({ title, icon: IconComponent,iconProps, onClick }) => {
   return (
-    <div className="flex gap-xs2" onClick={onClick}>
-      <IconComponent />
+    <div className="flex gap-xs2 p-xs3" onClick={onClick}>
+      <IconComponent {...iconProps}/>
       {title}
     </div>
   );

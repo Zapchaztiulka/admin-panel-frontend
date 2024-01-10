@@ -3,7 +3,6 @@ import { getAllOrders } from '@/redux/orders/operations';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BigButton } from '../../components/Buttons/BigButton';
-// import { PlusIcon } from '@/utils';
 import { getGridHeight } from '@/utils/grid';
 import { columns } from './columns';
 
@@ -23,6 +22,7 @@ import { statusOptions } from '@/components/Status/Status';
 import { throttle, debounce } from './../../utils/throttle';
 import { OrderCard } from '@/components/CardsList/Cards/OrderCard/OrderCard';
 import { CardsList } from '@/components/CardsList/CardsList';
+import theme from '../../../presets'
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -122,29 +122,34 @@ const Orders = () => {
     {
       title: 'Редагувати',
       icon: EditIcon,
+      iconProps: {color: theme.extend.colors.iconBrand},
       onClick: handleEditClick,
     },
     { title: 'Змінити статус', type: 'status', onClick: () => {} },
     {
       title: 'Додати коментар',
       icon: PlusIcon,
+      iconProps: {color: theme.extend.colors.iconBrand},
       onClick: (id) => {},
     },
     { type: 'divider' },
     {
       title: 'Cтворити нове замовлення',
       icon: FileIcon,
+      iconProps: {color: theme.extend.colors.iconBrand},
       onClick: (id) => {},
     },
     {
       title: 'Скопіювати замовлення',
       icon: LinkIcon,
+      iconProps: {color: theme.extend.colors.iconBrand},
       onClick: (id) => {},
     },
     { type: 'divider' },
     {
       title: 'Видалити',
       icon: TrashIcon,
+      iconProps: {color: theme.extend.colors.iconError},
       onClick: (id) => {},
     },
   ];

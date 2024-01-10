@@ -6,8 +6,7 @@ import StatusRow from './rows/StatusRow';
 const Menu = ({ items, selected = 0 }) => {
   return (
     <div
-      className="p-m1 flex flex-col gap-xs shadow-tooltip rounded-medium 
-      border border-borderDefault50 bg-bgWhite right-xl"
+      className="flex flex-col gap-xs"
     >
       {selected > 0 && <div>Вибрано {selected} товарів:</div>}
 

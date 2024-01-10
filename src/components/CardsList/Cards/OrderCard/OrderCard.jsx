@@ -23,9 +23,6 @@ export const OrderCard = ({ item, dotsItems }) => {
     setMenuOpen(!menuOpen);
   }, [menuOpen]);
 
- 
-
-  
 
   return (
     <div className="rounded-medium border border-borderDefault relative">
