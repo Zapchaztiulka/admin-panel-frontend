@@ -18,11 +18,13 @@ import PlusIcon from 'universal-components-frontend/src/components/icons/univers
 import FileIcon from 'universal-components-frontend/src/components/icons/universalComponents/FileIcon';
 import LinkIcon from 'universal-components-frontend/src/components/icons/universalComponents/LinkIcon';
 import TrashIcon from 'universal-components-frontend/src/components/icons/universalComponents/TrashIcon';
-import { statusOptions } from '@/components/Status/Status';
+
 import { throttle, debounce } from './../../utils/throttle';
 import { OrderCard } from '@/components/CardsList/Cards/OrderCard/OrderCard';
 import { CardsList } from '@/components/CardsList/CardsList';
-import theme from '../../../presets'
+import theme from '../../../presets';
+import { useNavigate } from 'react-router-dom';
+import { selectPatternsStatuses, selectPatternsStatusesOptionsList } from '@/redux/options/selectors';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -35,25 +37,33 @@ const Orders = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
   const [query, setQuery] = useState('');
+  const [statusId, setStatusId] = useState('');
 
   const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.orders);
   const gridRef = useRef();
+  const navigate = useNavigate();
+  const statusOptions = useSelector(selectPatternsStatuses);
+  const statusOptionsList = useSelector(selectPatternsStatusesOptionsList);
 
-  const fetchData = useCallback(() => {
-    dispatch(getAllOrders({ page, limit, query }));
-  }, [page, limit, query]);
+  const fetchData = useCallback((data) => {
+    console.log({ page, limit, query, statusId });
+    dispatch(getAllOrders(data));
+  }, []);
+
+  const debounceFetch = useCallback(debounce(fetchData, 500), []);
 
   useEffect(() => {
     setData(orders);
   }, [orders]);
+
   useEffect(() => {
-    fetchData();
+    fetchData({ page, limit, query, statusId });
   }, []);
+
   useEffect(() => {
-    const debounced = debounce(fetchData, 1000);
-    debounced();
-  }, [page, limit, query]);
+    debounceFetch({ page, limit, query, statusId });
+  }, [page, limit, query, statusId]);
 
   const options = {
     onGridReady: (event) => event.api.sizeColumnsToFit(),
@@ -108,61 +118,76 @@ const Orders = () => {
 
   const handleStatusChange = useCallback((value) => {
     console.log('new Status - ', value);
+    setStatusId(value);
   }, []);
   const handleSearchChange = useCallback((value) => {
     setQuery(value);
   }, []);
 
   // Dot Items
-  const handleEditClick = useCallback(() => {
-    console.log('edit click');
+  const handleEditClick = useCallback((id) => {
+    navigate(`details/${id}`);
   }, []);
+  const handleChangeStatus = useCallback((statusId, orderId) => {
+    const findedOrder = data.find(item => item._id === orderId)
+
+    const modifiedOrder = {...findedOrder, status: statusOptions[statusId]}
+
+  }, [statusOptions]);
+  const handleAddComment = useCallback((id) => {});
+  const handleCreateNewOrder = useCallback((id) => {});
+  const handleCopyOrder = useCallback((id) => {});
+  const handleDeleteOrder = useCallback((id) => {});
 
   const menuDotsItems = [
     {
       title: 'Редагувати',
       icon: EditIcon,
-      iconProps: {color: theme.extend.colors.iconBrand},
+      iconProps: { color: theme.extend.colors.iconBrand },
       onClick: handleEditClick,
     },
-    { title: 'Змінити статус', type: 'status', onClick: () => {} },
+    {
+      title: 'Змінити статус',
+      type: 'status',
+      options: statusOptionsList,
+      onChange: handleChangeStatus,
+    },
     {
       title: 'Додати коментар',
       icon: PlusIcon,
-      iconProps: {color: theme.extend.colors.iconBrand},
-      onClick: (id) => {},
+      iconProps: { color: theme.extend.colors.iconBrand },
+      onClick: handleAddComment,
     },
     { type: 'divider' },
     {
       title: 'Cтворити нове замовлення',
       icon: FileIcon,
-      iconProps: {color: theme.extend.colors.iconBrand},
-      onClick: (id) => {},
+      iconProps: { color: theme.extend.colors.iconBrand },
+      onClick: handleCreateNewOrder,
     },
     {
       title: 'Скопіювати замовлення',
       icon: LinkIcon,
-      iconProps: {color: theme.extend.colors.iconBrand},
-      onClick: (id) => {},
+      iconProps: { color: theme.extend.colors.iconBrand },
+      onClick: handleCopyOrder,
     },
     { type: 'divider' },
     {
       title: 'Видалити',
       icon: TrashIcon,
-      iconProps: {color: theme.extend.colors.iconError},
-      onClick: (id) => {},
+      iconProps: { color: theme.extend.colors.iconError },
+      onClick: handleDeleteOrder,
     },
   ];
 
-  const updatedColumns = useMemo(()=> {
-    return columns.map((col)=>{
-      if( col.field === 'settings' ) {
-        col.cellRendererParams= {dotsItems: menuDotsItems}
+  const updatedColumns = useMemo(() => {
+    return columns.map((col) => {
+      if (col.field === 'settings') {
+        col.cellRendererParams = { dotsItems: menuDotsItems };
       }
       return col;
-    })
-  }, [columns])
- 
+    });
+  }, [columns]);
 
   return (
     <div className="flex flex-col gap-m py-m">
@@ -170,11 +195,16 @@ const Orders = () => {
         key="Створити замовлення"
         to="add"
         text="Створити замовлення"
-        icon={<PlusIcon className="stroke-iconContrast" />}
+        icon={
+          <PlusIcon
+            className="stroke-iconContrast"
+            color={theme.extend.colors.iconWhite}
+          />
+        }
         linkstyle={'bg-bgBrandLight3 text-textContrast'}
       />
-      <div className="flex flex-col gap-xs tablet600:flex-row">
-        <div className="h-xl w-full tablet600:w-[401px] flex ">
+      <div className="h-xl flex flex-col gap-xs tablet600:flex-row">
+        <div className=" w-full tablet600:w-[401px] flex ">
           <Input
             inputBoxClassName="w-full"
             inputTypesFigma="SearchField"

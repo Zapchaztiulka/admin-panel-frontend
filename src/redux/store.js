@@ -12,9 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import { optionsReduser } from "./options/optionsSlice";
-
 import { productsReduser } from "./products/productsSlice";
-
 import { chatReducer } from "./chat/slice";
 import { ordersReducer } from "./orders/orderSlice";
 
@@ -30,7 +28,7 @@ export const store = configureStore({
     options: optionsReduser,
     products: productsReduser,
     chat: chatReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

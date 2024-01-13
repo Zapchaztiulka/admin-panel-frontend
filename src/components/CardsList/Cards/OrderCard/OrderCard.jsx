@@ -6,7 +6,6 @@ import Status from '@/components/Status/Status';
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-
 export const OrderCard = ({ item, dotsItems }) => {
   const [showProductsTooltip, setShowProductsTooltip] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,7 +21,6 @@ export const OrderCard = ({ item, dotsItems }) => {
   const handleOpenMenu = useCallback(() => {
     setMenuOpen(!menuOpen);
   }, [menuOpen]);
-
 
   return (
     <div className="rounded-medium border border-borderDefault relative">
@@ -62,9 +60,12 @@ export const OrderCard = ({ item, dotsItems }) => {
       </div>
 
       <div className="flex justify-end gap-sPlus p-s">
-        <EditCell item={item._id} />
-        <DotsCell onClick={handleOpenMenu} />
-        {menuOpen && <Menu items={dotsItems} />}
+        <EditCell data={item} />
+        <DotsCell
+          onClick={handleOpenMenu}
+          data={item}
+          colDef={{ cellRendererParams: { dotsItems } }}
+        />
       </div>
     </div>
   );

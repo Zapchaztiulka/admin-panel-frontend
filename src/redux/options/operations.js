@@ -39,3 +39,16 @@ export const fetchProductOptions = createAsyncThunk(
     }
   }
 );
+
+export const fetchPatternsOptions = createAsyncThunk(
+  "options/patterns",
+
+  async (_, thunkAPI) => {
+    try {
+      const response = await api.options.fetchOptions("patterns");
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

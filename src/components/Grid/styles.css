@@ -1,3 +1,25 @@
+::-webkit-scrollbar-track {
+    border: 4px solid rgba(0, 0, 0, 0);
+    background: #FFF;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border: 4px solid rgba(0, 0, 0, 0);
+    background: #C6CACD;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+  
+  ::-webkit-scrollbar {
+    width:  14px;
+  }
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #C6CACD #FFF;
+  }
+
 .outer-div {
     height: 100%;
     display: flex;
@@ -29,6 +51,21 @@
      box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15);
      min-height: 34px;
      font-size: 16px;
+}
+.rc-select-custom.rc-select-dropdown{
+    z-index: 9999;
+    width: 290px;
+    border-radius: 12px;
+    border: 1px solid #C6CACD;
+    overflow: hidden;
+}
+.rc-select-custom.rc-select-item {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #C6CACD;
+}
+.rc-select-custom.rc-select-item:hover {
+    background-color: red; 
 }
 
 @media(min-width: 1440px) {

@@ -1,12 +1,6 @@
 import { PropTypes } from 'prop-types';
 
-
-const statuses = ['нове', 'підтверджено', 'комплектується', 'передано в службу доставки',
-    'очікує клієнта в пункті видачі', "очікує вручення кур'єром",
-    'очікується післяплата','рекламація', 'повернуто',
-    'завершено', 'забраковано', 'скасовано']
-
-export const statusOptions = statuses.map(item => item.charAt(0).toUpperCase() + item.slice(1))
+const defaultStatusClassName = 'bg-bgBrandLight1 text-textBrand'
 
 const mapStatusToColor = {
     'нове': 'bg-bgBrandLight1 text-textBrand',
@@ -21,9 +15,12 @@ const mapStatusToColor = {
 }
 
 const Status = ({ status }) => {
-
+    let statusClassName = mapStatusToColor[status]
+    if (!statusClassName) {
+        statusClassName = defaultStatusClassName
+    }
     return (
-        <div className={`cursor-pointer ${mapStatusToColor[status]} capitalize rounded-medium3 px-xs py-xs3 inline text-caption`}>
+        <div className={`cursor-pointer ${statusClassName} rounded-medium3 px-xs py-xs3 text-caption first-letter:capitalize`}>
             {status}
         </div>
     )

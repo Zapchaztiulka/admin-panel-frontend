@@ -3,11 +3,9 @@ import DefaultRow from './rows/DefaultRow';
 import DividerRow from './rows/DividerRow';
 import StatusRow from './rows/StatusRow';
 
-const Menu = ({ items, selected = 0 }) => {
+const Menu = ({ items, item, selected = 0 }) => {
   return (
-    <div
-      className="flex flex-col gap-xs"
-    >
+    <div className="flex flex-col gap-xs">
       {selected > 0 && <div>Вибрано {selected} товарів:</div>}
 
       {items.map(({ type, ...otherProps }) => {
@@ -25,7 +23,7 @@ const Menu = ({ items, selected = 0 }) => {
             RowComponent = DefaultRow;
             break;
         }
-        return <RowComponent {...otherProps} />;
+        return <RowComponent {...otherProps} item={item} />;
       })}
     </div>
   );
