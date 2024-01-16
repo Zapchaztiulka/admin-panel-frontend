@@ -32,6 +32,7 @@ const createOrderByUser = async (orderData) => {
 
 // Update Order
 const updateOrder = async ({ orderId, orderData }) => {
+  console.log('api', orderId, orderData);
   const { data } = await ApiClient.put(`orders/${orderId}`, orderData);
   return data;
 };

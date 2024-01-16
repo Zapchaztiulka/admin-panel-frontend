@@ -1,5 +1,5 @@
 import Grid from '@/components/Grid/Grid';
-import { getAllOrders } from '@/redux/orders/operations';
+import { getAllOrders, updateOrder } from '@/redux/orders/operations';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BigButton } from '../../components/Buttons/BigButton';
@@ -25,6 +25,7 @@ import { CardsList } from '@/components/CardsList/CardsList';
 import theme from '../../../presets';
 import { useNavigate } from 'react-router-dom';
 import { selectPatternsStatuses, selectPatternsStatusesOptionsList } from '@/redux/options/selectors';
+import { deleteOrder } from './../../redux/orders/operations';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -129,15 +130,21 @@ const Orders = () => {
     navigate(`details/${id}`);
   }, []);
   const handleChangeStatus = useCallback((statusId, orderId) => {
+    console.log(', orderId', orderId, statusOptions[statusId]);
     const findedOrder = data.find(item => item._id === orderId)
-
-    const modifiedOrder = {...findedOrder, status: statusOptions[statusId]}
-
-  }, [statusOptions]);
+    const mod = {...findedOrder, status: statusOptions[statusId]} 
+    const {username, userSurname, email , ...orderData } = mod
+    console.log('', ', orderId', findedOrder, orderData);
+    dispatch(updateOrder({orderId, orderData}))
+  }, [statusOptions, data]);
   const handleAddComment = useCallback((id) => {});
   const handleCreateNewOrder = useCallback((id) => {});
   const handleCopyOrder = useCallback((id) => {});
-  const handleDeleteOrder = useCallback((id) => {});
+  const handleDeleteOrder = useCallback((id) => {
+    const data = { "orderIds": [`${id}`]}
+    console.log('deleteId', id, data);
+    //dispatch(deleteOrder(data))
+  });
 
   const menuDotsItems = [
     {
@@ -188,7 +195,7 @@ const Orders = () => {
       return col;
     });
   }, [columns]);
-
+console.log('data', data);
   return (
     <div className="flex flex-col gap-m py-m">
       <BigButton
