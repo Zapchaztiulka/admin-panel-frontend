@@ -32,15 +32,16 @@ const createOrderByUser = async (orderData) => {
 
 // Update Order
 const updateOrder = async ({ orderId, orderData }) => {
-  console.log('api', orderId, orderData);
   const { data } = await ApiClient.put(`orders/${orderId}`, orderData);
   return data;
 };
 
 // Delete Order by User
-const deleteOrder = async (orderId) => {
-  const { data } = await ApiClient.delete(`orders/${orderId}`);
-  return data;
+const deleteOrder = async (idsArray) => {
+  const response = await ApiClient.delete(`orders`, {
+  data: idsArray
+})
+  return response
 };
 
 export default {

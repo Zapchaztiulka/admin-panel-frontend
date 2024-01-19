@@ -8,7 +8,6 @@ const DefaultRow = ({
   onClick,
 }) => {
   const handleClick = useCallback(() => {
-    console.log('item', item);
     onClick(item._id);
   }, [item]);
 

@@ -63,10 +63,11 @@ export const ordersSlice = createSlice({
             .addCase(deleteOrder.pending, handlePending)
             .addCase(deleteOrder.rejected, handleRejected)
             .addCase(deleteOrder.fulfilled, (state, action) => {
-
+                const deletedIds = action.meta.arg.orderIds
+            
                 state.isLoading = false;
                 state.error = null;
-                const newOrders = state.orders.filter(order => order._id !== action.payload._id)
+                const newOrders = state.orders.filter(order => !deletedIds.includes(order._id))
                 state.orders = newOrders;
                 state.totalCount = newOrders.length ;
             })

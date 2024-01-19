@@ -40,7 +40,6 @@ export const createOrderByUser = createAsyncThunk(
 export const updateOrder = createAsyncThunk(
     "orders/updateOrder",
     async (data, thunkAPI) => {
-      console.log('dataO', data);
       try {
         const response = await api.order.updateOrder(data);
         return response;
@@ -55,7 +54,8 @@ export const deleteOrder = createAsyncThunk(
     async (data, thunkAPI) => {
       try {
         const response = await api.order.deleteOrder(data);
-        return response;
+        return  response
+
       } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
       }

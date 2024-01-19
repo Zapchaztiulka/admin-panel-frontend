@@ -26,6 +26,7 @@ import theme from '../../../presets';
 import { useNavigate } from 'react-router-dom';
 import { selectPatternsStatuses, selectPatternsStatusesOptionsList } from '@/redux/options/selectors';
 import { deleteOrder } from './../../redux/orders/operations';
+import { prepareData } from '@/utils/preparationDataToUpdateOrder';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -46,9 +47,10 @@ const Orders = () => {
   const navigate = useNavigate();
   const statusOptions = useSelector(selectPatternsStatuses);
   const statusOptionsList = useSelector(selectPatternsStatusesOptionsList);
+  const statusOptionsBigFirstLetter = statusOptions.map((item) => item && item.charAt(0).toUpperCase() + item.slice(1))
+  
 
   const fetchData = useCallback((data) => {
-    console.log({ page, limit, query, statusId });
     dispatch(getAllOrders(data));
   }, []);
 
@@ -72,7 +74,7 @@ const Orders = () => {
     paginationPageSizeSelector: [5, 10, 25, 50, 100],
     rowSelection: 'multiple',
     onSelectionChanged: (event) => {
-      console.log('e', event.api.getSelectedRows());
+      //console.log('e', event.api.getSelectedRows());
     },
   };
 
@@ -118,7 +120,6 @@ const Orders = () => {
   }, []);
 
   const handleStatusChange = useCallback((value) => {
-    console.log('new Status - ', value);
     setStatusId(value);
   }, []);
   const handleSearchChange = useCallback((value) => {
@@ -130,21 +131,18 @@ const Orders = () => {
     navigate(`details/${id}`);
   }, []);
   const handleChangeStatus = useCallback((statusId, orderId) => {
-    console.log(', orderId', orderId, statusOptions[statusId]);
     const findedOrder = data.find(item => item._id === orderId)
     const mod = {...findedOrder, status: statusOptions[statusId]} 
-    const {username, userSurname, email , ...orderData } = mod
-    console.log('', ', orderId', findedOrder, orderData);
-    dispatch(updateOrder({orderId, orderData}))
+    dispatch(updateOrder({orderId, orderData: prepareData(mod)}))
   }, [statusOptions, data]);
+
   const handleAddComment = useCallback((id) => {});
   const handleCreateNewOrder = useCallback((id) => {});
   const handleCopyOrder = useCallback((id) => {});
   const handleDeleteOrder = useCallback((id) => {
     const data = { "orderIds": [`${id}`]}
-    console.log('deleteId', id, data);
-    //dispatch(deleteOrder(data))
-  });
+    dispatch(deleteOrder(data))
+  }, []);
 
   const menuDotsItems = [
     {
@@ -195,7 +193,7 @@ const Orders = () => {
       return col;
     });
   }, [columns]);
-console.log('data', data);
+
   return (
     <div className="flex flex-col gap-m py-m">
       <BigButton
@@ -229,7 +227,7 @@ console.log('data', data);
 
         <Dropdown
           width={290}
-          options={statusOptions}
+          options={statusOptionsBigFirstLetter}
           placeholder="Всі статуси"
           onChange={handleStatusChange}
           className="w-full tablet600:w-[290px] "
