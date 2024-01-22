@@ -30,6 +30,12 @@ const createOrderByUser = async (orderData) => {
   return data;
 };
 
+// Create Order by Any/Admin
+const createOrderByAny = async (orderData) => {
+  const { data } = await ApiClient.post('orders/any', orderData);
+  return data;
+};
+
 // Update Order
 const updateOrder = async ({ orderId, orderData }) => {
   const { data } = await ApiClient.put(`orders/${orderId}`, orderData);
@@ -49,5 +55,6 @@ export default {
   updateOrder,
   getAllOrders,
   createOrderByUser,
+  createOrderByAny,
   deleteOrder,
 };

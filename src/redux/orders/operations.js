@@ -36,6 +36,18 @@ export const createOrderByUser = createAsyncThunk(
       }
     }
 );
+
+export const createOrderByAny = createAsyncThunk(
+  "orders/createOrderByAny",
+  async (data, thunkAPI) => {
+    try {
+      const response = await api.order.createOrderByAny(data);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
   
 export const updateOrder = createAsyncThunk(
     "orders/updateOrder",

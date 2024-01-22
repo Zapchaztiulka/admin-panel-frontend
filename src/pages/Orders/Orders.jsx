@@ -1,5 +1,5 @@
 import Grid from '@/components/Grid/Grid';
-import { getAllOrders, updateOrder } from '@/redux/orders/operations';
+import { createOrderByAny, getAllOrders, updateOrder } from '@/redux/orders/operations';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BigButton } from '../../components/Buttons/BigButton';
@@ -8,6 +8,8 @@ import { columns } from './columns';
 
 import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
 import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
+import Notification from 'universal-components-frontend/src/components/notifications/universalComponents/Notification';
+import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
 import Button, {
   BUTTON_TYPES,
   BUTTON_SIZES,
@@ -18,6 +20,7 @@ import PlusIcon from 'universal-components-frontend/src/components/icons/univers
 import FileIcon from 'universal-components-frontend/src/components/icons/universalComponents/FileIcon';
 import LinkIcon from 'universal-components-frontend/src/components/icons/universalComponents/LinkIcon';
 import TrashIcon from 'universal-components-frontend/src/components/icons/universalComponents/TrashIcon';
+import LightningIcon from 'universal-components-frontend/src/components/icons/universalComponents/LightningIcon';
 
 import { throttle, debounce } from './../../utils/throttle';
 import { OrderCard } from '@/components/CardsList/Cards/OrderCard/OrderCard';
@@ -26,7 +29,8 @@ import theme from '../../../presets';
 import { useNavigate } from 'react-router-dom';
 import { selectPatternsStatuses, selectPatternsStatusesOptionsList } from '@/redux/options/selectors';
 import { deleteOrder } from './../../redux/orders/operations';
-import { prepareData } from '@/utils/preparationDataToUpdateOrder';
+import { cleanEmptyFieldsInObject, prepareData } from '@/utils/preparationDataToUpdateOrder';
+import { addNotification } from '@/redux/notifications/notificationsSlice';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -40,6 +44,7 @@ const Orders = () => {
   const [limit, setLimit] = useState(20);
   const [query, setQuery] = useState('');
   const [statusId, setStatusId] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.orders);
@@ -49,7 +54,6 @@ const Orders = () => {
   const statusOptionsList = useSelector(selectPatternsStatusesOptionsList);
   const statusOptionsBigFirstLetter = statusOptions.map((item) => item && item.charAt(0).toUpperCase() + item.slice(1))
   
-
   const fetchData = useCallback((data) => {
     dispatch(getAllOrders(data));
   }, []);
@@ -125,23 +129,49 @@ const Orders = () => {
   const handleSearchChange = useCallback((value) => {
     setQuery(value);
   }, []);
+  const handleConfirmDelete = useCallback(() => {
+    setShowModal(false)
+  },[])
+  const handleCancelDelete = useCallback(() => {
+    setShowModal(false)
+  },[])
 
   // Dot Items
   const handleEditClick = useCallback((id) => {
     navigate(`details/${id}`);
   }, []);
+
   const handleChangeStatus = useCallback((statusId, orderId) => {
     const findedOrder = data.find(item => item._id === orderId)
     const mod = {...findedOrder, status: statusOptions[statusId]} 
-    dispatch(updateOrder({orderId, orderData: prepareData(mod)}))
+    const dis = dispatch(updateOrder({orderId, orderData: prepareData(mod)}))
+    console.log('dis', dis );
+    dis.then((res) => {console.log('res', res);
+    if (res.meta.arg.requestStatus === "fulfilled") {
+       dispatch(addNotification({message: 'Статус змінено.'}))
+    } else {
+      dispatch(addNotification({message: 'Виникла помилка при зміні статусу', type: "error"}))
+    }
+  })
   }, [statusOptions, data]);
 
-  const handleAddComment = useCallback((id) => {});
-  const handleCreateNewOrder = useCallback((id) => {});
+  const handleAddComment = useCallback((id) => {
+  });
+
+  const handleCreateNewOrder = useCallback((id) => {
+    const findedOrder = data.find(item => item._id === id)
+    console.log('findedOrder', id, findedOrder);
+    const mod = cleanEmptyFieldsInObject(findedOrder)
+    const {_id, createdAt, updatedAt, status,totalTypeOfProducts,totalProducts,totalPrice,...orderData} = mod
+    console.log('orderData', orderData);
+    const dis = dispatch(createOrderByAny(orderData))
+    dis.then((res) => {console.log('res', res);})
+  }, [data]);
   const handleCopyOrder = useCallback((id) => {});
   const handleDeleteOrder = useCallback((id) => {
     const data = { "orderIds": [`${id}`]}
-    dispatch(deleteOrder(data))
+    setShowModal(true)
+    //dispatch(deleteOrder(data))
   }, []);
 
   const menuDotsItems = [
@@ -195,7 +225,8 @@ const Orders = () => {
   }, [columns]);
 
   return (
-    <div className="flex flex-col gap-m py-m">
+    <div className="flex flex-col gap-m">
+      
       <BigButton
         key="Створити замовлення"
         to="add"
@@ -253,6 +284,16 @@ const Orders = () => {
             tooltipHideDelay={5000}
           />
         </div>
+      )}
+      
+      {showModal && (
+        <Modal type="negative" title= "Видалити замовлення" description='Ви впевнені, що хочете видалити замовлення? Відмініти цю дію неможливо.'
+        icon={<LightningIcon />} > 
+          <div className="flex gap-x-xs2 mt-xs2">
+            <Button text="Відмінити" buttonType={BUTTON_TYPES.SECONDARY_GRAY} onClick={handleCancelDelete} />
+            <Button text='Видалити' buttonType={BUTTON_TYPES.DESTRUCTIVE} onClick={handleConfirmDelete}/>
+          </div> 
+        </Modal>
       )}
     </div>
   );

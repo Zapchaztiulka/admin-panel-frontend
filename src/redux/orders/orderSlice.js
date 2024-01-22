@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
     getAllOrders,
     createOrderByUser,
+    createOrderByAny,
     updateOrder,
     deleteOrder
 } from "./operations";
@@ -42,6 +43,14 @@ export const ordersSlice = createSlice({
             .addCase(createOrderByUser.pending, handlePending)
             .addCase(createOrderByUser.rejected, handleRejected)
             .addCase(createOrderByUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.orders = action.payload;
+            })
+
+            .addCase(createOrderByAny.pending, handlePending)
+            .addCase(createOrderByAny.rejected, handleRejected)
+            .addCase(createOrderByAny.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = null;
                 state.orders = action.payload;

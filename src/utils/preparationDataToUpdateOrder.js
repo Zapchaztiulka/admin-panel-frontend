@@ -26,3 +26,18 @@ for (let key in restData) {
   return {...restData, products: newProducts}
 }
 
+export const cleanEmptyFieldsInObject = (data) => {
+  const tempData = {...data}
+  const newProducts = tempData.products?.map(prod => {
+    const {productId, quantity } = prod
+    return {productId, quantity }
+  })
+  for (let key in tempData) {
+    console.log('key', key, tempData[key], !tempData[key]);
+    if (!tempData[key]) {
+      delete tempData[key]
+    }
+  }
+  console.log('dataC', tempData);
+  return {...tempData, products: newProducts};
+}

@@ -23,7 +23,7 @@ const Menu = ({ items, item, selected = 0 }) => {
             RowComponent = DefaultRow;
             break;
         }
-        return <RowComponent {...otherProps} item={item} />;
+        return <RowComponent {...otherProps} item={item} key={otherProps.title}/>;
       })}
     </div>
   );

@@ -15,6 +15,7 @@ import { optionsReduser } from "./options/optionsSlice";
 import { productsReduser } from "./products/productsSlice";
 import { chatReducer } from "./chat/slice";
 import { ordersReducer } from "./orders/orderSlice";
+import { notificationsReducer } from "./notifications/notificationsSlice";
 
 
 const authPersistConfig = {
@@ -29,11 +30,12 @@ export const store = configureStore({
     products: productsReduser,
     chat: chatReducer,
     orders: ordersReducer,
+    notifications: notificationsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'notifications/addNotification'],
       },
     }),
 });
