@@ -1,13 +1,13 @@
 import { dismissNotification } from "@/redux/notifications/notificationsSlice"
 import { useDispatch } from "react-redux"
-import { useTimeoutFn, useUpdateEffect } from "react-use"
-import Notification from 'universal-components-frontend/src/components/notifications/universalComponents/Notification';
+import { useTimeoutFn } from "react-use"
+
 import theme from "../../../presets";
 import CheckCircleIcon from 'universal-components-frontend/src/components/icons/universalComponents/CheckCircleIcon';
 import CloseIcon from 'universal-components-frontend/src/components/icons/universalComponents/CloseIcon';
 
 export const NotificationItem = ({
-  notification: { id, autoHideDuration = 20000, message, onClose = () => {}, type = 'success' },
+  notification: { id, autoHideDuration = 5000, message, onClose = () => {}, type = 'success' },
 }) => {
   const dispatch = useDispatch()
 
@@ -39,7 +39,7 @@ export const NotificationItem = ({
   }
 
   return (
-      <div class="max-w-xs "
+      <div className="max-w-xs "
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >

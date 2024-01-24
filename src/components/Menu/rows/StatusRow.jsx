@@ -1,17 +1,17 @@
 import Status from '@/components/Status/Status';
 import Select from 'rc-select';
 import 'rc-select/assets/index.css';
-import React from 'react';
 import CheckIcon from 'universal-components-frontend/src/components/icons/universalComponents/CheckIcon';
 
-const StatusRow = ({ title, item, options, onChange }) => {
+const StatusRow = ({ title, item, options, onChange, onClose }) => {
   const styles = {
     ':hover': { background: '#F9F9F9' },
   };
 
   const handleStatusChange = (statusId) => {
-    onChange(statusId, item._id)
-  }
+    onChange(statusId, item._id);
+    onClose();
+  };
 
   return (
     <div className="flex gap-xs2">

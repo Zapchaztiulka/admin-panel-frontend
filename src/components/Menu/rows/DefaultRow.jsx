@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 const DefaultRow = ({
   title,
@@ -6,9 +6,11 @@ const DefaultRow = ({
   icon: IconComponent,
   iconProps,
   onClick,
+  onClose,
 }) => {
   const handleClick = useCallback(() => {
     onClick(item._id);
+    onClose();
   }, [item]);
 
   return (

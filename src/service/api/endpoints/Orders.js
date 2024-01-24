@@ -31,7 +31,7 @@ const createOrderByUser = async (orderData) => {
 };
 
 // Create Order by Any/Admin
-const createOrderByAny = async (orderData) => {
+const createOrderByAny = async ({ orderData }) => {
   const { data } = await ApiClient.post('orders/any', orderData);
   return data;
 };

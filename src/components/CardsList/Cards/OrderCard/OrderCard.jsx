@@ -1,9 +1,8 @@
 import DotsCell from '@/components/Grid/Cells/DotsCell/DotsCell';
 import EditCell from '@/components/Grid/Cells/EditCell/EditCell';
-import Menu from '@/components/Menu/Menu';
 import ProductsTooltip from '@/components/ProductsTooltip/ProductsTooltip';
 import Status from '@/components/Status/Status';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export const OrderCard = ({ item, dotsItems }) => {
@@ -24,7 +23,7 @@ export const OrderCard = ({ item, dotsItems }) => {
 
   return (
     <div className="rounded-medium border border-borderDefault relative">
-      <div className="bg-bgGreyLigth p-xs flex gap-xs2 text-xs text-textSecondary">
+      <div className="bg-bgGreyLigth p-xs flex gap-xs2 text-xs text-textSecondary rounded-medium">
         <input type="checkbox" />#{item._id.slice(-6)}
       </div>
       <div className="p-xs flex gap-xs2">

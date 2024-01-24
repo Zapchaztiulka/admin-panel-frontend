@@ -1,9 +1,8 @@
-import React from 'react';
 import DefaultRow from './rows/DefaultRow';
 import DividerRow from './rows/DividerRow';
 import StatusRow from './rows/StatusRow';
 
-const Menu = ({ items, item, selected = 0 }) => {
+const Menu = ({ items, item, selected = 0, onClose = () => {} }) => {
   return (
     <div className="flex flex-col gap-xs">
       {selected > 0 && <div>Вибрано {selected} товарів:</div>}
@@ -23,7 +22,14 @@ const Menu = ({ items, item, selected = 0 }) => {
             RowComponent = DefaultRow;
             break;
         }
-        return <RowComponent {...otherProps} item={item} key={otherProps.title}/>;
+        return (
+          <RowComponent
+            {...otherProps}
+            item={item}
+            key={otherProps.title}
+            onClose={onClose}
+          />
+        );
       })}
     </div>
   );
