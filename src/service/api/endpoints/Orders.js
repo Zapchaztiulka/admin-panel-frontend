@@ -43,11 +43,12 @@ const updateOrder = async ({ orderId, orderData }) => {
 };
 
 // Delete Order by User
-const deleteOrder = async (idsArray) => {
+const deleteOrder = async (requestData) => {
+
   const response = await ApiClient.delete(`orders`, {
-  data: idsArray
-})
-  return response
+    data: requestData.data
+  });
+  return response;
 };
 
 export default {

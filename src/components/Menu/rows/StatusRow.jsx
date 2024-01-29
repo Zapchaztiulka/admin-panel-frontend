@@ -19,7 +19,13 @@ const StatusRow = ({ title, item, options, onChange, onClose }) => {
       <Select
         getRawInputElement={() => (
           <div>
-            <Status status={item.status} />
+            {item && item.status ? (
+              <Status status={item.status} />
+            ) : (
+              <span className="cursor-pointer text-textBrand">
+                Оберіть статус
+              </span>
+            )}
           </div>
         )}
         options={options}

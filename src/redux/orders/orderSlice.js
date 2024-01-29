@@ -70,7 +70,7 @@ export const ordersSlice = createSlice({
       .addCase(deleteOrder.pending, handlePending)
       .addCase(deleteOrder.rejected, handleRejected)
       .addCase(deleteOrder.fulfilled, (state, action) => {
-        const deletedIds = action.meta.arg.orderIds;
+        const deletedIds = action.meta.arg.data.orderIds;
 
         state.isLoading = false;
         state.error = null;

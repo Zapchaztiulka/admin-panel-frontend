@@ -6,7 +6,7 @@ export const Notifications = () => {
   const notifications = useNotifications()
 
   return (
-    <div className="absolute bottom-0 start-1/2 -translate-x-1/2">
+    <div className="fixed bottom-0 start-1/2 -translate-x-1/2">
       {notifications.map((notification) => (
         <NotificationItem key={notification.id} notification={notification} />
       ))}

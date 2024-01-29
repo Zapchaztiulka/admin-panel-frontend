@@ -67,7 +67,6 @@ export const deleteOrder = createAsyncThunk(
       try {
         const response = await api.order.deleteOrder(data);
         return  response
-
       } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
       }

@@ -12,7 +12,6 @@ import { columns } from './columns';
 
 import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
 import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
-import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
 import Button, {
   BUTTON_TYPES,
   BUTTON_SIZES,
@@ -23,7 +22,6 @@ import PlusIcon from 'universal-components-frontend/src/components/icons/univers
 import FileIcon from 'universal-components-frontend/src/components/icons/universalComponents/FileIcon';
 import LinkIcon from 'universal-components-frontend/src/components/icons/universalComponents/LinkIcon';
 import TrashIcon from 'universal-components-frontend/src/components/icons/universalComponents/TrashIcon';
-import LightningIcon from 'universal-components-frontend/src/components/icons/universalComponents/LightningIcon';
 
 import { debounce } from './../../utils/throttle';
 import { OrderCard } from '@/components/CardsList/Cards/OrderCard/OrderCard';
@@ -39,8 +37,10 @@ import {
   cleanEmptyFieldsInObject,
   prepareData,
 } from '@/utils/preparationDataToUpdateOrder';
-import { addNotification } from '@/redux/notifications/notificationsSlice';
 import ModalWindowComment from './ModalWindow/ModalWindowComment';
+import ModalWindowNewOrder from './ModalWindow/ModalWindowNewOrder';
+import ModalDeleteOrder from './ModalWindow/ModalDeleteOrder';
+import Menu from '@/components/Menu/Menu';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -155,62 +155,84 @@ const Orders = () => {
     setShowModalDelete(false);
     const data = { orderIds: [`${currentOrderId}`] };
     console.log('delID', data);
-    //dispatch(deleteOrder(data))
-  }, []);
+    dispatch(
+      deleteOrder({
+        data,
+        notifications: {
+          success: 'Замовлення успішно видалене.',
+          fail: 'Виникла помилка при видаленні замовлення',
+        },
+      })
+    );
+  }, [currentOrderId, dispatch]);
+
   const handleSaveComment = useCallback(
     (comment) => {
       const findedOrder = orders.find((item) => item._id === currentOrderId);
       const mod = { ...findedOrder, ...comment };
-      console.log('comm', currentOrderId, mod, prepareData(mod));
-      const dis = dispatch(
-        updateOrder({ orderId: currentOrderId, orderData: prepareData(mod) })
+      dispatch(
+        updateOrder({
+          orderId: currentOrderId,
+          orderData: prepareData(mod),
+          notifications: {
+            success: 'Коментар збережено.',
+            fail: 'Виникла помилка. Коментар не збережено',
+          },
+        })
       );
-      console.log('disComm', dis);
-      dis.then((res) => {
-        console.log('res', res);
-        if (res.meta.requestStatus === 'fulfilled') {
-          dispatch(addNotification({ message: 'Статус змінено.' }));
-        } else {
-          dispatch(
-            addNotification({
-              message: 'Виникла помилка при зміні статусу',
-              type: 'error',
-            })
-          );
-        }
-        handleCloseModal();
-      });
+      handleCloseModal();
     },
     [orders, currentOrderId, dispatch]
   );
   const handleCloseModal = useCallback(() => {
     setShowModalDelete(false);
     setShowModalComment(false);
+    setShowModalCreateOrder(false);
   }, []);
+  const handleCreateNewOrder = useCallback((id) => {
+    setShowModalCreateOrder(true);
+    setCurrentOrderId(id);
+  });
+
+  const handleCreateOrder = useCallback(
+    (phone) => {
+      handleCloseModal();
+      const findedOrder = orders.find((item) => item._id === currentOrderId);
+      const mod = prepareData(findedOrder);
+      const dataForCreate = { ...mod, phone };
+      dispatch(
+        createOrderByAny({
+          orderData: dataForCreate,
+          notifications: {
+            success: 'Замовлення успішно створено',
+            fail: 'Виникла помилка при створенні замовлення',
+          },
+        })
+      );
+    },
+    [currentOrderId, orders]
+  );
 
   // Dot Items
   const handleEditClick = useCallback((id) => {
     navigate(`details/${id}`);
   }, []);
 
-  console.log(orders);
-
   const handleChangeStatus = useCallback(
     (statusId, orderId) => {
       const findedOrder = orders.find((item) => item._id === orderId);
       const mod = { ...findedOrder, status: statusOptions[statusId] };
       console.log('findedOrder', findedOrder, mod, orderId, data);
-      const dis = dispatch(
+      dispatch(
         updateOrder({
           orderId,
-          orderData: prepareData(mod),
+          orderData: { status: statusOptions[statusId] },
           notifications: {
             success: 'Статус змінено.',
             fail: 'Виникла помилка при зміні статусу',
           },
         })
       );
-      console.log('dis', dis);
     },
     [statusOptions, orders, dispatch, data]
   );
@@ -218,59 +240,25 @@ const Orders = () => {
   const handleAddComment = useCallback((id) => {
     setShowModalComment(true);
     setCurrentOrderId(id);
-    console.log('comi', id);
   }, []);
-
-  const handleCreateNewOrder = useCallback(
-    (id) => {
-      setCurrentOrderId(id);
-      const findedOrder = data.find((item) => item._id === id);
-      console.log('findedOrder', id, findedOrder);
-      const mod = cleanEmptyFieldsInObject(findedOrder);
-      const {
-        _id,
-        createdAt,
-        updatedAt,
-        status,
-        totalTypeOfProducts,
-        totalProducts,
-        totalPrice,
-        ...orderData
-      } = mod;
-      console.log('orderData', orderData);
-      setShowModalCreateOrder(true);
-      const dis = dispatch(
-        createOrderByAny({
-          orderData,
-          notifications: { success: 'create done', fail: 'create Error' },
-        })
-      );
-      dis.then((res) => {
-        console.log('res', res);
-      });
-    },
-    [data]
-  );
 
   const handleCopyOrder = useCallback(
     (id) => {
       const findedOrder = orders.find((item) => item._id === id);
-      console.log(findedOrder, id);
 
       if (findedOrder) {
         const dataForCreate = prepareData(findedOrder);
 
-        delete dataForCreate['status'];
-
         dispatch(
           createOrderByAny({
             orderData: dataForCreate,
-            notifications: { success: 'Copy done', fail: 'Copy Error' },
+            notifications: {
+              success: 'Замовлення успішно скопійовано',
+              fail: 'Виникла помилка при копіюванні',
+            },
           })
         );
       }
-
-      // setCurrentOrderId(id);
     },
     [orders, dispatch]
   );
@@ -280,55 +268,97 @@ const Orders = () => {
     setShowModalDelete(true);
   }, []);
 
-  const menuDotsItems = [
-    {
-      title: 'Редагувати',
-      icon: EditIcon,
-      iconProps: { color: theme.extend.colors.iconBrand },
-      onClick: handleEditClick,
-    },
-    {
-      title: 'Змінити статус',
-      type: 'status',
-      options: statusOptionsList,
-      onChange: handleChangeStatus,
-    },
-    {
-      title: 'Додати коментар',
-      icon: PlusIcon,
-      iconProps: { color: theme.extend.colors.iconBrand },
-      onClick: handleAddComment,
-    },
-    { type: 'divider' },
-    {
-      title: 'Cтворити нове замовлення',
-      icon: FileIcon,
-      iconProps: { color: theme.extend.colors.iconBrand },
-      onClick: handleCreateNewOrder,
-    },
-    {
-      title: 'Скопіювати замовлення',
-      icon: LinkIcon,
-      iconProps: { color: theme.extend.colors.iconBrand },
-      onClick: handleCopyOrder,
-    },
-    { type: 'divider' },
-    {
-      title: 'Видалити',
-      icon: TrashIcon,
-      iconProps: { color: theme.extend.colors.iconError },
-      onClick: handleDeleteOrder,
-    },
-  ];
+  const menuDotsItems = useMemo(() => {
+    return [
+      {
+        title: 'Редагувати',
+        icon: EditIcon,
+        iconProps: { color: theme.extend.colors.iconBrand },
+        onClick: handleEditClick,
+      },
+      {
+        title: 'Змінити статус',
+        type: 'status',
+        options: statusOptionsList,
+        onChange: handleChangeStatus,
+      },
+      {
+        title: 'Додати коментар',
+        icon: PlusIcon,
+        iconProps: { color: theme.extend.colors.iconBrand },
+        onClick: handleAddComment,
+      },
+      { type: 'divider' },
+      {
+        title: 'Cтворити нове замовлення',
+        icon: FileIcon,
+        iconProps: { color: theme.extend.colors.iconBrand },
+        onClick: handleCreateNewOrder,
+      },
+      {
+        title: 'Скопіювати замовлення',
+        icon: LinkIcon,
+        iconProps: { color: theme.extend.colors.iconBrand },
+        onClick: handleCopyOrder,
+      },
+      { type: 'divider' },
+      {
+        title: 'Видалити',
+        icon: TrashIcon,
+        iconProps: { color: theme.extend.colors.iconError },
+        onClick: handleDeleteOrder,
+      },
+    ];
+  }, [
+    handleEditClick,
+    handleChangeStatus,
+    handleAddComment,
+    handleCreateNewOrder,
+    handleCopyOrder,
+    handleDeleteOrder,
+    statusOptionsList,
+  ]);
+
+  const menuChooseOrders = useMemo(() => {
+    return [
+      {
+        title: 'Змінити статус',
+        type: 'status',
+        options: statusOptionsList,
+        onChange: handleChangeStatus,
+      },
+      {
+        title: 'Додати коментар',
+        icon: PlusIcon,
+        iconProps: { color: theme.extend.colors.iconBrand },
+        onClick: handleAddComment,
+      },
+      {
+        title: 'Видалити',
+        icon: TrashIcon,
+        iconProps: { color: theme.extend.colors.iconError },
+        onClick: handleDeleteOrder,
+      },
+    ];
+  }, []);
+
+  const onSelectionChanged = useCallback((event) => {
+    var rowCount = event.api.getSelectedNodes().length;
+    console.log('', event.api.getSelectedNodes());
+   // window.alert('selection changed, ' + rowCount + ' rows selected');
+  }, []);
 
   const updatedColumns = useMemo(() => {
     return columns.map((col) => {
+      // if (col.field === 'checkbox2') {
+      //   col.headerCheckboxSelection = handleRowSelect;
+      // }
       if (col.field === 'settings') {
         col.cellRendererParams = { dotsItems: menuDotsItems };
       }
       return col;
     });
-  }, [columns]);
+  }, [menuDotsItems]);
 
   return (
     <div className="flex flex-col gap-m">
@@ -387,32 +417,17 @@ const Orders = () => {
             onGridReady={onGridReady}
             tooltipShowDelay={0}
             tooltipHideDelay={5000}
+            onSelectionChanged={onSelectionChanged}
           />
         </div>
       )}
 
       {showModalDelete && (
-        <Modal
+        <ModalDeleteOrder
           isOpen={showModalDelete}
-          onClose={handleCloseModal}
-          type="negative"
-          title="Видалити замовлення"
-          description="Ви впевнені, що хочете видалити замовлення? Відмініти цю дію неможливо."
-          icon={<LightningIcon />}
-        >
-          <div className="flex gap-xs2 mt-xs2">
-            <Button
-              text="Відмінити"
-              buttonType={BUTTON_TYPES.SECONDARY_GRAY}
-              onClick={handleCloseModal}
-            />
-            <Button
-              text="Видалити"
-              buttonType={BUTTON_TYPES.DESTRUCTIVE}
-              onClick={handleConfirmDelete}
-            />
-          </div>
-        </Modal>
+          handleCloseModal={handleCloseModal}
+          handleConfirmDelete={handleConfirmDelete}
+        />
       )}
       {showModalComment && (
         <ModalWindowComment
@@ -421,6 +436,16 @@ const Orders = () => {
           handleSaveComment={handleSaveComment}
         />
       )}
+      {showModalCreateOrder && (
+        <ModalWindowNewOrder
+          isOpen={showModalCreateOrder}
+          handleCloseModal={handleCloseModal}
+          handleCreateOrder={handleCreateOrder}
+        />
+      )}
+      <div className="shadow-tooltip bg-bgWhite py-m1 px-m border border-borderDefault50 rounded-medium w-[350px] fixed bottom-[72px] right-[50px]">
+        <Menu items={menuChooseOrders} selected={7} item={{}} />
+      </div>
     </div>
   );
 };

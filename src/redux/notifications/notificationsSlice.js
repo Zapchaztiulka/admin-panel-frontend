@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { createOrderByAny, updateOrder } from '../orders/operations';
+import {
+  createOrderByAny,
+  updateOrder,
+  deleteOrder,
+} from '../orders/operations';
 
 const initialState = {
   notifications: [],
@@ -15,7 +19,10 @@ const handleRequest = (
     },
   }
 ) => {
-  const { success, fail } = notifications || { success: 'yes', fail: 'no' };
+  const { success, fail } = notifications || {
+    success: 'Success',
+    fail: 'Error',
+  };
 
   if (requestStatus === 'fulfilled') {
     state.notifications.push({
@@ -52,18 +59,30 @@ const notificationsSlice = createSlice({
         state.notifications.splice(index, 1);
       }
     },
+
+    createTestNotification: (state) => {
+      const notification = {
+        id: new Date().toISOString(),
+        message: 'test error message',
+        type: 'error',
+      };
+      state.notifications.push(notification);
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(createOrderByAny.rejected, handleRequest)
       .addCase(createOrderByAny.fulfilled, handleRequest)
       .addCase(updateOrder.rejected, handleRequest)
-      .addCase(updateOrder.fulfilled, handleRequest);
+      .addCase(updateOrder.fulfilled, handleRequest)
+      .addCase(deleteOrder.rejected, handleRequest)
+      .addCase(deleteOrder.fulfilled, handleRequest);
   },
 });
 const { actions } = notificationsSlice;
 
-export const { addNotification, dismissNotification } = actions;
+export const { addNotification, dismissNotification, createTestNotification } =
+  actions;
 
 const selectNotifications = (state) => state.notifications.notifications;
 

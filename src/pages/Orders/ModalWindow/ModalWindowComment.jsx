@@ -50,7 +50,7 @@ const ModalWindowComment = ({
       description="Впишіть ім’я менеджеру, який залишає коментар, та Ваш коментар."
     >
       <>
-        <div className="flex flex-col gap-m2 mt-xs2 w-[616px]">
+        <div className="lg:w-[616px] flex flex-col gap-m2 mt-xs2 w-[288px]">
           <div className="w-full">
             <Input label="Менеджер" onChange={handleInputChange} />
           </div>

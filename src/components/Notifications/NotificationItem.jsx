@@ -7,7 +7,7 @@ import CheckCircleIcon from 'universal-components-frontend/src/components/icons/
 import CloseIcon from 'universal-components-frontend/src/components/icons/universalComponents/CloseIcon';
 
 export const NotificationItem = ({
-  notification: { id, autoHideDuration = 5000, message, onClose = () => {}, type = 'success' },
+  notification: { id, autoHideDuration = 3000, message, onClose = () => {}, type = 'success' },
 }) => {
   const dispatch = useDispatch()
 
