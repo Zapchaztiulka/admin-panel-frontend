@@ -9,7 +9,7 @@ const getOrderDetails = async (orderId) => {
 // get All Orders
 const getAllOrders = async ({
   page = 1,
-  limit = 20,
+  limit = 10,
   query = '',
   statusId = '',
 }) => {
@@ -42,11 +42,19 @@ const updateOrder = async ({ orderId, orderData }) => {
   return data;
 };
 
+// Update Order By Admin
+const updateOrderByAdmin = async ({ adminId, orderData }) => {
+  const { data } = await ApiClient.patch(
+    `orders/byAdmin/${adminId}`,
+    orderData
+  );
+  return data;
+};
+
 // Delete Order by User
 const deleteOrder = async (requestData) => {
-
   const response = await ApiClient.delete(`orders`, {
-    data: requestData.data
+    data: requestData.data,
   });
   return response;
 };
@@ -54,6 +62,7 @@ const deleteOrder = async (requestData) => {
 export default {
   getOrderDetails,
   updateOrder,
+  updateOrderByAdmin,
   getAllOrders,
   createOrderByUser,
   createOrderByAny,

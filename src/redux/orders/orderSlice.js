@@ -4,6 +4,7 @@ import {
   createOrderByUser,
   createOrderByAny,
   updateOrder,
+  updateOrderByAdmin,
   deleteOrder,
 } from './operations';
 
@@ -63,6 +64,23 @@ export const ordersSlice = createSlice({
           if (order._id === action.payload._id) {
             return { ...order, ...action.payload };
           }
+          return order;
+        });
+      })
+
+      .addCase(updateOrderByAdmin.pending, handlePending)
+      .addCase(updateOrderByAdmin.rejected, handleRejected)
+      .addCase(updateOrderByAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+
+        const updatedIds = action.payload.map((i) => i._id);
+        state.orders = state.orders.map((order) => {
+          if (updatedIds.includes(order._id)) {
+            const findedOrder = action.payload.find((i) => i._id === order._id);
+            return { ...order, ...findedOrder };
+          }
+
           return order;
         });
       })

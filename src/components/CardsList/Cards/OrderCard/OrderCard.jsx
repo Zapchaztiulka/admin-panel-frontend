@@ -5,7 +5,7 @@ import Status from '@/components/Status/Status';
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export const OrderCard = ({ item, dotsItems }) => {
+export const OrderCard = ({ item, dotsItems, onSelect, selectedIds }) => {
   const [showProductsTooltip, setShowProductsTooltip] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -21,11 +21,28 @@ export const OrderCard = ({ item, dotsItems }) => {
     setMenuOpen(!menuOpen);
   }, [menuOpen]);
 
+  const handleSelect = useCallback(
+    (e) => {
+      console.log(e.target.checked);
+      onSelect(item, e.target.checked);
+    },
+    [item, onSelect]
+  );
+
   return (
     <div className="rounded-medium border border-borderDefault relative">
-      <div className="bg-bgGreyLigth p-xs flex gap-xs2 text-xs text-textSecondary rounded-medium">
-        <input type="checkbox" />#{item._id.slice(-6)}
-      </div>
+      <label
+        className="bg-bgGreyLigth p-xs flex gap-xs2 text-xs text-textSecondary rounded-medium"
+        htmlFor={`card_order${item._id}`}
+      >
+        <input
+          id={`card_order${item._id}`}
+          type="checkbox"
+          onChange={handleSelect}
+          checked={selectedIds.includes(item?._id)}
+        />
+        #{item._id.slice(-6)}
+      </label>
       <div className="p-xs flex gap-xs2">
         Номер телефону
         <span className="text-textInputActive text-base">+38{item.phone}</span>

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   createOrderByAny,
   updateOrder,
+  updateOrderByAdmin,
   deleteOrder,
 } from '../orders/operations';
 
@@ -38,6 +39,28 @@ const handleRequest = (
   }
 };
 
+const handleReject = (state, { meta }) => {
+  let errorMessage = '';
+  const { arg, response } = meta || {};
+
+  if (response?.data?.message) {
+    errorMessage = response?.data?.message;
+  } else {
+    const { notifications } = arg;
+    if (notifications?.fail) {
+      errorMessage = notifications.fail;
+    } else {
+      errorMessage = 'Unexpected server error';
+    }
+  }
+
+  state.notifications.push({
+    id: new Date().toISOString(),
+    message: errorMessage,
+    type: 'error',
+  });
+};
+
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -71,11 +94,13 @@ const notificationsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createOrderByAny.rejected, handleRequest)
+      .addCase(createOrderByAny.rejected, handleReject)
       .addCase(createOrderByAny.fulfilled, handleRequest)
-      .addCase(updateOrder.rejected, handleRequest)
+      .addCase(updateOrder.rejected, handleReject)
       .addCase(updateOrder.fulfilled, handleRequest)
-      .addCase(deleteOrder.rejected, handleRequest)
+      .addCase(updateOrderByAdmin.rejected, handleReject)
+      .addCase(updateOrderByAdmin.fulfilled, handleRequest)
+      .addCase(deleteOrder.rejected, handleReject)
       .addCase(deleteOrder.fulfilled, handleRequest);
   },
 });

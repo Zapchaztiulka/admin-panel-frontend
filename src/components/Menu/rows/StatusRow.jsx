@@ -3,13 +3,13 @@ import Select from 'rc-select';
 import 'rc-select/assets/index.css';
 import CheckIcon from 'universal-components-frontend/src/components/icons/universalComponents/CheckIcon';
 
-const StatusRow = ({ title, item, options, onChange, onClose }) => {
+const StatusRow = ({ title,  value, options, onChange, onClose }) => {
   const styles = {
     ':hover': { background: '#F9F9F9' },
   };
 
   const handleStatusChange = (statusId) => {
-    onChange(statusId, item._id);
+    onChange(statusId, value);
     onClose();
   };
 
@@ -19,12 +19,12 @@ const StatusRow = ({ title, item, options, onChange, onClose }) => {
       <Select
         getRawInputElement={() => (
           <div>
-            {item && item.status ? (
-              <Status status={item.status} />
-            ) : (
+            {value.length > 1 ? (
               <span className="cursor-pointer text-textBrand">
                 Оберіть статус
               </span>
+            ) : (
+              <Status status={value[0].status} />
             )}
           </div>
         )}
@@ -32,7 +32,7 @@ const StatusRow = ({ title, item, options, onChange, onClose }) => {
         onChange={handleStatusChange}
         dropdownMatchSelectWidth={false}
         styles={styles}
-        value={item.status}
+        
         allowClear
         dropdownClassName="rc-select-custom"
         menuItemSelectedIcon={<CheckIcon />}

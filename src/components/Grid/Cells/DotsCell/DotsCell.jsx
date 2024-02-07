@@ -28,7 +28,7 @@ export default function DotsCell({
       showArrow={false}
       onVisibleChange={handleVisibleChange}
       overlayClassName="rc-custom"
-      overlay={<Menu items={dotsItems} item={data} onClose={handleVisible} />}
+      overlay={<Menu items={dotsItems} value={[data]} onClose={handleVisible} />}
       visible={visible}
     >
       <div className="cursor-pointer">

@@ -2,7 +2,7 @@ import Grid from '@/components/Grid/Grid';
 import {
   createOrderByAny,
   getAllOrders,
-  updateOrder,
+  updateOrderByAdmin,
 } from '@/redux/orders/operations';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,69 +34,70 @@ import {
 } from '@/redux/options/selectors';
 import { deleteOrder } from './../../redux/orders/operations';
 import {
-  cleanEmptyFieldsInObject,
-  prepareData,
+  prepareDataForCopyOrder,
+  prepareDataForCreateOrder,
 } from '@/utils/preparationDataToUpdateOrder';
 import ModalWindowComment from './ModalWindow/ModalWindowComment';
 import ModalWindowNewOrder from './ModalWindow/ModalWindowNewOrder';
 import ModalDeleteOrder from './ModalWindow/ModalDeleteOrder';
 import Menu from '@/components/Menu/Menu';
+import { selectUser } from '@/redux/auth/selectors';
+import Pagination from '@/components/Pagination/Pagination';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
 const BUTTONS_HEIGHT = 116;
+const PAGINATION = 31;
 
 const Orders = () => {
   const smallScreen = window.innerWidth < 1200 ? true : false;
   const [isSmallScreen, setIsSmallScreen] = useState(smallScreen);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(10);
   const [query, setQuery] = useState('');
   const [statusId, setStatusId] = useState('');
-  const [currentOrderId, setCurrentOrderId] = useState(0);
+  const [chooseOrders, setChooseOrders] = useState([]);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalComment, setShowModalComment] = useState(false);
   const [showModalCreateOrder, setShowModalCreateOrder] = useState(false);
 
   const dispatch = useDispatch();
-  const { orders } = useSelector((state) => state.orders);
+  const { orders, totalCount } = useSelector((state) => state.orders);
   const gridRef = useRef();
   const navigate = useNavigate();
+  const admin = useSelector(selectUser);
+  const adminId = admin.id;
   const statusOptions = useSelector(selectPatternsStatuses);
   const statusOptionsList = useSelector(selectPatternsStatusesOptionsList);
   const statusOptionsBigFirstLetter = statusOptions.map(
     (item) => item && item.charAt(0).toUpperCase() + item.slice(1)
   );
 
+  const chooseOrdersIds = chooseOrders.map((i) => i._id);
+
   const fetchData = useCallback((data) => {
     dispatch(getAllOrders(data));
   }, []);
 
-  const debounceFetch = useCallback(() => debounce(fetchData, 500), []);
+  const debounceFetch = useMemo(() => debounce(fetchData, 500), []);
 
   useEffect(() => {
     setData(orders);
   }, [orders]);
-
-  // console.log('orders', orders);
 
   useEffect(() => {
     fetchData({ page, limit, query, statusId });
   }, []);
 
   useEffect(() => {
+    console.log('useEffect', page, limit);
     debounceFetch({ page, limit, query, statusId });
-  }, [page, limit, query, statusId]);
+  }, [page, limit, query, statusId, debounceFetch]);
 
   const options = {
     onGridReady: (event) => event.api.sizeColumnsToFit(),
-    pagination: true,
-    paginationPageSizeSelector: [5, 10, 25, 50, 100],
     rowSelection: 'multiple',
-    onSelectionChanged: (event) => {
-      //console.log('e', event.api.getSelectedRows());
-    },
   };
 
   const autoSizeStrategy = useMemo(() => {
@@ -123,7 +124,7 @@ const Orders = () => {
     [gridRef.current]
   );
   const gridContainerHeight = getGridHeight(
-    4 * VERTICAL_PADDINGS + FILTERS_HEIGHT + BUTTONS_HEIGHT
+    5 * VERTICAL_PADDINGS + FILTERS_HEIGHT + BUTTONS_HEIGHT + PAGINATION
   );
 
   useEffect(() => {
@@ -144,89 +145,38 @@ const Orders = () => {
     return () => window.removeEventListener('resize', debounceResize);
   }, []);
 
-  const handleStatusChange = useCallback((value) => {
+  const handleStatusChangeHeader = useCallback((value) => {
     setStatusId(value);
   }, []);
+
   const handleSearchChange = useCallback((value) => {
     setQuery(value);
   }, []);
 
-  const handleConfirmDelete = useCallback(() => {
-    setShowModalDelete(false);
-    const data = { orderIds: [`${currentOrderId}`] };
-    console.log('delID', data);
-    dispatch(
-      deleteOrder({
-        data,
-        notifications: {
-          success: 'Замовлення успішно видалене.',
-          fail: 'Виникла помилка при видаленні замовлення',
-        },
-      })
-    );
-  }, [currentOrderId, dispatch]);
-
-  const handleSaveComment = useCallback(
-    (comment) => {
-      const findedOrder = orders.find((item) => item._id === currentOrderId);
-      const mod = { ...findedOrder, ...comment };
-      dispatch(
-        updateOrder({
-          orderId: currentOrderId,
-          orderData: prepareData(mod),
-          notifications: {
-            success: 'Коментар збережено.',
-            fail: 'Виникла помилка. Коментар не збережено',
-          },
-        })
-      );
-      handleCloseModal();
-    },
-    [orders, currentOrderId, dispatch]
-  );
-  const handleCloseModal = useCallback(() => {
-    setShowModalDelete(false);
-    setShowModalComment(false);
-    setShowModalCreateOrder(false);
+  const handleChangePagination = useCallback(({ page, perPage }) => {
+    setPage(page);
+    setLimit(perPage);
   }, []);
-  const handleCreateNewOrder = useCallback((id) => {
-    setShowModalCreateOrder(true);
-    setCurrentOrderId(id);
-  });
-
-  const handleCreateOrder = useCallback(
-    (phone) => {
-      handleCloseModal();
-      const findedOrder = orders.find((item) => item._id === currentOrderId);
-      const mod = prepareData(findedOrder);
-      const dataForCreate = { ...mod, phone };
-      dispatch(
-        createOrderByAny({
-          orderData: dataForCreate,
-          notifications: {
-            success: 'Замовлення успішно створено',
-            fail: 'Виникла помилка при створенні замовлення',
-          },
-        })
-      );
-    },
-    [currentOrderId, orders]
-  );
 
   // Dot Items
-  const handleEditClick = useCallback((id) => {
-    navigate(`details/${id}`);
+  const handleEditClick = useCallback((orders) => {
+    const firstOrderId = orders[0]._id;
+    navigate(`details/${firstOrderId}`);
   }, []);
 
   const handleChangeStatus = useCallback(
-    (statusId, orderId) => {
-      const findedOrder = orders.find((item) => item._id === orderId);
-      const mod = { ...findedOrder, status: statusOptions[statusId] };
-      console.log('findedOrder', findedOrder, mod, orderId, data);
+    (statusId, orders) => {
+      const orderIds = orders.map((order) => order._id);
+      const orderData = {
+        status: statusOptions[statusId],
+        adminTag: 'ok',
+        orderIds,
+      };
+
       dispatch(
-        updateOrder({
-          orderId,
-          orderData: { status: statusOptions[statusId] },
+        updateOrderByAdmin({
+          adminId,
+          orderData,
           notifications: {
             success: 'Статус змінено.',
             fail: 'Виникла помилка при зміні статусу',
@@ -234,24 +184,33 @@ const Orders = () => {
         })
       );
     },
-    [statusOptions, orders, dispatch, data]
+    [statusOptions, adminId, dispatch]
   );
 
-  const handleAddComment = useCallback((id) => {
+  const handleAddComment = useCallback((orders) => {
     setShowModalComment(true);
-    setCurrentOrderId(id);
+    setChooseOrders(orders);
+  }, []);
+
+  const handleCreateNewOrder = useCallback((orders) => {
+    setShowModalCreateOrder(true);
+    setChooseOrders(orders);
+  }, []);
+
+  const handleDeleteOrder = useCallback((orders) => {
+    setShowModalDelete(true);
+    setChooseOrders(orders);
   }, []);
 
   const handleCopyOrder = useCallback(
-    (id) => {
-      const findedOrder = orders.find((item) => item._id === id);
-
-      if (findedOrder) {
-        const dataForCreate = prepareData(findedOrder);
+    (orders) => {
+      const orderForCopy = orders[0];
+      if (orderForCopy) {
+        const prep = prepareDataForCopyOrder(orderForCopy);
 
         dispatch(
           createOrderByAny({
-            orderData: dataForCreate,
+            orderData: prep,
             notifications: {
               success: 'Замовлення успішно скопійовано',
               fail: 'Виникла помилка при копіюванні',
@@ -263,12 +222,12 @@ const Orders = () => {
     [orders, dispatch]
   );
 
-  const handleDeleteOrder = useCallback((id) => {
-    setCurrentOrderId(id);
-    setShowModalDelete(true);
+  const onSelectionChanged = useCallback((event) => {
+    const orders = event.api.getSelectedNodes().map((row) => row.data);
+    setChooseOrders(orders);
   }, []);
 
-  const menuDotsItems = useMemo(() => {
+  const menuSingleOrder = useMemo(() => {
     return [
       {
         title: 'Редагувати',
@@ -319,7 +278,7 @@ const Orders = () => {
     statusOptionsList,
   ]);
 
-  const menuChooseOrders = useMemo(() => {
+  const menuMultipleOrders = useMemo(() => {
     return [
       {
         title: 'Змінити статус',
@@ -342,23 +301,100 @@ const Orders = () => {
     ];
   }, []);
 
-  const onSelectionChanged = useCallback((event) => {
-    var rowCount = event.api.getSelectedNodes().length;
-    console.log('', event.api.getSelectedNodes());
-   // window.alert('selection changed, ' + rowCount + ' rows selected');
-  }, []);
-
   const updatedColumns = useMemo(() => {
     return columns.map((col) => {
-      // if (col.field === 'checkbox2') {
-      //   col.headerCheckboxSelection = handleRowSelect;
-      // }
       if (col.field === 'settings') {
-        col.cellRendererParams = { dotsItems: menuDotsItems };
+        col.cellRendererParams = { dotsItems: menuSingleOrder };
       }
       return col;
     });
-  }, [menuDotsItems]);
+  }, [menuSingleOrder]);
+
+  const handleSelectCard = useCallback(
+    (order, selected) => {
+      const chooseOrdersIds = chooseOrders.map((i) => i._id);
+      if (selected) {
+        if (!chooseOrdersIds.includes(order._id)) {
+          setChooseOrders((orders) => [...orders, order]);
+        }
+      } else {
+        if (chooseOrdersIds.includes(order._id)) {
+          setChooseOrders((orders) =>
+            orders.filter((o) => o._id !== order._id)
+          );
+        }
+
+        console.log(chooseOrdersIds, order, selected);
+      }
+    },
+    [chooseOrders]
+  );
+
+  // MODAL WINDOWS START
+  const handleCloseModal = useCallback(() => {
+    setShowModalDelete(false);
+    setShowModalComment(false);
+    setShowModalCreateOrder(false);
+  }, []);
+
+  const handleConfirmDelete = useCallback(() => {
+    setShowModalDelete(false);
+    const orderIds = chooseOrders.map((order) => order._id);
+    const data = { orderIds };
+    dispatch(
+      deleteOrder({
+        data,
+        notifications: {
+          success: 'Замовлення успішно видалене.',
+          fail: 'Виникла помилка при видаленні замовлення',
+        },
+      })
+    );
+  }, [chooseOrders, dispatch]);
+
+  const handleSaveComment = useCallback(
+    (comment) => {
+      const orderIds = chooseOrders.map((order) => order._id);
+      const orderData = {
+        adminComment: comment,
+        adminTag: 'ok',
+        orderIds: orderIds,
+      };
+      dispatch(
+        updateOrderByAdmin({
+          adminId,
+          orderData,
+          notifications: {
+            success: 'Коментар збережено.',
+            fail: 'Виникла помилка. Коментар не збережено',
+          },
+        })
+      );
+      handleCloseModal();
+    },
+    [adminId, chooseOrders, dispatch, handleCloseModal]
+  );
+
+  const handleCreateOrder = useCallback(
+    (phone) => {
+      const firstOrder = chooseOrders[0];
+      const mod = prepareDataForCreateOrder(firstOrder);
+      const dataForCreate = { ...mod, phone };
+      dispatch(
+        createOrderByAny({
+          orderData: dataForCreate,
+          notifications: {
+            success: 'Замовлення успішно створено',
+            fail: 'Виникла помилка при створенні замовлення',
+          },
+        })
+      );
+
+      handleCloseModal();
+    },
+    [chooseOrders, dispatch, handleCloseModal]
+  );
+  // MODAL WINDOWS END
 
   return (
     <div className="flex flex-col gap-m">
@@ -395,15 +431,20 @@ const Orders = () => {
           width={290}
           options={statusOptionsBigFirstLetter}
           placeholder="Всі статуси"
-          onChange={handleStatusChange}
+          onChange={handleStatusChangeHeader}
           className="w-full tablet600:w-[290px] "
         />
       </div>
+
       {isSmallScreen ? (
         <CardsList
           data={data}
           cardComponent={OrderCard}
-          cardComponentProps={{ dotsItems: menuDotsItems }}
+          cardComponentProps={{
+            dotsItems: menuSingleOrder,
+            onSelect: handleSelectCard,
+            selectedIds: chooseOrdersIds,
+          }}
         />
       ) : (
         <div style={{ height: gridContainerHeight }}>
@@ -421,6 +462,13 @@ const Orders = () => {
           />
         </div>
       )}
+
+      <Pagination
+        perPage={limit}
+        page={page}
+        totalResult={totalCount}
+        onChange={handleChangePagination}
+      />
 
       {showModalDelete && (
         <ModalDeleteOrder
@@ -443,9 +491,15 @@ const Orders = () => {
           handleCreateOrder={handleCreateOrder}
         />
       )}
-      <div className="shadow-tooltip bg-bgWhite py-m1 px-m border border-borderDefault50 rounded-medium w-[350px] fixed bottom-[72px] right-[50px]">
-        <Menu items={menuChooseOrders} selected={7} item={{}} />
-      </div>
+      {chooseOrders.length >= 2 && (
+        <div className="shadow-tooltip bg-bgWhite p-s sm:py-m1 sm:px-m border border-borderDefault50 rounded-medium w-[320px] bottom-0 right-0 sm:w-[350px] fixed sm:bottom-[72px] sm:right-[50px]">
+          <Menu
+            items={menuMultipleOrders}
+            selected={chooseOrders.length}
+            value={chooseOrders}
+          />
+        </div>
+      )}
     </div>
   );
 };

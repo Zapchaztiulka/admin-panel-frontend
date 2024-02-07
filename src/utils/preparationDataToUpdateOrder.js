@@ -14,7 +14,11 @@ export const prepareData = (data) => {
     'adminData',
   ]);
 
-  restData = { ...restData, ...(data?.deliveryData || {}) };
+  restData = {
+    ...restData,
+    ...(data?.deliveryData || {}),
+    ...(data?.adminData || {}),
+  };
 
   Object.entries(restData).filter((item) => {
     return item[1];
@@ -48,6 +52,64 @@ export const cleanEmptyFieldsInObject = (data) => {
       delete tempData[key];
     }
   }
-  console.log('cleanEmptyFieldsInObject', tempData);
   return { ...tempData, products: newProducts };
 };
+
+export const prepareProducts = (data) => {
+  const newProducts = data.products?.map((prod) => {
+    const { productId, quantity } = prod;
+    return { productId, quantity };
+  });
+
+  return { products: newProducts };
+};
+
+export const prepareDataForCreateOrder = (data) => {
+  const clean = cleanEmptyFieldsInObject(data);
+  const { products, legalEntityData, ...rest } = clean;
+
+  return { products, legalEntityData };
+};
+
+// updatedAt,   NO
+//   userComment,
+//   userMiddleName,
+//   userSurname, totalTypeOfProducts,
+//   userType, deliveryData, adminData,
+//   username, email, createdAt, _id,
+//   totalProducts, totalPrice, totalPriceWithDelivery,
+
+export const prepareDataForCopyOrder = (data) => {
+  const clean = cleanEmptyFieldsInObject(data);
+  const {
+    products,
+    legalEntityData,
+    userComment,
+    userMiddleName,
+    userSurname,
+    userType,
+    username,
+    email,
+    phone,
+    ...rest
+  } = clean;
+
+  return {
+    products,
+    legalEntityData,
+    userComment,
+    userMiddleName,
+    userSurname,
+    userType,
+    username,
+    email,
+    phone,
+  };
+};
+//  _id,    NO
+//     deliveryData,
+//     adminData,
+//     totalTypeOfProducts,
+//     totalProducts,
+//     totalPrice,
+//     totalPriceWithDelivery,createdAt,updatedAt,

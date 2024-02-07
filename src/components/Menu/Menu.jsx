@@ -2,7 +2,7 @@ import DefaultRow from './rows/DefaultRow';
 import DividerRow from './rows/DividerRow';
 import StatusRow from './rows/StatusRow';
 
-const Menu = ({ items, item, selected = 0, onClose = () => {} }) => {
+const Menu = ({ items, value, selected = 0, onClose = () => {} }) => {
   return (
     <div className="flex flex-col gap-xs">
       {selected > 0 && <div>Вибрано {selected} товарів:</div>}
@@ -25,7 +25,7 @@ const Menu = ({ items, item, selected = 0, onClose = () => {} }) => {
         return (
           <RowComponent
             {...otherProps}
-            item={item}
+            value={value}
             key={otherProps.title}
             onClose={onClose}
           />
