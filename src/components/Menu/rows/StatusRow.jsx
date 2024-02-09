@@ -32,7 +32,7 @@ const StatusRow = ({ title,  value, options, onChange, onClose }) => {
         onChange={handleStatusChange}
         dropdownMatchSelectWidth={false}
         styles={styles}
-        
+        dropdownAlign={{points: ['c']}}
         allowClear
         dropdownClassName="rc-select-custom"
         menuItemSelectedIcon={<CheckIcon />}
