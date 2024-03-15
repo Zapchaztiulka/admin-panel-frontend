@@ -21,6 +21,7 @@ const ModalDeleteOrder = ({
           title="Видалити замовлення"
           description="Ви впевнені, що хочете видалити замовлення? Відмініти цю дію неможливо."
           icon={<LightningIcon />}
+          zIndex={10}
         >
           <div className="lg:w-[616px] flex flex-col gap-m2 mt-xs2 w-[288px]">
             <Button

@@ -39,11 +39,13 @@ const handleRequest = (
   }
 };
 
-const handleReject = (state, { meta }) => {
+const handleReject = (state, { meta, payload }) => {
   let errorMessage = '';
   const { arg, response } = meta || {};
 
-  if (response?.data?.message) {
+  if (payload?.response?.data?.message) {
+    errorMessage = payload?.response?.data?.message;
+  } else if (response?.data?.message) {
     errorMessage = response?.data?.message;
   } else {
     const { notifications } = arg;

@@ -91,7 +91,6 @@ const Orders = () => {
   }, []);
 
   useEffect(() => {
-    console.log('useEffect', page, limit);
     debounceFetch({ page, limit, query, statusId });
   }, [page, limit, query, statusId, debounceFetch]);
 
@@ -113,16 +112,13 @@ const Orders = () => {
     };
   }, []);
 
-  const onGridReady = useCallback(
-    (params) => {
-      setTimeout(() => {
-        gridRef.current.api.sizeColumnsToFit({
-          defaultMinWidth: 100,
-        });
-      }, 500);
-    },
-    [gridRef.current]
-  );
+  const onGridReady = useCallback(() => {
+    setTimeout(() => {
+      gridRef.current.api.sizeColumnsToFit({
+        defaultMinWidth: 100,
+      });
+    }, 500);
+  }, [gridRef.current]);
   const gridContainerHeight = getGridHeight(
     5 * VERTICAL_PADDINGS + FILTERS_HEIGHT + BUTTONS_HEIGHT + PAGINATION
   );
@@ -323,8 +319,6 @@ const Orders = () => {
             orders.filter((o) => o._id !== order._id)
           );
         }
-
-        console.log(chooseOrdersIds, order, selected);
       }
     },
     [chooseOrders]
@@ -380,12 +374,13 @@ const Orders = () => {
       const firstOrder = chooseOrders[0];
       const mod = prepareDataForCreateOrder(firstOrder);
       const dataForCreate = { ...mod, phone };
+      console.log('12312312');
       dispatch(
         createOrderByAny({
           orderData: dataForCreate,
           notifications: {
             success: 'Замовлення успішно створено',
-            fail: 'Виникла помилка при створенні замовлення',
+            // fail: 'Виникла помилка при створенні замовлення',
           },
         })
       );

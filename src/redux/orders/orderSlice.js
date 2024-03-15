@@ -7,6 +7,7 @@ import {
   updateOrderByAdmin,
   deleteOrder,
 } from './operations';
+import { isAxiosError } from 'axios';
 
 const ordersInitialState = {
   orders: [],
@@ -21,8 +22,14 @@ const handlePending = (state) => {
 };
 
 const handleRejected = (state, action) => {
+  if (typeof action.payload === 'string') {
+    state.error = action.payload;
+  } else if (isAxiosError(action.payload)) {
+    state.error =
+      action.payload?.response?.data?.message || action.payload.message;
+  }
+
   state.isLoading = false;
-  state.error = action.payload;
 };
 
 export const ordersSlice = createSlice({

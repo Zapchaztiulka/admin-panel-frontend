@@ -3,16 +3,16 @@ import { PropTypes } from 'prop-types';
 const defaultStatusClassName = 'bg-bgBrandLight1 text-textBrand'
 
 const mapStatusToColor = {
-    'нове': 'bg-bgBrandLight1 text-textBrand',
-    'передано в службу доставки': 'bg-bgBrandLight1 text-textBrand',
-    'очікує клієнта в пункті видачі': 'bg-bgBrandLight1 text-textBrand',
-    "очікує вручення кур'єром": 'bg-bgBrandLight1 text-textBrand',
-    'підтверджено': 'bg-bgSuccessDark text-textSuccess',
-    'завершено': 'bg-bgSuccessDark text-textSuccess',
-    'комплектується': 'bg-bgWarningDark text-textWarning',
-    'забраковано': 'bg-bgWarningDark text-textWarning',
-    'скасовано': 'bg-bgWarningDark text-textWarning',
-}
+  нове: 'bg-bgBrandLight1 text-textBrand',
+  'передано в службу доставки': 'bg-bgBrandLight1 text-textBrand',
+  'очікує клієнта в пункті видачі': 'bg-bgBrandLight1 text-textBrand',
+  "очікує вручення кур'єром": 'bg-bgBrandLight1 text-textBrand',
+  підтверджено: 'bg-bgSuccessDark text-textSuccess',
+  завершено: 'bg-bgSuccessDark text-textSuccess',
+  комплектується: 'bg-bgWarningDark text-textWarning',
+  скасовано: 'bg-bgWarningDark text-textWarning',
+  забраковано: 'bg-bgErrorDark text-textError',
+};
 
 const Status = ({ status }) => {
     let statusClassName = mapStatusToColor[status]

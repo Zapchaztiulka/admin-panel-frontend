@@ -3,7 +3,6 @@ import Button, {
   BUTTON_TYPES,
 } from 'universal-components-frontend/src/components/buttons/button';
 import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
-import Textarea from 'universal-components-frontend/src/components/inputs/universalComponents/Textarea';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -14,17 +13,11 @@ const ModalWindowNewOrder = ({
 }) => {
   const [phone, setPhone] = useState('');
   const [phoneError, setPhoneError] = useState('');
-  const [comment, setComment] = useState('');
   const [isValid, setIsValid] = useState(false);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setPhone(value);
-  };
-
-  const handleTextareaChange = (e) => {
-    const value = e.target.value;
-    setComment(value);
   };
 
   useEffect(() => {
@@ -53,6 +46,7 @@ const ModalWindowNewOrder = ({
       isOpen={isOpen}
       onClose={handleCloseModal}
       title="Впишіть номер телефону покупця"
+      zIndex={10}
     >
       <>
         <div className="lg:w-[616px] flex flex-col gap-m2 mt-xs2 w-[288px] ">
@@ -61,14 +55,9 @@ const ModalWindowNewOrder = ({
               label="Номер телефону"
               onChange={handleInputChange}
               asterisk
+              maxLength="10"
             />
             {!!phoneError.length && <span>{phoneError}</span>}
-          </div>
-          <div className="w-full">
-            <Textarea
-              label="Коментар до замовлення"
-              onChange={handleTextareaChange}
-            />
           </div>
         </div>
         <div className="flex gap-m mt-m">

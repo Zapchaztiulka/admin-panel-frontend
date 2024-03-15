@@ -44,8 +44,6 @@ function Pagination({ perPage, page, onChange, totalResult }) {
     (e) => {
       const targetPage = Number(e.currentTarget.dataset.page);
 
-      console.log(targetPage);
-
       if (targetPage > 0 && targetPage <= totalPage) {
         setPageValue(targetPage);
 
@@ -68,7 +66,7 @@ function Pagination({ perPage, page, onChange, totalResult }) {
         perPage: newPerPage,
       });
     },
-    [pageValue, onChange]
+    [onChange]
   );
 
   const paginationButtons = useMemo(() => {
@@ -107,7 +105,7 @@ function Pagination({ perPage, page, onChange, totalResult }) {
   return (
     <div className="flex justify-between items-center flex-wrap gap-[20px] pb-s sm:pb-0">
       <div className="flex items-center">
-        <div className="pr-xs">Запитів на сторінці</div>
+        <div className="pr-[21px]">Запитів на сторінці</div>
         <div>
           <Select
             defaultValue={options[1]}
@@ -118,7 +116,9 @@ function Pagination({ perPage, page, onChange, totalResult }) {
                 <ArrowDownIcon color={theme.extend.colors.iconDisabled} />
               ),
             }}
-            className="pagination w-xl3 rounded-minimal border border-borderDefault p-xs3"
+            dropdownStyle={{ border: '1px solid #C6CACD', width: 65}}
+            className="pagination w-xl3 rounded-minimal border border-borderDefault p-xs3 cursor-pointer"
+            dropdownClassName="rounded-minimal border  cursor-pointer w-xl3"
           />
         </div>
       </div>

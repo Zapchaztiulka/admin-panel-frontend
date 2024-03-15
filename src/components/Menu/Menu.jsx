@@ -7,7 +7,7 @@ const Menu = ({ items, value, selected = 0, onClose = () => {} }) => {
     <div className="flex flex-col gap-xs">
       {selected > 0 && <div>Вибрано {selected} товарів:</div>}
 
-      {items.map(({ type, ...otherProps }) => {
+      {items.map(({ type, ...otherProps }, indx) => {
         let RowComponent;
         if (!type) type = 'default';
         switch (type) {
@@ -26,7 +26,7 @@ const Menu = ({ items, value, selected = 0, onClose = () => {} }) => {
           <RowComponent
             {...otherProps}
             value={value}
-            key={otherProps.title}
+            key={indx}
             onClose={onClose}
           />
         );

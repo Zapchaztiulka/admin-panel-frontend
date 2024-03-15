@@ -70,8 +70,8 @@ export const prepareDataForCreateOrder = (data) => {
 
   return { products, legalEntityData };
 };
-
-// updatedAt,   NO
+//    Fields NOT used
+// updatedAt,  
 //   userComment,
 //   userMiddleName,
 //   userSurname, totalTypeOfProducts,
@@ -106,7 +106,8 @@ export const prepareDataForCopyOrder = (data) => {
     phone,
   };
 };
-//  _id,    NO
+//    Fields NOT used
+//     _id,    
 //     deliveryData,
 //     adminData,
 //     totalTypeOfProducts,

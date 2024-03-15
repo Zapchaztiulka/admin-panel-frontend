@@ -32,7 +32,7 @@ export const createOrderByUser = createAsyncThunk(
       const response = await api.order.createOrderByUser(data);
       return response;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message, error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -44,7 +44,7 @@ export const createOrderByAny = createAsyncThunk(
       const response = await api.order.createOrderByAny(data);
       return response;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message, error, error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -56,7 +56,6 @@ export const updateOrder = createAsyncThunk(
       const response = await api.order.updateOrder(data);
       return response;
     } catch (error) {
-      console.log('er', error);
       return thunkAPI.rejectWithValue(error.message, error, error);
     }
   }
@@ -69,7 +68,6 @@ export const updateOrderByAdmin = createAsyncThunk(
       const response = await api.order.updateOrderByAdmin(data);
       return response;
     } catch (error) {
-      console.log('er', error);
       return thunkAPI.rejectWithValue(error.message, error, error);
     }
   }

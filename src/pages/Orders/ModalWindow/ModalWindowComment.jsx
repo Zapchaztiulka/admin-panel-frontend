@@ -36,9 +36,12 @@ const ModalWindowComment = ({
       onClose={handleCloseModal}
       title="Додати коментар"
       description="Довжина коментаря повинна бути більше 10 символів"
+      type="neutral"
+      zIndex={10}
+      isIcon={false}
     >
       <>
-        <div className="lg:w-[616px] flex flex-col gap-m2 mt-xs2 w-[288px]">
+        <div className="lg:w-[616px] flex flex-col gap-m2 mt-xs2 w-[288px] text-left">
           <div className="w-full">
             <Textarea
               label="Коментар до замовлення"
