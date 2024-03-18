@@ -12,10 +12,11 @@ import { columns } from './columns';
 
 import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
 import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
-import Button, {
+import {
   BUTTON_TYPES,
   BUTTON_SIZES,
 } from 'universal-components-frontend/src/components/buttons/button';
+import { Button } from "universal-components-frontend/src/components/buttons";
 import SearchIcon from 'universal-components-frontend/src/components/icons/universalComponents/SearchIcon';
 import EditIcon from 'universal-components-frontend/src/components/icons/universalComponents/EditIcon';
 import PlusIcon from 'universal-components-frontend/src/components/icons/universalComponents/PlusIcon';

@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik';
 import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
 import api from "../../service/api";
 import { Select } from '../DynamicProperties/Options/Select';
+import { Button } from "universal-components-frontend/src/components/buttons";
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -66,6 +67,11 @@ export const AddOneProduct = () => {
                     );
                 }}
             </Formik>}
+            <Button
+                buttonType="primary"
+                type="button"
+                text="Buuuutttttooooooon!!!!"
+            />
         </>
     )
 }
