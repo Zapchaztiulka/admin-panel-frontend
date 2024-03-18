@@ -1,7 +1,7 @@
 import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
 import Button, {
   BUTTON_TYPES,
-} from 'universal-components-frontend/src/components/buttons/button';
+} from 'universal-components-frontend/src/components/buttons';
 import LightningIcon from 'universal-components-frontend/src/components/icons/universalComponents/LightningIcon';
 
 

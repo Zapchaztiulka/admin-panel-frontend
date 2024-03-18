@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Textarea from 'universal-components-frontend/src/components/inputs/universalComponents/Textarea';
 import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
-import Button, {
+import {
+  Button,
   BUTTON_TYPES,
-} from 'universal-components-frontend/src/components/buttons/button';
+} from 'universal-components-frontend/src/components/buttons';
 import { useEffect } from 'react';
 
 const ModalWindowComment = ({
