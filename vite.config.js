@@ -6,10 +6,11 @@ import svgr from "vite-plugin-svgr";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
-  base: '/admin-panel-frontend/',
+  base: './',
   resolve: {
     alias: {
       "@": fileURLToPath(new URL('./src', import.meta.url)),
+      "~": fileURLToPath(new URL('./src', import.meta.url))
     },
   },
 
