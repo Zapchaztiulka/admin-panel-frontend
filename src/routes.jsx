@@ -1,29 +1,30 @@
-import { lazy } from "react";
-import { useRoutes } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
-import { TemporaryComponent } from "./components/TemporaryComponent";
-import { RegisterForm } from "./components/Forms/RegisterForm";
-import { SharedLayout } from "./components/SharedLayout";
+import { lazy } from 'react';
+import { useRoutes } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import { TemporaryComponent } from './components/TemporaryComponent';
+import { RegisterForm } from './components/Forms/RegisterForm';
+import { SharedLayout } from './components/SharedLayout';
 
-import { RestrictedRoute } from "./components/Routes/RestrictedRoute";
-import { PrivateRoute } from "./components/Routes/PrivateRoute";
-import { PrivateRouteSuperAdmin } from "./components/Routes/PrivateRouteSuperAdmin";
-import { AddOneProduct } from "./components/Products/AddOneProduct";
+import { RestrictedRoute } from './components/Routes/RestrictedRoute';
+import { PrivateRoute } from './components/Routes/PrivateRoute';
+import { PrivateRouteSuperAdmin } from './components/Routes/PrivateRouteSuperAdmin';
+import { AddOneProduct } from './components/Products/AddOneProduct';
 
-const StatisticsPage = lazy(() => import("./pages/Statistics"));
-const LogInPage = lazy(() => import("./pages/Login"));
-const ProductsPage = lazy(() => import("./pages/Products"));
-const ClientsPage = lazy(() => import("./pages/Clients"));
-const OrdersPage = lazy(() => import("./pages/Orders"));
-const ChatbotPage = lazy(() => import("./pages/Chatbot"));
-const MyProfilePage = lazy(() => import("./pages/MyProfile"));
-const ManagersPage = lazy(() => import("./pages/Managers"));
-const NotFoundPage = lazy(() => import("./pages/NotFound"));
+const StatisticsPage = lazy(() => import('./pages/Statistics'));
+const LogInPage = lazy(() => import('./pages/Login'));
+const ProductsPage = lazy(() => import('./pages/Products'));
+const ClientsPage = lazy(() => import('./pages/Clients'));
+const OrdersPage = lazy(() => import('./pages/Orders/Orders'));
+const OrderDetailsPage = lazy(() => import('./pages/Orders/Details/OrderDetailsPage'));
+const ChatbotPage = lazy(() => import('./pages/Chatbot'));
+const MyProfilePage = lazy(() => import('./pages/MyProfile'));
+const ManagersPage = lazy(() => import('./pages/Managers'));
+const NotFoundPage = lazy(() => import('./pages/NotFound'));
 
 export const Router = () => {
   let element = useRoutes([
     {
-      path: "/",
+      path: '/',
       element: <SharedLayout />,
       children: [
         {
@@ -42,13 +43,14 @@ export const Router = () => {
         AddProductRoute,
         MultipleAddProductRoute,
         ClientsRoute,
+        OrderDetailsRoute,
         OrdersRoute,
         ChatbotRoute,
         AdminProfileRoute,
         ManagerRoute,
         ManagerByIDRoute,
         StaticRoute,
-        { path: "*", element: <NotFoundPage /> },
+        { path: '*', element: <NotFoundPage /> },
       ],
     },
   ]);
@@ -56,12 +58,12 @@ export const Router = () => {
 };
 
 export const LogInRoute = {
-  path: "/login",
+  path: '/login',
   element: <RestrictedRoute component={<LogInPage />} redirectTo="/" />,
 };
 
 export const ProductsRoute = {
-  path: "/products",
+  path: '/products',
 
   element: (
     <ErrorBoundary
@@ -74,7 +76,7 @@ export const ProductsRoute = {
   ),
 };
 export const ProductByIDRoute = {
-  path: "/products/:productId",
+  path: '/products/:productId',
   element: (
     <ErrorBoundary
       fallback={
@@ -89,7 +91,7 @@ export const ProductByIDRoute = {
   ),
 };
 export const AddProductRoute = {
-  path: "/products/add",
+  path: '/products/add',
   element: (
     <ErrorBoundary
       fallback={
@@ -101,7 +103,7 @@ export const AddProductRoute = {
   ),
 };
 export const MultipleAddProductRoute = {
-  path: "/products/multipleadd",
+  path: '/products/multipleadd',
   element: (
     <ErrorBoundary
       fallback={
@@ -117,7 +119,7 @@ export const MultipleAddProductRoute = {
 };
 
 export const ClientsRoute = {
-  path: "/clients",
+  path: '/clients',
   element: (
     <ErrorBoundary
       fallback={
@@ -130,11 +132,17 @@ export const ClientsRoute = {
 };
 
 export const OrdersRoute = {
-  path: "/orders",
+  path: '/orders',
   element: <PrivateRoute component={<OrdersPage />} redirectTo="/login" />,
   children: [
     {
-      path: "pending",
+      path: 'details/:id',
+      element: (
+        <PrivateRoute component={<OrderDetailsPage />} redirectTo="/login" />
+      ),
+    },
+    {
+      path: 'pending',
       element: (
         <ErrorBoundary
           fallback={
@@ -146,7 +154,7 @@ export const OrdersRoute = {
       ),
     },
     {
-      path: "processed",
+      path: 'processed',
       element: (
         <ErrorBoundary
           fallback={
@@ -160,8 +168,15 @@ export const OrdersRoute = {
   ],
 };
 
+export const OrderDetailsRoute = {
+  path: '/orders/details/:id',
+  element: (
+    <PrivateRoute component={<OrderDetailsPage />} redirectTo="/login" />
+  ),
+};
+
 export const ChatbotRoute = {
-  path: "/chatbot",
+  path: '/chatbot',
   element: (
     <ErrorBoundary
       fallback={
@@ -174,7 +189,7 @@ export const ChatbotRoute = {
 };
 
 export const AdminProfileRoute = {
-  path: "/profile",
+  path: '/profile',
   element: (
     <ErrorBoundary
       fallback={
@@ -187,7 +202,7 @@ export const AdminProfileRoute = {
 };
 //
 export const ManagerByIDRoute = {
-  path: "/manager/:managerId",
+  path: '/manager/:managerId',
   element: (
     <ErrorBoundary
       fallback={
@@ -202,13 +217,13 @@ export const ManagerByIDRoute = {
   ),
 };
 export const ManagerRoute = {
-  path: "/manager",
+  path: '/manager',
   element: (
     <PrivateRouteSuperAdmin component={<ManagersPage />} redirectTo="/" />
   ),
   children: [
     {
-      path: "add",
+      path: 'add',
       element: (
         <ErrorBoundary
           fallback={
@@ -220,7 +235,7 @@ export const ManagerRoute = {
       ),
     },
     {
-      path: "statistics",
+      path: 'statistics',
       element: (
         <ErrorBoundary
           fallback={
@@ -235,7 +250,7 @@ export const ManagerRoute = {
 };
 
 export const StaticRoute = {
-  path: "/static",
+  path: '/static',
   element: (
     <ErrorBoundary
       fallback={

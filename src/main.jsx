@@ -7,6 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./redux/store";
 import { Provider } from "react-redux";
 import { ModalProvider } from "./context/modalContext";
+import { Notifications } from "./components/Notifications/Notifications";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <ModalProvider>
           <BrowserRouter>
             <App />
+            <Notifications />
           </BrowserRouter>
         </ModalProvider>
       </PersistGate>

@@ -176,6 +176,7 @@ const theme = {
       xl2: "56px",
       xl3: "64px",
       xl4: "72px",
+      full: '100%',
     },
 
     borderRadius: {
@@ -274,6 +275,7 @@ const theme = {
     boxShadow: {
       btFocus: "0 0 0 4px rgba(46, 144, 250, 1)",
       loading: "20px 0 rgba(46, 144, 250, 1)",
+      tooltip: "0px 4px 8px 0px rgba(0, 0, 0, 0.15)",
     },
 
     letterSpacing: {
