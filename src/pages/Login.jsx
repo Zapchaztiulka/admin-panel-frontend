@@ -1,6 +1,6 @@
-import { Container } from "../components/Сommon/Container";
-import { LoginForm } from "../components/LoginForm/LoginForm";
-import { LogoIcon } from "../components/Icons/Logo/LogoIcon";
+import { Container } from '../components/Сommon/Container';
+import { LoginForm } from '../components/LoginForm/LoginForm';
+import { LogoIcon } from '../components/Icons/Logo/LogoIcon';
 
 const Login = () => {
   return (

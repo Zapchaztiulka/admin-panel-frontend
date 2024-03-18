@@ -6,6 +6,7 @@ import { refreshUser } from "../redux/auth/operations";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Loader } from "./Common/Loader";
+import { fetchPatternsOptions } from "@/redux/options/operations";
 
 function App() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function App() {
 
   useEffect(() => {
     dispatch(refreshUser());
+    dispatch(fetchPatternsOptions());
   }, [dispatch]);
 
   return (

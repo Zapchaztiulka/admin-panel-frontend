@@ -8,6 +8,7 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/universal-components-frontend/src/components/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme,
   plugins: [],
