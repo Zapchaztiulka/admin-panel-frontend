@@ -13,7 +13,9 @@ export default defineConfig({
       "~": fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-
+  define: {
+    'process.env.VITE_BASE_URL': JSON.stringify(process.env.VITE_BASE_URL)
+  },
   server: {
     port: 5174,
   },
