@@ -11,7 +11,7 @@ import { getGridHeight } from '@/utils/grid';
 import { columns } from './columns';
 
 import {Input} from 'universal-components-frontend/src/components/inputs';
-import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
+import {Dropdown} from 'universal-components-frontend/src/components/select/Dropdown';
 import { Button } from 'universal-components-frontend/src/components/buttons';
 import SearchIcon from 'universal-components-frontend/src/components/icons/universalComponents/SearchIcon';
 import EditIcon from 'universal-components-frontend/src/components/icons/universalComponents/EditIcon';
