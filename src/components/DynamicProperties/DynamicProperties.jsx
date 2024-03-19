@@ -22,7 +22,14 @@ export const DynamicProperties = ({ options }) => {
                   />
                 );
               case "select":
-                return <Select list={list} name={key} title={title} />;
+                return (
+                  <Select 
+                    list={list} 
+                    name={key} 
+                    placeholder={placeholder} 
+                    title={title} 
+                  />
+                );
               case "checkBox":
                 return (
                   <CheckBox
