@@ -1,10 +1,13 @@
 import PropTypes from "prop-types";
 import { useField } from "formik";
 import { Dropdown } from "universal-components-frontend/src/components/select";
+import FormField from "universal-components-frontend/src/components/FormField/FormField";
 
-export const Select = ({ list, title, placeholder, ...props }) => {
+export const Select = ({ list, title, placeholder, setFieldValue, ...props }) => {
   const [field] = useField(props);
-
+  const onChange = (value) => {
+    setFieldValue(field.name, list[value])
+  }
   return (
     // <label className="flex flex-col gap-[4px]">
     //   <span>{title}</span>
@@ -16,14 +19,19 @@ export const Select = ({ list, title, placeholder, ...props }) => {
     //     ))}
     //   </select>
     // </label>
-    <Dropdown 
-      {...field}
-      options={list}
-      label={title}
-      placeholder={placeholder}
-      onChange={(v)=>console.log(v)}
-      className="flex flex-col gap-[4px]"
-    />
+    <FormField label={title}>
+      <Dropdown 
+        {...field} 
+        name={field.name}
+        options={list}
+        chosenOption={field.value}
+        placeholder={placeholder}
+        onChange={onChange}
+        className="w-full"
+        width="100%"
+      />
+    </FormField>
+    
   );
 };
 
