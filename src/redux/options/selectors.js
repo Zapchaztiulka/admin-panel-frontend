@@ -16,3 +16,29 @@ export const selectPatternsStatusesOptionsList = (state) => {
     label: item.charAt(0).toUpperCase() + item.slice(1),
   }));
 };
+
+export const selectProductsStatusesBigLetter = (state) => {
+  const statuses = state.options.productOptions?.addProducts?.options;
+  if (!statuses || statuses.length === 0) return [];
+
+  const availabilityItem = statuses.find((item) => item.key === 'availability');
+  if (!availabilityItem) return [];
+  const availabilityList = availabilityItem.list || [];
+
+  return availabilityList.map(
+    (item) => item && item.charAt(0).toUpperCase() + item.slice(1)
+  );
+};
+
+export const selectProductsStatuses = (state) => {
+  const statuses = state.options.productOptions?.addProducts?.options;
+  if (!statuses || statuses.length === 0) return [];
+  const availabilityItem = statuses.find((item) => item.key === 'availability');
+  if (!availabilityItem) return [];
+  const availabilityList = availabilityItem.list || [];
+
+  return availabilityList.map((item, index) => ({
+    value: String(index),
+    label: item.charAt(0).toUpperCase() + item.slice(1),
+  }));
+};

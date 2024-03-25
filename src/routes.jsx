@@ -12,10 +12,12 @@ import { AddOneProduct } from './components/Products/AddOneProduct';
 
 const StatisticsPage = lazy(() => import('./pages/Statistics'));
 const LogInPage = lazy(() => import('./pages/Login'));
-const ProductsPage = lazy(() => import('./pages/Products'));
+const ProductsPage = lazy(() => import('./pages/Products/Products'));
 const ClientsPage = lazy(() => import('./pages/Clients'));
 const OrdersPage = lazy(() => import('./pages/Orders/Orders'));
-const OrderDetailsPage = lazy(() => import('./pages/Orders/Details/OrderDetailsPage'));
+const OrderDetailsPage = lazy(() =>
+  import('./pages/Orders/Details/OrderDetailsPage')
+);
 const ChatbotPage = lazy(() => import('./pages/Chatbot'));
 const MyProfilePage = lazy(() => import('./pages/MyProfile'));
 const ManagersPage = lazy(() => import('./pages/Managers'));

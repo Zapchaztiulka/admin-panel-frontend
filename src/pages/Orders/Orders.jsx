@@ -297,14 +297,14 @@ const Orders = () => {
     ];
   }, []);
 
-  const updatedColumns = useMemo(() => {
-    return columns.map((col) => {
+  const updatedColumns = useMemo(() => {return columns.map((col) => {
       if (col.field === 'settings') {
         col.cellRendererParams = { dotsItems: menuSingleOrder };
       }
       return col;
     });
   }, [menuSingleOrder]);
+    
 
   const handleSelectCard = useCallback(
     (order, selected) => {

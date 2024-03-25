@@ -6,9 +6,10 @@ import {
 } from "./operations";
 
 const optionsInitialState = {
-  products: {},
+  products: [],
   isLoading: false,
   error: null,
+  total: 0
 };
 
 const handlePending = (state) => {
@@ -35,7 +36,8 @@ export const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.total = action.payload.total;
       })
       .addCase(deleteProductById.fulfilled, (state) => {
         state.isLoading = false;
