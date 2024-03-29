@@ -14,6 +14,20 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+export const updateProduct = createAsyncThunk(
+  'products/updatePrice',
+
+  async (data, thunkAPI) => {
+    try {
+      const response = await api.product.updateProduct(data);
+      console.log('response', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message, error);
+    }
+  }
+);
+
 export const deleteProductById = createAsyncThunk(
   'products/deleteProductByID',
 

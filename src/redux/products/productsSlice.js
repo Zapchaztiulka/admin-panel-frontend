@@ -3,7 +3,8 @@ import {
   deleteMultipleProducts,
   deleteProductById,
   fetchProducts,
-} from "./operations";
+  updateProduct,
+} from './operations';
 
 const optionsInitialState = {
   products: [],
@@ -29,9 +30,11 @@ export const productsSlice = createSlice({
       .addCase(fetchProducts.pending, handlePending)
       .addCase(deleteProductById.pending, handlePending)
       .addCase(deleteMultipleProducts.pending, handlePending)
+      .addCase(updateProduct.pending, handlePending)
       .addCase(fetchProducts.rejected, handleRejected)
       .addCase(deleteProductById.rejected, handleRejected)
       .addCase(deleteMultipleProducts.rejected, handleRejected)
+      .addCase(updateProduct.rejected, handleRejected)
 
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -44,6 +47,12 @@ export const productsSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteMultipleProducts.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        console.log('action', action);
+        //state.products = action.payload.products;
         state.isLoading = false;
         state.error = null;
       });

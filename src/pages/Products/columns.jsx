@@ -1,5 +1,5 @@
 import DotsCell from "@/components/Grid/Cells/DotsCell/DotsCell";
-import EditCell from "@/components/Grid/Cells/EditCell/EditCell";
+import EditProductCell from "@/components/Grid/Cells/EditCell/EditProductCell";
 import StatusCell from "@/components/Grid/Cells/StatusCell/StatusCell";
 
 
@@ -44,14 +44,14 @@ export const columns = [
     colId: 'availability',
     headerName: 'Статус',
     cellRenderer: StatusCell,
-    width: 150,
+    width: 155,
     maxWidth: 250,
-    minWidth: 130,
+    minWidth: 155,
   },
   {
     field: 'edit',
     headerName: '',
-    cellRenderer: EditCell,
+    cellRenderer: EditProductCell,
     width: 56,
     maxWidth: 56,
     minWidth: 56,

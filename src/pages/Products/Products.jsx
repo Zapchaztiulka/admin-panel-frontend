@@ -1,14 +1,18 @@
 import theme from '../../../presets';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchProducts } from '../../redux/products/operations';
+import {
+  deleteProductById,
+  fetchProducts,
+} from '../../redux/products/operations';
 import { ProductsNavigation } from '../../components/Products/ProductsNavigation';
-import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
-import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
-import Button, {
+import { Input } from 'universal-components-frontend/src/components/inputs';
+import { Dropdown } from 'universal-components-frontend/src/components/select';
+import {
+  Button,
   BUTTON_TYPES,
   BUTTON_SIZES,
-} from 'universal-components-frontend/src/components/buttons/button';
+} from 'universal-components-frontend/src/components/buttons';
 import SearchIcon from 'universal-components-frontend/src/components/icons/universalComponents/SearchIcon';
 import EditIcon from 'universal-components-frontend/src/components/icons/universalComponents/EditIcon';
 import PlusIcon from 'universal-components-frontend/src/components/icons/universalComponents/PlusIcon';
@@ -22,6 +26,9 @@ import Grid from '@/components/Grid/Grid';
 import { debounce } from '@/utils/throttle';
 import { fetchProductOptions } from '@/redux/options/operations';
 import { useNavigate } from 'react-router-dom';
+import ModalDeleteProduct from './ModalWindow/ModalDeleteProduct';
+import ModalUpdatePrice from './ModalWindow/ModalUpdatePrice';
+import { Loader } from '@/components/Loader';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -33,15 +40,16 @@ const Products = () => {
   const navigate = useNavigate();
   const gridRef = useRef();
   const { products } = useSelector((state) => state.products);
-    const statuses = useSelector(selectProductsStatusesBigLetter);
+  const statuses = useSelector(selectProductsStatusesBigLetter);
+  const isLoading = useSelector((state) => state.products.isLoading);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
   const [statusId, setStatusId] = useState('');
-  const [chooseOrders, setChooseOrders] = useState([]);
+  const [chooseProducts, setChooseProducts] = useState([]);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [showModalUpdatePrice, setShowModalUpdatePrice] = useState(false);
 
-
- 
   const gridContainerHeight = getGridHeight(
     5 * VERTICAL_PADDINGS + FILTERS_HEIGHT + BUTTONS_HEIGHT + PAGINATION
   );
@@ -68,15 +76,35 @@ const Products = () => {
   // Dot Items
   const handleEditClick = useCallback((products) => {
     const firstProductId = products[0]._id;
-    navigate(`details/${firstProductId}`);
+    navigate(`/products/${firstProductId}`);
   }, []);
-  const handleAddToOrder = useCallback((product) => console.log('prodId', product[0]._id), [])
-  const handleCheckPrice = useCallback((prod) => console.log('prodId', prod[0]._id), []);
-  const handleUpdatePrice = useCallback((prod) => console.log('prodId', prod[0]._id), []);
-  const handleDeleteProduct = useCallback(
+  const handleAddToOrder = useCallback((product) => {
+    const products = { productId: product[0]._id, quantity: 1 };
+    console.log(products);
+    return products;
+  }, []);
+  const handleCheckPrice = useCallback(
     (prod) => console.log('prodId', prod[0]._id),
+    // dispatch(
+    //   deleteProductById({
+    //     productIds,
+    //     notifications: {
+    //       success: 'Ціну товару успішно підтверджено, як перевірену.',
+    //       fail: 'Виникла помилка при перевірці товару',
+    //     },
+    //   })
+    //   );
     []
   );
+  const handleUpdatePrice = useCallback((prod) => {
+    console.log('prodId', prod[0]);
+    setShowModalUpdatePrice(true);
+    setChooseProducts(prod);
+  }, []);
+  const handleDeleteProduct = useCallback((prod) => {
+    setShowModalDelete(true);
+    setChooseProducts(prod);
+  }, []);
 
   const menuSingleProduct = useMemo(() => {
     return [
@@ -146,8 +174,8 @@ const Products = () => {
   }, []);
 
   const onSelectionChanged = useCallback((event) => {
-    const orders = event.api.getSelectedNodes().map((row) => row.data);
-    setChooseOrders(orders);
+    const products = event.api.getSelectedNodes().map((row) => row.data);
+    setChooseProducts(products);
   }, []);
 
   const handleSearchChange = useCallback((value) => {
@@ -156,6 +184,43 @@ const Products = () => {
 
   const handleStatusChangeHeader = useCallback((value) => {
     setStatusId(value);
+  }, []);
+
+  // Modal
+  const handleCloseModal = useCallback(() => {
+    setShowModalDelete(false);
+    setShowModalUpdatePrice(false);
+  }, []);
+  const handleConfirmDelete = useCallback(() => {
+    setShowModalDelete(false);
+    const productIds = chooseProducts.map((prod) => prod._id);
+    // dispatch(
+    //   deleteProductById({
+    //     productIds,
+    //     notifications: {
+    //       success: 'Товар успішно видалений.',
+    //       fail: 'Виникла помилка при видаленні товару',
+    //     },
+    //   })
+    // );
+  }, [chooseProducts]);
+  const handleSavePrice = useCallback((newPrice) => {
+    handleCloseModal();
+    const productIds = chooseProducts.map((prod) => prod._id);
+    console.log('newPrice', newPrice, productIds);
+    const price = {
+      value: newPrice,
+    };
+    // dispatch(
+    //   updateProduct({
+    //     productIds[0],
+    //      price,
+    //     notifications: {
+    //       success: 'Товар успішно видалений.',
+    //       fail: 'Виникла помилка при видаленні товару',
+    //     },
+    //   })
+    // );
   }, []);
 
   return (
@@ -186,21 +251,39 @@ const Products = () => {
           className="w-full tablet600:w-[290px] "
         />
       </div>
-
-      <div style={{ height: gridContainerHeight }}>
-        <Grid
-          gridRef={gridRef}
-          columns={updatedColumns}
-          data={products}
-          options={options}
-          domLayout={'normal'}
-          autoSizeStrategy={autoSizeStrategy}
-          onGridReady={onGridReady}
-          tooltipShowDelay={0}
-          tooltipHideDelay={5000}
-          onSelectionChanged={onSelectionChanged}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div style={{ height: gridContainerHeight }}>
+          <Grid
+            gridRef={gridRef}
+            columns={updatedColumns}
+            data={products}
+            options={options}
+            domLayout={'normal'}
+            autoSizeStrategy={autoSizeStrategy}
+            onGridReady={onGridReady}
+            tooltipShowDelay={0}
+            tooltipHideDelay={5000}
+            onSelectionChanged={onSelectionChanged}
+          />
+        </div>
+      )}
+      {showModalDelete && (
+        <ModalDeleteProduct
+          isOpen={showModalDelete}
+          handleCloseModal={handleCloseModal}
+          handleConfirmDelete={handleConfirmDelete}
         />
-      </div>
+      )}
+      {showModalUpdatePrice && (
+        <ModalUpdatePrice
+          isOpen={showModalUpdatePrice}
+          handleCloseModal={handleCloseModal}
+          handleSavePrice={handleSavePrice}
+          product={chooseProducts}
+        />
+      )}
     </div>
   );
 };
