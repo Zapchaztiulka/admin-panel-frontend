@@ -1,7 +1,5 @@
 import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
-import Button, {
-  BUTTON_TYPES,
-} from 'universal-components-frontend/src/components/buttons/button';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 import LightningIcon from 'universal-components-frontend/src/components/icons/universalComponents/LightningIcon';
 import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
 import SaveIcon from 'universal-components-frontend/src/components/icons/universalComponents/SaveIcon';
@@ -61,7 +59,7 @@ const ModalUpdatePrice = ({
           </div>
           <Button
             text="Зберегти"
-            buttonType={BUTTON_TYPES.PRIMARY}
+            buttonType="primary"
             onClick={handleSave}
             icon={SaveIcon}
           />
