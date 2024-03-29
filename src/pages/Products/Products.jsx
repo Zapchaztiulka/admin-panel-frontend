@@ -8,11 +8,7 @@ import {
 import { ProductsNavigation } from '../../components/Products/ProductsNavigation';
 import { Input } from 'universal-components-frontend/src/components/inputs';
 import { Dropdown } from 'universal-components-frontend/src/components/select';
-import {
-  Button,
-  BUTTON_TYPES,
-  BUTTON_SIZES,
-} from 'universal-components-frontend/src/components/buttons';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 import SearchIcon from 'universal-components-frontend/src/components/icons/universalComponents/SearchIcon';
 import EditIcon from 'universal-components-frontend/src/components/icons/universalComponents/EditIcon';
 import PlusIcon from 'universal-components-frontend/src/components/icons/universalComponents/PlusIcon';
@@ -236,11 +232,7 @@ const Products = () => {
             value={query}
             handleChange={handleSearchChange}
           />
-          <Button
-            buttonType={BUTTON_TYPES.SEARCH_TYPE}
-            icon={SearchIcon}
-            size={BUTTON_SIZES.SMALL}
-          />
+          <Button buttonType="search-type" icon={SearchIcon} size="small" />
         </div>
 
         <Dropdown
