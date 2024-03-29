@@ -4,7 +4,7 @@ import { Input } from "./Options/Input";
 import { Select } from "./Options/Select";
 import { CheckBox } from "./Options/CheckBox";
 
-export const DynamicProperties = ({ options }) => {
+export const DynamicProperties = ({ options, setFieldValue }) => {
   return (
     <ul className="flex flex-col gap-[12px]">
       {options.map(({ placeholder, title, validation, key, type, list }) => (
@@ -22,7 +22,15 @@ export const DynamicProperties = ({ options }) => {
                   />
                 );
               case "select":
-                return <Select list={list} name={key} title={title} />;
+                return (
+                  <Select 
+                    setFieldValue={setFieldValue}
+                    list={list} 
+                    name={key} 
+                    placeholder={placeholder} 
+                    title={title} 
+                  />
+                );
               case "checkBox":
                 return (
                   <CheckBox

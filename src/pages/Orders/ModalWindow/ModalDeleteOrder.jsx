@@ -1,7 +1,5 @@
 import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
-import Button, {
-  BUTTON_TYPES,
-} from 'universal-components-frontend/src/components/buttons/button';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 import LightningIcon from 'universal-components-frontend/src/components/icons/universalComponents/LightningIcon';
 
 
@@ -26,12 +24,12 @@ const ModalDeleteOrder = ({
           <div className="lg:w-[616px] flex flex-col gap-m2 mt-xs2 w-[288px]">
             <Button
               text="Відмінити"
-              buttonType={BUTTON_TYPES.SECONDARY_GRAY}
+              buttonType="secondary-gray"
               onClick={handleCloseModal}
             />
             <Button
               text="Видалити"
-              buttonType={BUTTON_TYPES.DESTRUCTIVE}
+              buttonType="desctructive"
               onClick={handleConfirmDelete}
             />
           </div>

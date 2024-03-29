@@ -11,15 +11,15 @@ import {
 const itemsArray = [
           <BigButton
             key="Додати товар"
-            to="edit"
+            to="add"
             text="Додати товар"
             icon={<PlusIcon className="stroke-iconContrast" />}
             linkstyle={"bg-bgBrandLight3 text-textContrast"}
           />,
           <BigButton
-            key="Множинне додавання товарі"
+            key="Множинне додавання товарів"
             to="add"
-            text={"Множинне\nдодавання товарі"}
+            text={"Множинне\nдодавання товарів"}
             icon={<PlusIcon className="stroke-iconBrand " />}
             linkstyle={"bg-bgBrandLight1 "}
           />,

@@ -1,21 +1,27 @@
 import PropTypes from "prop-types";
 import { useField } from "formik";
 import { validateText } from "../../../utils/validateText";
+import {Input as UniInput} from "universal-components-frontend/src/components/inputs";
 
-export const Input = ({ validation, title, ...props }) => {
+export const Input = ({ validation, title, placeholder, ...props }) => {
   const [field, meta] = useField({
     ...props,
     validate: (value) => validateText(value, validation),
   });
-  // console.log(meta.error.warnings);
   return (
-    <label className="flex flex-col gap-[4px]">
-      <span>{title}</span>
-      <input {...field} {...props} />
-      {meta.error?.isWarning && meta.touched && (
-        <div className="text-textSuccess">{meta.error.warnings}</div>
-      )}
-    </label>
+    // <label className="flex flex-col gap-[4px]">
+    //   <span>{title}</span>
+    //   <input {...field} {...props} />
+    //   {meta.error?.isWarning && meta.touched && (
+    //     <div className="text-textSuccess">{meta.error.warnings}</div>
+    //   )}
+    // </label>
+    <UniInput 
+      {...field}
+      label={title}
+      placeholder={placeholder}
+      status={meta.error?.isWarning && meta.touched && "error"}
+    />
   );
 };
 

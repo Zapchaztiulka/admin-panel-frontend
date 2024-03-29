@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import Textarea from 'universal-components-frontend/src/components/inputs/universalComponents/Textarea';
 import Modal from 'universal-components-frontend/src/components/modals/universalComponents/Modal';
-import Button, {
-  BUTTON_TYPES,
-} from 'universal-components-frontend/src/components/buttons/button';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 import { useEffect } from 'react';
 
 const ModalWindowComment = ({
@@ -53,12 +51,12 @@ const ModalWindowComment = ({
           <Button
             disabled={!isValid}
             text="Зберегти"
-            buttonType={BUTTON_TYPES.PRIMARY}
+            buttonType="primary"
             onClick={handleAddComment}
           />
           <Button
             text="Видалити"
-            buttonType={BUTTON_TYPES.DESTRUCTIVE}
+            buttonType="desctructive"
             onClick={handleCloseModal}
           />
         </div>

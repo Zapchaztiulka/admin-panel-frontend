@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik';
 import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
 import api from "../../service/api";
 import { Select } from '../DynamicProperties/Options/Select';
+import { Button } from "universal-components-frontend/src/components/buttons";
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -16,7 +17,6 @@ export const AddOneProduct = () => {
         dispatch(fetchProductOptions());
         api.categories.getAllCategories().then(res => setCategories(res));
     }, [dispatch]);
-
     const options = useSelector(selectAddProductOptions);
     const initialValues = {};
     if (options) {
@@ -24,9 +24,6 @@ export const AddOneProduct = () => {
     }
 
     const handleSubmit = (values) => {
-        // тимчасова функція
-
-        console.log(values, Number(values.price));
         const newProduct = {
             ...values,
             manufacturer: {
@@ -34,14 +31,15 @@ export const AddOneProduct = () => {
                 factory: values.factory,
                 trademark: values.trademark
             },
-            categories: [categories.find(el => el.categoryName === values.categories)._id],
+            categories: values.categories?.map(item => categories?.find(el => el.categoryName === item)?._id),
         };
         delete newProduct.trademark;
-        Object.entries(newProduct).map(a => Object.entries(a[1]).filter(b => b[1].length).length ? a : delete newProduct[a[0]])
+        Object.entries(newProduct).map(a => Object.entries(a[1]).filter(b => b[1]?.length)?.length ? a : delete newProduct[a[0]])
+        console.log([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }]);
         api.product.addProducts([{ ...newProduct, price: Number(values.price), quantity: Number(values.quantity) }])
     }
     return (
-        <>
+        <div className='max-w-[540px]'>
             <FlowCrumbs
                 titles={["Товари", "Додати товар"]}
                 redirections={["/products"]}
@@ -49,24 +47,32 @@ export const AddOneProduct = () => {
             {options && <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
+                handleChange={(v)=>console.log(v)}
+                className="mt-5"
             >
-                {() => {
+                {({setFieldValue}) => {
+                   
                     return (
                         <Form>
-                            <DynamicProperties options={options} />
-                            <Select list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} />
-                            <button className="block w-[343px] h-[48px] py-xs px-s bg-bgBrandLight1 border-1 border-borderDefaultBlue rounded-medium" type="button">
+                            <DynamicProperties options={options.filter(el => !["subcategories", "categories"].includes(el.key))} setFieldValue={setFieldValue}/>
+                            <Select multiselect={true} setFieldValue={setFieldValue} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} />
+                            
+                            <button className="mt-2 block w-[343px] h-[48px] py-xs px-s bg-bgBrandLight1 border-1 border-borderDefaultBlue rounded-medium" type="button">
                                 <a href="https://zapchastiulka-product-photo-criteria.netlify.app/" target='_blank' rel="noreferrer">
                                     Рекомендації зі стилю зображень</a>
                             </button>
-                            <button className="w-[20px] h-[40px]" type="submit">
-                                Створити товар
-                            </button>
+                            
+                            <Button
+                                buttonType="primary"
+                                type="submit"
+                                text="Створити товар"
+                                className=" mt-2"
+                            />
                         </Form>
                     );
                 }}
             </Formik>}
-        </>
+        </div>
     )
 }
 
