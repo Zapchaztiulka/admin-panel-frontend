@@ -6,9 +6,7 @@ import FormField from "universal-components-frontend/src/components/FormField/Fo
 export const Select = ({ list, title, placeholder, setFieldValue, multiselect, ...props }) => {
   const [field] = useField(props);
   const onChange = (value) => {
-    console.log(value);
     const newValue = multiselect ? value.map(el=>list[el]) : list[value];
-    console.log(newValue);
     setFieldValue(field.name, newValue)
   }
   return (

@@ -12,18 +12,20 @@ const addProducts = async (product) => {
   return data;
 };
 
-const updateProduct = async (productId, product) => {
-  const { data } = await ApiClient.patch(`products/${productId}`, product);
+const updateProduct = async ({ productId, price }) => {
+  const { data } = await ApiClient.patch(`products/${productId}`, {price});
   return data;
 };
 
-const deleteProductById = async (productId) => {
-  const { data } = await ApiClient.delete(`products/${productId}`);
+const updateProductsPrice = async ({productsIds}) => {
+  const { data } = await ApiClient.patch(`products/update/price-dates`, {
+    productIds: productsIds,
+  });
   return data;
 };
 
-const deleteMultipleProducts = async (products) => {
-  const { data } = await ApiClient.delete(`products/`, products);
+const deleteProducts = async ({productIds}) => {
+  const { data } = await ApiClient.delete(`products`, { data: {productIds} });
   return data;
 };
 
@@ -43,7 +45,7 @@ export default {
   fetchProductById,
   addProducts,
   updateProduct,
-  deleteProductById,
-  deleteMultipleProducts,
+  deleteProducts,
   fetchProducts,
+  updateProductsPrice,
 };

@@ -40,6 +40,7 @@ import ModalDeleteOrder from './ModalWindow/ModalDeleteOrder';
 import Menu from '@/components/Menu/Menu';
 import { selectUser } from '@/redux/auth/selectors';
 import Pagination from '@/components/Pagination/Pagination';
+import { Loader } from '@/components/Loader';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
@@ -60,7 +61,9 @@ const Orders = () => {
   const [showModalCreateOrder, setShowModalCreateOrder] = useState(false);
 
   const dispatch = useDispatch();
-  const { orders, totalCount } = useSelector((state) => state.orders);
+  const { orders, totalCount, isLoading } = useSelector(
+    (state) => state.orders
+  );
   const gridRef = useRef();
   const navigate = useNavigate();
   const admin = useSelector(selectUser);
@@ -371,7 +374,6 @@ const Orders = () => {
       const firstOrder = chooseOrders[0];
       const mod = prepareDataForCreateOrder(firstOrder);
       const dataForCreate = { ...mod, phone };
-      console.log('12312312');
       dispatch(
         createOrderByAny({
           orderData: dataForCreate,
@@ -412,11 +414,7 @@ const Orders = () => {
             value={query}
             handleChange={handleSearchChange}
           />
-          <Button
-            buttonType="search-type"
-            icon={SearchIcon}
-            size="small"
-          />
+          <Button buttonType="search-type" icon={SearchIcon} size="small" />
         </div>
 
         <Dropdown
@@ -428,7 +426,14 @@ const Orders = () => {
         />
       </div>
 
-      {isSmallScreen ? (
+      {isLoading ? (
+        <div
+          className="flex justify-center items-center"
+          style={{ height: gridContainerHeight }}
+        >
+          <Loader />
+        </div>
+      ) : isSmallScreen ? (
         <CardsList
           data={data}
           cardComponent={OrderCard}

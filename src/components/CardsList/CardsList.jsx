@@ -1,4 +1,3 @@
-import React from 'react'
 
 export const CardsList = ({data, cardComponent: CardComponent, cardComponentProps}) => {
   return (

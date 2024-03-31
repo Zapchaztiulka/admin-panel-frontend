@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function EditProductCell({ data }) {
   return (
-    <Link to={`products/${data?._id}`}>
+    <Link to={`${data?._id}`}>
       <EditIcon />
     </Link>
   );

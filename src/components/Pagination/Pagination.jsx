@@ -111,11 +111,7 @@ function Pagination({ perPage, page, onChange, totalResult }) {
             defaultValue={options[1]}
             options={options}
             onChange={handleChangePerPage}
-            allowClear={{
-              clearIcon: (
-                <ArrowDownIcon color={theme.extend.colors.iconDisabled} />
-              ),
-            }}
+            suffixIcon={<ArrowDownIcon color={theme.extend.colors.iconDisabled} />}
             dropdownStyle={{ border: '1px solid #C6CACD', width: 65}}
             className="pagination w-xl3 rounded-minimal border border-borderDefault p-xs3 cursor-pointer"
             dropdownClassName="rounded-minimal border  cursor-pointer w-xl3"

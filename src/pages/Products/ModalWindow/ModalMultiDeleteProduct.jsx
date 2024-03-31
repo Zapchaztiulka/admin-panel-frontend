@@ -2,8 +2,9 @@ import Modal from 'universal-components-frontend/src/components/modals/universal
 import { Button } from 'universal-components-frontend/src/components/buttons';
 import LightningIcon from 'universal-components-frontend/src/components/icons/universalComponents/LightningIcon';
 
-const ModalDeleteProduct = ({
+const ModalMultiDeleteProduct = ({
   isOpen,
+  length = 2,
   handleCloseModal,
   handleConfirmDelete,
 }) => {
@@ -13,8 +14,8 @@ const ModalDeleteProduct = ({
         isOpen={isOpen}
         onClose={handleCloseModal}
         type="negative"
-        title="Видалити товар"
-        description="Ви впевнені, що хочете видалити товар? Відмініти цю дію неможливо."
+        title= {`Видалити ${length} товарів`}
+        description="Ви впевнені, що хочете видалити товари? Відмініти цю дію неможливо."
         icon={<LightningIcon />}
         zIndex={10}
       >
@@ -35,4 +36,4 @@ const ModalDeleteProduct = ({
   );
 };
 
-export default ModalDeleteProduct;
+export default ModalMultiDeleteProduct;

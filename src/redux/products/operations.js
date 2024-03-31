@@ -15,12 +15,11 @@ export const fetchProducts = createAsyncThunk(
 );
 
 export const updateProduct = createAsyncThunk(
-  'products/updatePrice',
+  'products/update',
 
   async (data, thunkAPI) => {
     try {
       const response = await api.product.updateProduct(data);
-      console.log('response', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message, error);
@@ -28,12 +27,12 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
-export const deleteProductById = createAsyncThunk(
-  'products/deleteProductByID',
+export const updateProductsPrice = createAsyncThunk(
+  'products/updatePrice',
 
-  async (productId, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.product.deleteProductById(productId);
+      const response = await api.product.updateProductsPrice(data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message, error);
@@ -41,15 +40,16 @@ export const deleteProductById = createAsyncThunk(
   }
 );
 
-export const deleteMultipleProducts = createAsyncThunk(
-  'products/deleteMultipleProducts',
+export const deleteProducts = createAsyncThunk(
+  'products/deleteProducts',
 
-  async (products, thunkAPI) => {
+  async (productIds, thunkAPI) => {
     try {
-      const response = await api.product.deleteMultipleProducts(products);
+      const response = await api.product.deleteProducts(productIds);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message, error);
     }
   }
 );
+

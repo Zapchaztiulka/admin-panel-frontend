@@ -17,23 +17,19 @@ import { ArrowButton } from "../Buttons/ArrowButton";
 export const Navigation = () => {
   const { isLoggedIn, user } = useAuth();
   const [isOpenCatalog, setIsOpenCatalog] = useState(true);
-  const [isOpenOrders, setIsOpenOrders] = useState(true);
   const location = useLocation();
 
   const changeStateCatalog = () => {
     setIsOpenCatalog((prev) => !prev);
   };
 
-  const changeStateOrders = () => {
-    setIsOpenOrders((prev) => !prev);
-  };
   return (
     <nav>
       {isLoggedIn && (
         <ul className="flex flex-col gap-xs2 ">
           <li>
             <ul className="flex flex-col gap-xs3">
-                       <li>
+              <li>
                 <ItemNavigation
                   iconComponent={
                     <ListingViewIcon className="stroke-iconPrimary" />
@@ -51,7 +47,7 @@ export const Navigation = () => {
               {isOpenCatalog && (
                 <>
                   <li>
-                    {" "}
+                    {' '}
                     <ItemNavigation
                       style="ml-m1"
                       to="/products"
@@ -59,15 +55,11 @@ export const Navigation = () => {
                     />
                   </li>
                   <li>
-                    {" "}
-                    <ItemNavigation
-                      style="ml-m1"
-                      to="/"
-                      title="Категорії"
-                    />
+                    {' '}
+                    <ItemNavigation style="ml-m1" to="/" title="Категорії" />
                   </li>
                   <li>
-                    {" "}
+                    {' '}
                     <ItemNavigation
                       style="ml-m1"
                       to="/static"
@@ -85,63 +77,42 @@ export const Navigation = () => {
               iconComponent={
                 <CustomersIcon
                   className={
-                    location.pathname === "/clients"
-                      ? "stroke-iconBrandDark"
-                      : "stroke-iconPrimary"
+                    location.pathname === '/clients'
+                      ? 'stroke-iconBrandDark'
+                      : 'stroke-iconPrimary'
                   }
                 />
               }
             />
           </li>
-          <li>
-            <ul>
-              <li>
-                <ItemNavigation
-                  iconComponent={<BellIcon className="stroke-iconPrimary" />}
-                  title="Замовлення"
-                  changeState={changeStateOrders}
-                  arrowButton={
-                    <ArrowButton
-                      changeState={changeStateOrders}
-                      isOpen={isOpenCatalog}
-                    />
-                  }
-                />
-              </li>
-
-              {isOpenOrders && (
-                <>
-                  <li>
-                    {" "}
-                    <ItemNavigation
-                      style="ml-m1"
-                      to="/orders/pending"
-                      title="Нові"
-                    />
-                  </li>
-                  <li>
-                    <ItemNavigation
-                      style="ml-m1"
-                      to="/orders/processed"
-                      title="Опрацьовані"
-                    />
-                  </li>
-                </>
-              )}
-            </ul>
+       
+             <li>
+            <ItemNavigation
+              to="/orders"
+              title="Замовлення"
+              iconComponent={
+                <BellIcon 
+                  className={
+                    location.pathname === '/orders'
+                      ? 'stroke-iconBrandDark'
+                      : 'stroke-iconPrimary'
+                  } 
+              />
+            }
+            />
           </li>
 
           <li>
-            {" "}
+            {' '}
             <ItemNavigation
               to="/chatbot"
               title="Чатбот"
               iconComponent={
                 <ChatIcon
                   className={
-                    location.pathname === "/chatbot"
-                      ? "stroke-iconBrandDark"
-                      : "stroke-iconPrimary"
+                    location.pathname === '/chatbot'
+                      ? 'stroke-iconBrandDark'
+                      : 'stroke-iconPrimary'
                   }
                 />
               }
@@ -149,16 +120,16 @@ export const Navigation = () => {
           </li>
 
           <li>
-            {" "}
+            {' '}
             <ItemNavigation
               to="/"
               title="Статистика"
               iconComponent={
                 <StatisticsIcon
                   className={
-                    location.pathname === "/"
-                      ? "stroke-iconBrandDark"
-                      : "stroke-iconPrimary"
+                    location.pathname === '/'
+                      ? 'stroke-iconBrandDark'
+                      : 'stroke-iconPrimary'
                   }
                 />
               }
@@ -172,9 +143,9 @@ export const Navigation = () => {
               iconComponent={
                 <ProfileIcon
                   className={
-                    location.pathname === "/profile"
-                      ? "stroke-iconBrandDark"
-                      : "stroke-iconPrimary"
+                    location.pathname === '/profile'
+                      ? 'stroke-iconBrandDark'
+                      : 'stroke-iconPrimary'
                   }
                 />
               }
@@ -183,7 +154,7 @@ export const Navigation = () => {
 
           {user.role === ROLE.superAdmin && (
             <li>
-              {" "}
+              {' '}
               <ItemNavigation
                 style="relative mt-m "
                 styleBefore="before:content-[''] before:absolute before:-top-s before:left-0 
@@ -193,9 +164,9 @@ export const Navigation = () => {
                 iconComponent={
                   <FolderIcon
                     className={
-                      location.pathname === "/manager"
-                        ? "stroke-iconBrandDark"
-                        : "stroke-iconPrimary"
+                      location.pathname === '/manager'
+                        ? 'stroke-iconBrandDark'
+                        : 'stroke-iconPrimary'
                     }
                   />
                 }

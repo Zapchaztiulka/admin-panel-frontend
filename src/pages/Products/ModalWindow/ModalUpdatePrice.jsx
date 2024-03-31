@@ -11,7 +11,7 @@ const ModalUpdatePrice = ({
   handleSavePrice,
   product,
 }) => {
-  const [price, setPrice] = useState(product[0]?.price.value);
+  const [price, setPrice] = useState(+product?.price.value);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -24,9 +24,9 @@ const ModalUpdatePrice = ({
     return formattedDate;
   };
 
-  const handlePriceChange = (val) => {setPrice(val);};
+  const handlePriceChange = (val) => {setPrice(+val);};
 
-  const handleSave = () => {handleSavePrice(price)}
+  const handleSave = () => {handleSavePrice(product, price );}
 
   return (
     <div className="w-[400px]">
@@ -42,9 +42,9 @@ const ModalUpdatePrice = ({
         <div className="lg:w-[400px] flex gap-m2 mt-xs2 w-[288px] justify-center flex-col">
           <div className="text-left">
             <p className="text-caption mb-xs3">Артикул</p>
-            <p className="text-body mb-s">{product[0]?.vendorCode}</p>
+            <p className="text-body mb-s">{product?.vendorCode}</p>
             <p className="text-caption mb-xs3">Назва товару</p>
-            <p className="text-body mb-s">{product[0]?.name}</p>
+            <p className="text-body mb-s">{product?.name}</p>
             <p className="text-caption mb-xs3">Ціна</p>
             <Input
               inputBoxClassName="w-full"
@@ -54,7 +54,7 @@ const ModalUpdatePrice = ({
               handleChange={handlePriceChange}
             />
             <p className="text-caption mt-xs3 ">
-              Ціну перевірено {formatDate(product[0].price.updatedAt)}
+              Ціну перевірено {formatDate(product.price.updatedAt)}
             </p>
           </div>
           <Button
