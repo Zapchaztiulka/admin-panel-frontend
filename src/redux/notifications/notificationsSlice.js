@@ -6,6 +6,11 @@ import {
   updateOrderByAdmin,
   deleteOrder,
 } from '../orders/operations';
+import {
+  deleteProducts,
+  updateProduct,
+  updateProductsPrice,
+} from './../products/operations';
 
 const initialState = {
   notifications: [],
@@ -103,7 +108,13 @@ const notificationsSlice = createSlice({
       .addCase(updateOrderByAdmin.rejected, handleReject)
       .addCase(updateOrderByAdmin.fulfilled, handleRequest)
       .addCase(deleteOrder.rejected, handleReject)
-      .addCase(deleteOrder.fulfilled, handleRequest);
+      .addCase(deleteOrder.fulfilled, handleRequest)
+      .addCase(updateProductsPrice.rejected, handleReject)
+      .addCase(updateProductsPrice.fulfilled, handleRequest)
+      .addCase(updateProduct.rejected, handleReject)
+      .addCase(updateProduct.fulfilled, handleRequest)
+      .addCase(deleteProducts.rejected, handleReject)
+      .addCase(deleteProducts.fulfilled, handleRequest);
   },
 });
 const { actions } = notificationsSlice;
