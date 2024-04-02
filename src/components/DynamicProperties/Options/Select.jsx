@@ -10,7 +10,9 @@ export const Select = ({ list, title, placeholder, setFieldValue, multiselect, v
     validate: (value) => validateText(value, validation),
   });
   const onChange = (value) => {
+
   const newValue = multiselect ? value.map(el=>list[el]) : list[value];
+
     setFieldValue(field.name, newValue)
   }
   

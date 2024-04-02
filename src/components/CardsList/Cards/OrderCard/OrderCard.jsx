@@ -23,7 +23,7 @@ export const OrderCard = ({ item, dotsItems, onSelect, selectedIds }) => {
 
   const handleSelect = useCallback(
     (e) => {
-      console.log(e.target.checked);
+
       onSelect(item, e.target.checked);
     },
     [item, onSelect]

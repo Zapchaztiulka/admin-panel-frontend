@@ -14,12 +14,12 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-export const deleteProductById = createAsyncThunk(
-  'products/deleteProductByID',
+export const updateProduct = createAsyncThunk(
+  'products/update',
 
-  async (productId, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.product.deleteProductById(productId);
+      const response = await api.product.updateProduct(data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message, error);
@@ -27,15 +27,29 @@ export const deleteProductById = createAsyncThunk(
   }
 );
 
-export const deleteMultipleProducts = createAsyncThunk(
-  'products/deleteMultipleProducts',
+export const updateProductsPrice = createAsyncThunk(
+  'products/updatePrice',
 
-  async (products, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.product.deleteMultipleProducts(products);
+      const response = await api.product.updateProductsPrice(data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message, error);
     }
   }
 );
+
+export const deleteProducts = createAsyncThunk(
+  'products/deleteProducts',
+
+  async (productIds, thunkAPI) => {
+    try {
+      const response = await api.product.deleteProducts(productIds);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message, error);
+    }
+  }
+);
+
