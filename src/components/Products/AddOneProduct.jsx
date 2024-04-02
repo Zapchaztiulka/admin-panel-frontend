@@ -72,7 +72,7 @@ export const AddOneProduct = () => {
                                 <section className='w-full'>
                                     <h3 className='text-heading3'>Основна інформація</h3>
                                     <DynamicProperties options={mainOptions} setFieldValue={setFieldValue}/>
-                                    <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} />
+                                    <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} {...options.find(el => el.key === "categories")}/>
                                     {subcategories.length > 0 && <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'subcategories'} title={options.find(el => el.key === "subcategories").title} />}
                                 </section>
 
