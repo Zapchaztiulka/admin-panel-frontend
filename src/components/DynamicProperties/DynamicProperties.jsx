@@ -28,7 +28,8 @@ export const DynamicProperties = ({ options, setFieldValue }) => {
                     list={list} 
                     name={key} 
                     placeholder={placeholder} 
-                    title={title} 
+                    title={title}
+                    validation={validation}
                   />
                 );
               case "checkBox":
@@ -38,6 +39,7 @@ export const DynamicProperties = ({ options, setFieldValue }) => {
                     name={key}
                     value={key}
                     title={title}
+                    validation={validation}
                   />
                 );
 
