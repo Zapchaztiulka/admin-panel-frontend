@@ -9,6 +9,7 @@ import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
 import api from "../../service/api";
 import { Select } from '../DynamicProperties/Options/Select';
 import { Button } from "universal-components-frontend/src/components/buttons";
+import { cloneDeep } from 'lodash';
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -22,8 +23,8 @@ export const AddOneProduct = () => {
     }, [dispatch]);
 
     const options = useSelector(selectAddProductOptions);
-    const mainOptions = options?.filter(el => el?.render?.block ===1) ?? {};
-    const additionalOptions = options?.filter(el => el?.render?.block ===2) ?? {};
+    let mainOptions = cloneDeep(options?.filter(el => el?.render?.block === 1)) ?? [];
+    const additionalOptions = options?.filter(el => el?.render?.block ===2) ?? [];
 
     const initialValues = {};
 
@@ -66,20 +67,32 @@ export const AddOneProduct = () => {
                             const newSubcategories = value?.flatMap(el => categories?.find(item => item.categoryName === el)?.subcategories);
                             setSubcategories(newSubcategories);
                         }
+                        if(key === 'availability') {
+                            const quantity = options.find(el => el.key === 'quantity');
+                            const quantityEl = mainOptions.find(el => el.key === 'quantity');
+                            if(value === "в наявності") {
+                                quantityEl.validation={...quantity.validation, minValue:  1, required: true, warningMessages: {...quantity.warningMessages, value: "Для товару зі статусом 'в наявності' кількість товару повинна бути більшою за 0", required: "Для товару зі статусом 'в наявності' кількість товару повинна бути більшою за 0"}}
+                                
+                            } else {
+                                quantityEl.validation={...quantity.validation, maxValue:  0, warningMessages: {...quantity.warningMessages, value: "Для товару зі статусом відмінним від 'в наявності' кількість товару повинна бути 0"}};
+                                delete quantityEl.validation.max;
+                                delete quantityEl.validation.min;
+                            }
+                        }
                     }
                     return (
                         <Form className='flex flex-col items-stretch pt-6'>
                             <div className='tablet768:flex justify-stretch gap-6'>
                                 <section className='w-full'>
                                     <h3 className='text-heading3'>Основна інформація</h3>
-                                    <DynamicProperties options={mainOptions} setFieldValue={setFieldValue}/>
+                                    <DynamicProperties options={mainOptions} setFieldValue={handleFieldChange}/>
                                     <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} {...options.find(el => el.key === "categories")}/>
                                     {subcategories.length > 0 && <Select multiselect={true} setFieldValue={handleFieldChange} list={subcategories.map(el => el.subcategoryName)} name={'subcategories'} title={options.find(el => el.key === "subcategories").title} />}
                                 </section>
 
                                 <section className='w-full'>
                                     <h3 className='text-heading3'>Характеристики</h3>
-                                    <DynamicProperties options={additionalOptions} setFieldValue={setFieldValue}/>
+                                    <DynamicProperties options={additionalOptions} setFieldValue={handleFieldChange}/>
                                 </section>
                             </div>
                                 

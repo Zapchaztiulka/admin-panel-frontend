@@ -56,9 +56,8 @@ export const validateText = (text, validation, uniqueArray) => {
       warnings.push(validation?.warningMessages?.length);
   }
 
-  if (text && (validation?.minValue || validation?.maxValue)) {
+  if (text && (validation?.minValue || validation?.maxValue || validation?.minValue === 0 || validation?.maxValue === 0)) {
     const number = Number(text);
-
     if (!isNaN(number)) {
       const invalid =
         number < validation?.minValue || number > validation?.maxValue;

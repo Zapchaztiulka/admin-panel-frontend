@@ -8,7 +8,6 @@ export const Input = ({ validation, title, placeholder, infoMessage, ...props })
     ...props,
     validate: (value) => validateText(value, validation),
   });
-
   return (
     <UniInput 
       {...field}
