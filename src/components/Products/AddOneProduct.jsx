@@ -10,6 +10,7 @@ import api from "../../service/api";
 import { Select } from '../DynamicProperties/Options/Select';
 import { Button } from "universal-components-frontend/src/components/buttons";
 import { cloneDeep } from 'lodash';
+import { sortOptions } from '@/utils/sortOptions';
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -23,8 +24,8 @@ export const AddOneProduct = () => {
     }, [dispatch]);
 
     const options = useSelector(selectAddProductOptions);
-    let mainOptions = cloneDeep(options?.filter(el => el?.render?.block === 1)) ?? [];
-    const additionalOptions = options?.filter(el => el?.render?.block ===2) ?? [];
+    let mainOptions = sortOptions(options?.filter(el => el?.render?.block === 1)) ?? [];
+    const additionalOptions = sortOptions(options?.filter(el => el?.render?.block ===2)) ?? [];
 
     const initialValues = {};
 
