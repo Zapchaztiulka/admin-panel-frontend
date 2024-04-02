@@ -40,6 +40,7 @@ export const AddOneProduct = () => {
                 trademark: values.trademark
             },
             categories: values?.categories?.map(item => categories?.find(el => el.categoryName === item)?._id),
+            subcategories: values?.subcategories ? values?.subcategories?.filter(el => el)?.map(item => subcategories?.find(el => el.subcategoryName === item)?._id) : [],
         };
         delete newProduct.trademark;
         Object.entries(newProduct).map(a => Object.entries(a[1]).filter(b => b[1]?.length)?.length ? a : delete newProduct[a[0]])
@@ -56,14 +57,14 @@ export const AddOneProduct = () => {
             {options && <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                handleChange={(v)=>console.log(v)}
                 className="mt-5"
             >
-                {({setFieldValue, setFieldTouched}) => {
+                {({setFieldValue}) => {
                     const handleFieldChange = (key, value) => {
                         setFieldValue(key, value)
-                        if(key === 'category') {
-                            console.log(value);
+                        if(key === 'categories') {
+                            const newSubcategories = value?.flatMap(el => categories?.find(item => item.categoryName === el)?.subcategories);
+                            setSubcategories(newSubcategories);
                         }
                     }
                     return (
@@ -73,7 +74,7 @@ export const AddOneProduct = () => {
                                     <h3 className='text-heading3'>Основна інформація</h3>
                                     <DynamicProperties options={mainOptions} setFieldValue={setFieldValue}/>
                                     <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} {...options.find(el => el.key === "categories")}/>
-                                    {subcategories.length > 0 && <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'subcategories'} title={options.find(el => el.key === "subcategories").title} />}
+                                    {subcategories.length > 0 && <Select multiselect={true} setFieldValue={handleFieldChange} list={subcategories.map(el => el.subcategoryName)} name={'subcategories'} title={options.find(el => el.key === "subcategories").title} />}
                                 </section>
 
                                 <section className='w-full'>

@@ -9,7 +9,6 @@ export const Input = ({ validation, title, placeholder, infoMessage, ...props })
     validate: (value) => validateText(value, validation),
   });
 
-  if(field.name === "name") console.log(field, meta);
   return (
     <UniInput 
       {...field}
