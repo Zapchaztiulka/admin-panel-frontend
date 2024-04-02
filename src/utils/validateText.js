@@ -70,7 +70,7 @@ export const validateText = (text, validation, uniqueArray) => {
     }
   }
 
-  if (validation?.required && validation?.required === true) {
+  if (validation?.required && (validation?.required === true || validation?.required === "required")) {
     const invalid = isEmpty(text);
     checksArray.push(invalid);
     invalid &&
@@ -89,9 +89,7 @@ export const validateText = (text, validation, uniqueArray) => {
   }
 
   let isWarning = checksArray.includes(true);
-  return warnings.length === 0 && !isWarning
-    ? undefined
-    : {
+  return {
         isWarning,
         warnings,
       };

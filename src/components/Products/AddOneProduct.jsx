@@ -12,6 +12,7 @@ import { Button } from "universal-components-frontend/src/components/buttons";
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -58,16 +59,21 @@ export const AddOneProduct = () => {
                 handleChange={(v)=>console.log(v)}
                 className="mt-5"
             >
-                {({setFieldValue}) => {
-                   
+                {({setFieldValue, setFieldTouched}) => {
+                    const handleFieldChange = (key, value) => {
+                        setFieldValue(key, value)
+                        if(key === 'category') {
+                            console.log(value);
+                        }
+                    }
                     return (
                         <Form className='flex flex-col items-stretch pt-6'>
-                            {/* <DynamicProperties options={options.filter(el => !["subcategories", "categories"].includes(el.key))} setFieldValue={setFieldValue}/> */}
                             <div className='tablet768:flex justify-stretch gap-6'>
                                 <section className='w-full'>
                                     <h3 className='text-heading3'>Основна інформація</h3>
                                     <DynamicProperties options={mainOptions} setFieldValue={setFieldValue}/>
-                                    <Select multiselect={true} setFieldValue={setFieldValue} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} />
+                                    <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'categories'} title={options.find(el => el.key === "categories").title} />
+                                    {subcategories.length > 0 && <Select multiselect={true} setFieldValue={handleFieldChange} list={categories.map(el => el.categoryName)} name={'subcategories'} title={options.find(el => el.key === "subcategories").title} />}
                                 </section>
 
                                 <section className='w-full'>
