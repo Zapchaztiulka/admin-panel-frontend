@@ -9,8 +9,8 @@ import { DynamicProperties } from '../DynamicProperties/DynamicProperties';
 import api from "../../service/api";
 import { Select } from '../DynamicProperties/Options/Select';
 import { Button } from "universal-components-frontend/src/components/buttons";
-import { cloneDeep } from 'lodash';
 import { sortOptions } from '@/utils/sortOptions';
+import { UploadImage } from '../UploadImage/UploadImage';
 
 export const AddOneProduct = () => {
     const [categories, setCategories] = useState([]);
@@ -94,6 +94,7 @@ export const AddOneProduct = () => {
                                 <section className='w-full'>
                                     <h3 className='text-heading3'>Характеристики</h3>
                                     <DynamicProperties options={additionalOptions} setFieldValue={handleFieldChange}/>
+                                    <UploadImage />
                                 </section>
                             </div>
                                 
