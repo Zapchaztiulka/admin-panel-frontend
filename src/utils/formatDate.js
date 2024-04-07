@@ -24,3 +24,15 @@ export const formatDate = (date) => {
     return "Invalid Date";
   }
 };
+
+
+  export const formatDateForPrice = (dateString) => {
+    const date = new Date(dateString);
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+    const formattedDate = day + '.' + month + '.' + year;
+    return formattedDate;
+  };

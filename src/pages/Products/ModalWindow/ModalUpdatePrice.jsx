@@ -4,6 +4,10 @@ import LightningIcon from 'universal-components-frontend/src/components/icons/un
 import Input from 'universal-components-frontend/src/components/inputs/universalComponents/Input';
 import SaveIcon from 'universal-components-frontend/src/components/icons/universalComponents/SaveIcon';
 import { useState } from 'react';
+import { formatDateForPrice } from '@/utils';
+
+
+
 
 const ModalUpdatePrice = ({
   isOpen,
@@ -13,16 +17,7 @@ const ModalUpdatePrice = ({
 }) => {
   const [price, setPrice] = useState(+product?.price.value);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    day = day < 10 ? '0' + day : day;
-    month = month < 10 ? '0' + month : month;
-    const formattedDate = day + '.' + month + '.' + year;
-    return formattedDate;
-  };
+
 
   const handlePriceChange = (val) => {setPrice(+val);};
 
@@ -54,7 +49,7 @@ const ModalUpdatePrice = ({
               handleChange={handlePriceChange}
             />
             <p className="text-caption mt-xs3 ">
-              Ціну перевірено {formatDate(product.price.updatedAt)}
+              Ціну перевірено {formatDateForPrice(product.price.updatedAt)}
             </p>
           </div>
           <Button

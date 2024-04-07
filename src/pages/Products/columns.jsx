@@ -1,7 +1,7 @@
-import DotsCell from "@/components/Grid/Cells/DotsCell/DotsCell";
-import EditProductCell from "@/components/Grid/Cells/EditCell/EditProductCell";
-import StatusCell from "@/components/Grid/Cells/StatusCell/StatusCell";
-
+import DotsCell from '@/components/Grid/Cells/DotsCell/DotsCell';
+import EditProductCell from '@/components/Grid/Cells/EditCell/EditProductCell';
+import StatusCell from '@/components/Grid/Cells/StatusCell/StatusCell';
+import { formatDateForPrice } from '@/utils';
 
 export const columns = [
   {
@@ -13,13 +13,13 @@ export const columns = [
     checkboxSelection: true,
   },
   {
-    field: '_id',
+    field: 'vendorCode',
     headerName: 'Артикул',
     width: 116,
     maxWidth: 258,
     minWidth: 100,
     cellClass: 'cell-orderNumber',
-    valueFormatter: ({ value }) => `${value.slice(-6)}`,
+    valueFormatter: ({ value }) => `${value}`,
   },
   {
     field: 'name',
@@ -37,6 +37,16 @@ export const columns = [
     minWidth: 50,
     valueFormatter: ({ value }) => {
       return `${value.value} ₴`;
+    },
+  },
+  {
+    field: 'price_date',
+    headerName: 'Дата оновлення ціни',
+    width: 200,
+    maxWidth: 200,
+    minWidth: 50,
+    valueFormatter: ({ data: { price } }) => {
+      return `${formatDateForPrice(price.updatedAt)}`;
     },
   },
   {
