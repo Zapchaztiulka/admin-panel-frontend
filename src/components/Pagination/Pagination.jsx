@@ -1,5 +1,5 @@
 import Select from 'rc-select';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import ArrowLeftIcon from 'universal-components-frontend/src/components/icons/universalComponents/ArrowLeftIcon';
 import ArrowRightIcon from 'universal-components-frontend/src/components/icons/universalComponents/ArrowRightIcon';
@@ -20,6 +20,15 @@ function Pagination({ perPage, page, onChange, totalResult }) {
   const [pageValue, setPageValue] = useState(page);
   const [perPageValue, setPerPageValue] = useState(perPage);
   const totalPage = Math.ceil(totalResult / perPage);
+
+  useEffect(() => {
+    if (pageValue !== page) {
+      setPageValue(page);
+    }
+    if (perPageValue !== perPage) {
+      setPerPageValue(perPage);
+    }
+  }, [perPage, page]);
 
   const handlePageChange = useCallback(
     (e) => {
@@ -111,8 +120,10 @@ function Pagination({ perPage, page, onChange, totalResult }) {
             defaultValue={options[1]}
             options={options}
             onChange={handleChangePerPage}
-            suffixIcon={<ArrowDownIcon color={theme.extend.colors.iconDisabled} />}
-            dropdownStyle={{ border: '1px solid #C6CACD', width: 65}}
+            suffixIcon={
+              <ArrowDownIcon color={theme.extend.colors.iconDisabled} />
+            }
+            dropdownStyle={{ border: '1px solid #C6CACD', width: 65 }}
             className="pagination w-xl3 rounded-minimal border border-borderDefault p-xs3 cursor-pointer"
             dropdownClassName="rounded-minimal border  cursor-pointer w-xl3"
           />

@@ -14,9 +14,13 @@ import SearchIcon from 'universal-components-frontend/src/components/icons/unive
 import EditIcon from 'universal-components-frontend/src/components/icons/universalComponents/EditIcon';
 import PlusIcon from 'universal-components-frontend/src/components/icons/universalComponents/PlusIcon';
 import CheckCircleIcon from 'universal-components-frontend/src/components/icons/universalComponents/CheckCircleIcon';
+import PriceIcon from 'universal-components-frontend/src/components/icons/universalComponents/PriceIcon';
 import TrashIcon from 'universal-components-frontend/src/components/icons/universalComponents/TrashIcon';
 
-import { selectProductsStatusesBigLetter } from '@/redux/options/selectors';
+import {
+  selectPatterns,
+  selectProductsStatusesBigLetter,
+} from '@/redux/options/selectors';
 import { getGridHeight } from '@/utils/grid';
 import { columns } from './columns';
 import Grid from '@/components/Grid/Grid';
@@ -32,11 +36,27 @@ import { ProductCard } from '@/components/CardsList/Cards/ProductCard/ProductCar
 import Menu from '@/components/Menu/Menu';
 import ModalMultiDeleteProduct from './ModalWindow/ModalMultiDeleteProduct';
 import Pagination from '@/components/Pagination/Pagination';
+import _ from 'lodash';
 
 const VERTICAL_PADDINGS = 24;
 const FILTERS_HEIGHT = 48;
 const BUTTONS_HEIGHT = 116;
 const PAGINATION = 31;
+
+const getSortStrategy = (sortTypes, sortBy, sortObject) => {
+  let sortBody = null;
+  if (sortObject.length) {
+    const { sort, colId } = sortObject[0];
+    const sortByValue = colId && sortBy.includes(colId) ? colId : '';
+    const sortTypeValue = sort === 'asc' ? 'smallLarge' : 'largeSmall';
+
+    if (sortTypeValue && sortByValue) {
+      sortBody = { sortType: sortTypeValue, sortBy: sortByValue };
+    }
+  }
+
+  return sortBody;
+};
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -46,10 +66,12 @@ const Products = () => {
     (state) => state.products
   );
   const statuses = useSelector(selectProductsStatusesBigLetter);
+  const { sortBy, sortTypes } = useSelector(selectPatterns);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
-  const [statusId, setStatusId] = useState('');
+  const [status, setStatus] = useState('');
+  const [sort, setSort] = useState([]);
   const [chooseProducts, setChooseProducts] = useState([]);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalMultiDelete, setShowModalMultiDelete] = useState(false);
@@ -62,19 +84,29 @@ const Products = () => {
   );
   const chooseProductsIds = chooseProducts.map((i) => i._id);
 
-  const fetchData = useCallback((data) => {
-    dispatch(fetchProducts(data));
-  }, []);
+  const fetchData = useCallback(
+    (data) => {
+      let newSort = null;
+      const { sort } = data;
+      if (sortTypes.length && sortBy.length && sort.length) {
+        newSort = getSortStrategy(sortTypes, sortBy, sort);
+      }
+
+      dispatch(fetchProducts({ ...data, sort: newSort }));
+    },
+    [sortTypes, sortBy, dispatch]
+  );
+
 
   useEffect(() => {
-    fetchData({ page, limit, query, statusId });
+    fetchData({ page, limit, query, status, sort });
     dispatch(fetchProductOptions());
   }, []);
 
   const debounceFetch = useMemo(() => debounce(fetchData, 500), []);
   useEffect(() => {
-    debounceFetch({ page, limit, query, statusId });
-  }, [page, limit, query, statusId, debounceFetch]);
+    debounceFetch({ page, limit, query, status, sort });
+  }, [page, limit, query, status, sort, debounceFetch]);
 
   useEffect(() => {
     function handleResize() {
@@ -94,6 +126,18 @@ const Products = () => {
     return () => window.removeEventListener('resize', debounceResize);
   }, []);
 
+  const onSortChanged = (e) => {
+    const sortState = e.columnApi
+      .getColumnState()
+      .filter(function (s) {
+        return s.sort != null;
+      })
+      .map(function (s) {
+        return { colId: s.colId, sort: s.sort, sortIndex: s.sortIndex };
+      });
+    setSort(sortState);
+  };
+
   const options = {
     onGridReady: (event) => event.api.sizeColumnsToFit(),
     rowSelection: 'multiple',
@@ -108,15 +152,12 @@ const Products = () => {
     const products = { productId: product[0]._id, quantity: 1 };
     return products;
   }, []);
-  const handleMultiAddToOrder = useCallback(
-    (product) => {
-      const products = product.map((item) => {
-        return { productId: item._id, quantity: 1 };
-      });
-      return products;
-    },
-    []
-  );
+  const handleMultiAddToOrder = useCallback((product) => {
+    const products = product.map((item) => {
+      return { productId: item._id, quantity: 1 };
+    });
+    return products;
+  }, []);
   const handleCheckPrice = useCallback((prod) => {
     const productsIds = prod.map((item) => item._id);
     dispatch(
@@ -180,7 +221,7 @@ const Products = () => {
       },
       {
         title: 'Актуалізувати ціну',
-        icon: CheckCircleIcon,
+        icon: PriceIcon,
         iconProps: { color: theme.extend.colors.iconBrand },
         onClick: handleUpdatePrice,
       },
@@ -218,21 +259,41 @@ const Products = () => {
   }, []);
 
   const updatedColumns = useMemo(() => {
+    const sortObject = sort.length ? sort[0] : null;
+
     return columns.map((col) => {
       if (col.field === 'settings') {
         col.cellRendererParams = { dotsItems: menuSingleProduct };
       }
-      return col;
-    });
-  }, [menuSingleProduct]);
 
-  const onGridReady = useCallback(() => {
-    setTimeout(() => {
-      gridRef.current.api.sizeColumnsToFit({
-        defaultMinWidth: 100,
-      });
-    }, 500);
-  }, [gridRef.current]);
+      return sortObject && col.field === sortObject.colId
+        ? { ...col, ...sortObject }
+        : col;
+    });
+  }, [menuSingleProduct, sort]);
+
+  const onGridReady = useCallback(
+    (params) => {
+      setTimeout(() => {
+        gridRef.current.api.sizeColumnsToFit({
+          defaultMinWidth: 100,
+        });
+      }, 500);
+
+      if (sort.length) {
+        const currentSortModel = gridRef.current.api.getColumnState();
+        const mergeSortModel = currentSortModel.map((o1) => ({
+          ...o1,
+          ...sort.find((o2) => o2.colId === o1.colId),
+        }));
+    
+        if (!_.isEqual(currentSortModel, mergeSortModel)) {
+          params.api.applyColumnState(mergeSortModel);
+        }
+      }
+    },
+    [sort]
+  );
 
   const autoSizeStrategy = useMemo(() => {
     return {
@@ -256,9 +317,13 @@ const Products = () => {
     setQuery(value);
   }, []);
 
-  const handleStatusChangeHeader = useCallback((value) => {
-    setStatusId(value);
-  }, []);
+  const handleStatusChangeHeader = useCallback(
+    (value) => {
+      setPage(1);
+      setStatus(statuses[value].toLowerCase());
+    },
+    [statuses]
+  );
 
   const handleChangePagination = useCallback(({ page, perPage }) => {
     setPage(page);
@@ -373,6 +438,7 @@ const Products = () => {
             tooltipShowDelay={0}
             tooltipHideDelay={5000}
             onSelectionChanged={onSelectionChanged}
+            onSortChanged={onSortChanged}
           />
         </div>
       )}

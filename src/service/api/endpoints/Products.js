@@ -13,19 +13,19 @@ const addProducts = async (product) => {
 };
 
 const updateProduct = async ({ productId, price }) => {
-  const { data } = await ApiClient.patch(`products/${productId}`, {price});
+  const { data } = await ApiClient.patch(`products/${productId}`, { price });
   return data;
 };
 
-const updateProductsPrice = async ({productsIds}) => {
+const updateProductsPrice = async ({ productsIds }) => {
   const { data } = await ApiClient.patch(`products/update/price-dates`, {
     productIds: productsIds,
   });
   return data;
 };
 
-const deleteProducts = async ({productIds}) => {
-  const { data } = await ApiClient.delete(`products`, { data: {productIds} });
+const deleteProducts = async ({ productIds }) => {
+  const { data } = await ApiClient.delete(`products`, { data: { productIds } });
   return data;
 };
 
@@ -33,11 +33,22 @@ const fetchProducts = async ({
   page = 1,
   limit = 10,
   query = '',
-  statusId = '',
+  status = '',
+  sort = null, // {sortBy: "", sortType: ""}
 }) => {
-  const { data } = await ApiClient.post(
-    `products?page=${page}&limit=${limit}&query=${query}&productStatusIdx=${statusId}`
-  );
+  const body = {};
+  if (status) {
+    body.availability = [status];
+  }
+let url = `products?page=${page}&limit=${limit}`
+if (query) {
+  url += `&query=${query}`;
+}
+if(sort) {
+  url += `&sortBy=${sort.sortBy}&sortType=${sort.sortType}`
+}
+console.log('іщке',sort);
+  const { data } = await ApiClient.post(url, body);
   return data;
 };
 
